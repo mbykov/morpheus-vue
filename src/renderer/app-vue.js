@@ -23,8 +23,8 @@ export default {
   },
 
   methods: {
-    setGrid() {
-      let that = this
+    setGrid () {
+      // let that = this
       this.$nextTick(function () {
         Split(['#text', '#results'], {
           sizes: [60, 40],
@@ -33,8 +33,8 @@ export default {
         })
       })
     },
-    showSeg(ev) {
-      if (ev.target.nodeName != 'SPAN') return
+    showSeg (ev) {
+      if (ev.target.nodeName !== 'SPAN') return
       log('CL', ev.target.classList)
       if (ev.target.classList.contains('clause')) {
         log('CL', ev.target.textContent)
@@ -43,12 +43,12 @@ export default {
         this.showRec = true
       }
     },
-    hideSeg(ev) {
+    hideSeg (ev) {
       // log('LEAVE', ev.target.classList)
       if (ev.target.classList.contains('text')) {
         this.showRec = false
       }
     }
-  },
+  }
 
 }
