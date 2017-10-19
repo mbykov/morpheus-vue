@@ -2,7 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import App from './App'
 
-import {log, q, span, empty} from './utils'
+import {log, q, span, br, empty} from './utils'
 import band from '../../../speckled-band'
 const clipboard = require('electron-clipboard-extended')
 
@@ -19,7 +19,7 @@ clipboard
     let clauses = band(code, currentText)
     let zh = clauses.map(cl => { return cl.cl }).join('')
     if (!zh.length) return
-    log('CL', clauses)
+    // log('CL', clauses)
     let text = q('#text')
     empty(text)
     clauses.forEach((clause) => {
@@ -27,11 +27,17 @@ clipboard
       if (clause.cl) {
         el = span(clause.cl)
         el.classList.add('clause')
+        text.appendChild(el)
       } else {
-        el = span(clause.sp)
+        let strs = clause.sp.split('\n\n')
+        log('STRS', strs)
+        strs.forEach((str, idx) => {
+          el = span(str)
+          text.appendChild(el)
+          if (idx !== strs.length - 1) text.appendChild(br())
+        })
         el.classList.add('space')
       }
-      text.appendChild(el)
     })
 
     // router.push({ path: '/main',  query: { clauses: clauses } })

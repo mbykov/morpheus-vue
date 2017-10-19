@@ -34,6 +34,11 @@ export function span (str) {
   return oSpan
 }
 
+export function br () {
+  var oBR = document.createElement('br')
+  return oBR
+}
+
 export function div (str) {
   var oDiv = document.createElement('div')
   oDiv.textContent = str
