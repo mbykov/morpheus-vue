@@ -15,7 +15,8 @@ export default {
   data: function () {
     return {
       showRec: false,
-      odict: {}
+      showAmbis: false,
+      odict: ''
     }
   },
   components: {
@@ -57,7 +58,7 @@ export default {
         let dict = _.find(res, (d) => { return d.dict === seg })
         // showDict(dict)
         this.odict = dict
-        this.showRec = true
+        this.showRec = false
       }
     },
     hideSeg (ev) {

@@ -1,0 +1,20 @@
+#dict-glyph {
+    font-size: 52px;
+    color: maroon;
+}
+
+.dname {
+    float: right;
+    color: maroon;
+}
+#dicts > span {
+    margin: 15px;
+}
+
+.pos {
+    color: green;
+}
+
+.trns {
+    padding-left: 20px;
+}
