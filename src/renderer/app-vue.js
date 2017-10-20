@@ -2,7 +2,9 @@
 
 import AmbisPopup from '@/components/AmbisPopup'
 import RecursivePopup from '@/components/RecursivePopup'
-import {log} from './utils'
+import Dicts from '@/components/Dicts'
+import _ from 'lodash'
+import {log, q} from './utils'
 import 'han-css/dist/han.css'
 import {ipcRenderer} from 'electron'
 
@@ -12,12 +14,14 @@ export default {
   name: 'electron-vue',
   data: function () {
     return {
-      showRec: false
+      showRec: false,
+      odict: {}
     }
   },
   components: {
     AmbisPopup,
-    RecursivePopup
+    RecursivePopup,
+    Dicts
   },
 
   created () {
@@ -44,7 +48,15 @@ export default {
         let data = ev.target.textContent
         ipcRenderer.send('data', data)
       } else if (ev.target.classList.contains('seg')) {
-        log('SEG', ev.target.textContent)
+        let seg = ev.target.textContent
+        log('SEG', seg)
+        let clause = q('.clause')
+        if (!clause) return
+        let res = clause.res.segs
+        // log('RES:::', res)
+        let dict = _.find(res, (d) => { return d.dict === seg })
+        // showDict(dict)
+        this.odict = dict
         this.showRec = true
       }
     },
@@ -54,5 +66,10 @@ export default {
       }
     }
   }
+}
+
+// case 民事案件 mínshì ànjiàn civil case / 刑事案件 xíngshì ànjiàn c
+function showDict (dict) {
+  log('SHOW D:', dict)
 
 }
