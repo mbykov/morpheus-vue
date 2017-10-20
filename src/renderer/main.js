@@ -42,6 +42,22 @@ ipcRenderer.on('before-quit', function (event) {
   // clipboard.stopWatching()
 })
 
+ipcRenderer.on('segs', function (event, res) {
+  log('_RES_:', res)
+  let clause = q('.clause')
+  if (!clause) return
+  clause.textContent = ''
+
+  // let count = clause.childElementCount
+  let dicts = res.segs.map((s) => { return s.dict })
+
+  dicts.forEach((d) => {
+    let spn = span(d)
+    spn.classList.add('seg')
+    clause.appendChild(spn)
+  })
+})
+
 /* eslint-disable no-new */
 new Vue({
   components: { App },

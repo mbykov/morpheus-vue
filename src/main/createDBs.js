@@ -1,13 +1,13 @@
 const path = require('path')
-const jetpack = require("fs-jetpack")
-const _ = require('lodash')
+const jetpack = require('fs-jetpack')
+// const _ = require('lodash')
 let PouchDB = require('pouchdb')
 
 module.exports = createDBs
 
-function createDBs(app) {
+function createDBs (app) {
   // HACK!
-  app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-eastern'));
+  app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-eastern'))
   let upath = app.getPath('userData')
   let fname = 'morpheus-config.json'
   let cpath = path.join(upath, fname)
@@ -35,5 +35,4 @@ function createDBs(app) {
   })
 
   return databases
-
 }

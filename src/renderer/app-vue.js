@@ -40,6 +40,7 @@ export default {
       if (ev.target.classList.contains('cl')) {
         log('CL', ev.target.textContent)
         // let count = ev.target.childElementCount
+        ev.target.classList.add('clause')
         let data = ev.target.textContent
         ipcRenderer.send('data', data)
       } else if (ev.target.classList.contains('seg')) {
