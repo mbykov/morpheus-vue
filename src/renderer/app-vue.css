@@ -32,7 +32,7 @@ b {
 p {
     margins: 0;
     -webkit-margin-before: 0;
-    -webkit-margin-after: 3px;
+    -webkit-margin-after: 15px;
 }
 
 #app {
@@ -83,13 +83,15 @@ p {
 #text {
     font-family: "Biaodian Pro Sans", "Helvetica Neue", Helvetica, Arial, "Han Heiti";
     font-size: 26px;
-    padding: 5px;
+    padding: 15px;
     margin-top: 15px;
     margin-bottom: 25px;
     padding-top: 15px;
     padding-bottom: 25px;
     -webkit-app-region: drag;
 }
+
+
 
 #results {
     font-family: 'DejaVu Sans';
