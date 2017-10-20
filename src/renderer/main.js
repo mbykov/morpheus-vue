@@ -2,6 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import App from './App'
 
+import {ipcRenderer} from 'electron'
 import {log, q, span, empty, create} from './utils'
 import {zh} from '../../../speckled-band'
 const clipboard = require('electron-clipboard-extended')
@@ -14,8 +15,9 @@ Vue.config.productionTip = false
 clipboard
   .on('text-changed', () => {
     let currentText = clipboard.readText()
-    console.log('TEXT:', currentText)
+    // log('TEXT:', currentText)
     let pars = zh(currentText)
+    if (!pars) return
     let text = q('#text')
     empty(text)
     pars.forEach((cls) => {
@@ -27,34 +29,18 @@ clipboard
       })
       text.appendChild(par)
     })
-
-    // let code = 'zh'
-    // let clauses = band(code, currentText)
-    // let zh = clauses.map(cl => { return cl.cl }).join('')
-    // if (!zh.length) return
-    // // log('CL', clauses)
-    // clauses.forEach((clause) => {
-    //   let el
-    //   if (clause.cl) {
-    //     el = span(clause.cl)
-    //     el.classList.add('clause')
-    //     text.appendChild(el)
-    //   } else {
-    //     let strs = clause.sp.split('\n\n')
-    //     log('STRS', strs)
-    //     strs.forEach((str, idx) => {
-    //       el = span(str)
-    //       text.appendChild(el)
-    //       if (idx !== strs.length - 1) text.appendChild(br())
-    //     })
-    //     el.classList.add('space')
-    //   }
-    // })
     log('PARS:', pars)
-
-    // router.push({ path: '/main',  query: { clauses: clauses } })
   })
   .startWatching()
+
+ipcRenderer.on('section', function (event, name) {
+  log('section start')
+})
+
+ipcRenderer.on('before-quit', function (event) {
+  clipboard.off('text-changed')
+  // clipboard.stopWatching()
+})
 
 /* eslint-disable no-new */
 new Vue({

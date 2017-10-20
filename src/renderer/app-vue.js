@@ -3,6 +3,8 @@
 import AmbisPopup from '@/components/AmbisPopup'
 import RecursivePopup from '@/components/RecursivePopup'
 import {log} from './utils'
+import 'han-css/dist/han.css'
+import {ipcRenderer} from 'electron'
 
 import Split from 'split.js'
 
@@ -35,16 +37,17 @@ export default {
     },
     showSeg (ev) {
       if (ev.target.nodeName !== 'SPAN') return
-      log('CL', ev.target.classList)
-      if (ev.target.classList.contains('clause')) {
+      if (ev.target.classList.contains('cl')) {
         log('CL', ev.target.textContent)
+        // let count = ev.target.childElementCount
+        let data = ev.target.textContent
+        ipcRenderer.send('data', data)
       } else if (ev.target.classList.contains('seg')) {
         log('SEG', ev.target.textContent)
         this.showRec = true
       }
     },
     hideSeg (ev) {
-      // log('LEAVE', ev.target.classList)
       if (ev.target.classList.contains('text')) {
         this.showRec = false
       }
