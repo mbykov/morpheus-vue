@@ -12,8 +12,6 @@ import {zh} from '../../../speckled-band'
 
 const clipboard = require('electron-clipboard-extended')
 
-
-
 import Split from 'split.js'
 let split
 import code from './sections/code.html'
@@ -103,6 +101,7 @@ clipboard
     // log('TEXT:', currentText)
     let pars = zh(currentText)
     if (!pars) return
+    split.setSizes([60, 40])
     let text = q('#text')
     empty(text)
     pars.forEach((cls) => {
