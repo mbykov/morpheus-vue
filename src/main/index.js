@@ -1,7 +1,7 @@
 'use strict'
 
 // import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, Menu, ipcMain, electron } from 'electron'
 import {log} from '../renderer/utils'
 import {segmenter} from '../../../segmenter'
 const _ = require('lodash')
@@ -55,6 +55,10 @@ function createWindow () {
     console.log('err: unresponsive', err)
     app.quit()
   })
+
+  let template = require('./menu-template')(mainWindow, electron)
+  const menu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(menu)
 
   let createdbs = require('./createDBs')
   let dbns = createdbs(app)

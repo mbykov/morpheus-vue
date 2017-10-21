@@ -15,8 +15,6 @@
          <dicts :dict="odict"></dicts>
          <!-- v-show="showDict" -->
        </div>
-
-
   </div>
 </template>
 
