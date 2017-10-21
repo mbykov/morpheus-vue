@@ -50,6 +50,7 @@ export default {
         cls.forEach(cl => { cl.classList.remove('clause') })
         ev.target.classList.add('clause')
         let data = ev.target.textContent
+        data = data.replace('。', '')
         ipcRenderer.send('data', data)
       } else if (ev.target.classList.contains('seg')) {
         // this.showDict = false
@@ -57,8 +58,8 @@ export default {
         // log('_SEG_', seg)
         let clause = ev.target.parentNode // q('.clause')
         // log('_CLAUSE_', clause)
-        if (!clause) return
         // clause.classList.remove('clause')
+        if (!clause || !clause.res || !clause.res.segs) return
         let segs = clause.res.segs
         let dict = _.find(segs, (d) => { return d.dict === seg })
         // log('DICT:', dict)
@@ -73,7 +74,6 @@ export default {
             // log('OTHER', dict.other)
           }
         }
-        // showDict(dict)
         this.showDict = true
         this.odict = dict
         this.showRec = false
