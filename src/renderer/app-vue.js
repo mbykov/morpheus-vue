@@ -4,7 +4,7 @@ import AmbisPopup from '@/components/AmbisPopup'
 import RecursivePopup from '@/components/RecursivePopup'
 import Dicts from '@/components/Dicts'
 import _ from 'lodash'
-import {log, q} from './utils'
+import {log, q, qs} from './utils'
 import 'han-css/dist/han.css'
 import {ipcRenderer} from 'electron'
 
@@ -14,7 +14,7 @@ export default {
   name: 'electron-vue',
   data: function () {
     return {
-      showDict: false,
+      showDict: true,
       showRec: false,
       showAmbis: false,
       odict: ''
@@ -46,17 +46,21 @@ export default {
       if (ev.target.classList.contains('cl')) {
         log('CL', ev.target.textContent)
         // let count = ev.target.childElementCount
+        let cls = qs('.clause')
+        cls.forEach(cl => { cl.classList.remove('clause') })
         ev.target.classList.add('clause')
         let data = ev.target.textContent
         ipcRenderer.send('data', data)
       } else if (ev.target.classList.contains('seg')) {
-        this.showDict = false
+        // this.showDict = false
         let seg = ev.target.textContent
-        log('SEG', seg)
-        let clause = q('.clause')
+        // log('_SEG_', seg)
+        let clause = ev.target.parentNode // q('.clause')
+        // log('_CLAUSE_', clause)
         if (!clause) return
-        let res = clause.res.segs
-        let dict = _.find(res, (d) => { return d.dict === seg })
+        // clause.classList.remove('clause')
+        let segs = clause.res.segs
+        let dict = _.find(segs, (d) => { return d.dict === seg })
         // log('DICT:', dict)
         for (let dbn in dict.dbns) {
           let dns = dict.dbns[dbn]

@@ -43,12 +43,16 @@ ipcRenderer.on('before-quit', function (event) {
 })
 
 ipcRenderer.on('segs', function (event, res) {
-  // log('_RES_:', res)
+  log('_RES_:', res)
   let clause = q('.clause')
+  // log('_CLAUSE_:', clause)
   if (!clause) return
+
   clause.textContent = ''
   if (clause.res) return
   clause.res = res
+  // let aaa = span('>|<')
+  // clause.appendChild(aaa)
 
   // let count = clause.childElementCount
   let dicts = res.segs.map((s) => { return s.dict })
