@@ -12,7 +12,7 @@
        <div id="results" class="split split-horizontal">
          <ambis-popup v-show="showAmbis"></ambis-popup>
          <recursive-popup v-show="showRec"></recursive-popup>
-         <dicts :dict="odict"></dicts>
+         <dicts :dict="odict" v-show="showDict"></dicts>
        </div>
 
 

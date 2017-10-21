@@ -112,7 +112,7 @@ function queryDBs (dbns, str, cb) {
     })
   })).then(function (arrayOfResults) {
     let flats = _.flatten(_.compact(arrayOfResults))
-    log('FLATS', flats.length)
+    log('FLATS', flats)
     cb(null, flats)
   }).catch(function (err) {
     log('ERR 2', err)

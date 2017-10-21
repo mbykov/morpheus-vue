@@ -1,6 +1,15 @@
 #dict-glyph {
+}
+
+.dict-glyph {
     font-size: 52px;
     color: maroon;
+}
+
+.dict-other {
+    font-size: 32px;
+    color: grey;
+    padding-left: 25px;
 }
 
 .dname {

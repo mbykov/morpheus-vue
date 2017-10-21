@@ -14,6 +14,7 @@ export default {
   name: 'electron-vue',
   data: function () {
     return {
+      showDict: false,
       showRec: false,
       showAmbis: false,
       odict: ''
@@ -49,14 +50,27 @@ export default {
         let data = ev.target.textContent
         ipcRenderer.send('data', data)
       } else if (ev.target.classList.contains('seg')) {
+        this.showDict = false
         let seg = ev.target.textContent
         log('SEG', seg)
         let clause = q('.clause')
         if (!clause) return
         let res = clause.res.segs
-        // log('RES:::', res)
         let dict = _.find(res, (d) => { return d.dict === seg })
+        // log('DICT:', dict)
+        for (let dbn in dict.dbns) {
+          let dns = dict.dbns[dbn]
+          let simps = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.simp }) }))))
+          let trads = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.trad }) }))))
+          // log('SIMPS', simps)
+          // log('TRADS', trads, trads.length)
+          if (trads.length && simps.length && simps.toString() !== trads.toString()) {
+            dict.other = (simps.includes(dict.dict)) ? ['trad:', trads].join(' ') : ['simp:', simps].join(' ')
+            // log('OTHER', dict.other)
+          }
+        }
         // showDict(dict)
+        this.showDict = true
         this.odict = dict
         this.showRec = false
       }
@@ -70,7 +84,7 @@ export default {
 }
 
 // case 民事案件 mínshì ànjiàn civil case / 刑事案件 xíngshì ànjiàn c
-function showDict (dict) {
-  log('SHOW D:', dict)
+// function showDict (dict) {
+//   log('SHOW D:', dict)
 
-}
+// }

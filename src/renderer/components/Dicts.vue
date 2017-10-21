@@ -1,7 +1,7 @@
 <template>
   <div id="dicts">
-    <div id="dict-glyph">{{dict.dict}}</div>
-    <div v-for="dns in dict.docs">
+    <div id="dict-glyph"><span class="dict-glyph">{{dict.dict}}</span> <span class="dict-other">{{dict.other}}</span></div>
+    <div v-for="dns in dict.dbns">
       <div v-for="dn in dns">
         <br>
         <span class="dname">{{dn.dname}}</span>
