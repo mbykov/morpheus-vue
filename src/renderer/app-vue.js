@@ -143,10 +143,12 @@ ipcRenderer.on('segs', function (event, res) {
   })
 })
 
-
 ipcRenderer.on('section', function (event, name) {
   log('section start:', name)
   split.setSizes([100, 0])
+  let text = q('#text')
+  empty(text)
+  text.innerHTML = code
   // closePopups()
   // showSection(name)
 })
