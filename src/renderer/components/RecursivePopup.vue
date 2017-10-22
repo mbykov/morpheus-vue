@@ -1,6 +1,14 @@
 <template>
   <div id="recursive-popup">
-    <span class="segs">{{dictsegs}}</span>
+    <!-- <span class="segs"> -->
+      <!-- {{dictsegs}} -->
+    <!-- </span> -->
+    <span class="segs">
+      <span v-for="dict in dictsegs">
+        <!-- {{dict}} -->
+        <span class="seg" @mouseover="showSegg">{{dict}}</span>
+      </span>
+    </span>
   </div>
 </template>
 
@@ -11,19 +19,28 @@
     props: ['segs', 'coords'],
     data: function () {
       return {
-        dictsegs: null
+        dictsegs: null,
+        seghtml: ''
       }
     },
     watch: {
       segs: function (segs) {
-        this.dictsegs = (segs) ? segs.map(seg => { return seg.dict }) : null
+        log('segs', segs)
+        let dictsegs = (segs) ? segs.map(seg => { return seg.dict }) : []
+        this.dictsegs = dictsegs
+        // this.dictsegs = (segs) ? segs.map(seg => { return seg.dict }) : []
+        // // this.seghtml = dictsegs.map(seg => { return ['<span class="seg" @click="showSegg" >', seg, '</span>'].join('') }).join('')
+        // log('dictsegs', this.dictsegs)
+        // // log('HTML', this.seghtml)
         let osegs = q('.segs')
-        log('COORDS', this.coords)
         placePopup(this.coords, osegs)
       }
     },
     components: {},
     methods: {
+      showSegg: function (ev) {
+        log('==>', ev.target)
+      }
     }
   }
 
