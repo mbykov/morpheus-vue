@@ -30,7 +30,8 @@ export default {
   name: 'electron-vue',
   data: function () {
     return {
-      recsegs: [],
+      recsegs: null,
+      reccoords: null,
       showDict: true,
       showAmbis: false,
       showrec: true,
@@ -70,7 +71,7 @@ export default {
         data = data.replace('。', '')
         ipcRenderer.send('data', data)
       } else if (ev.target.classList.contains('seg')) {
-        // this.showDict = false
+        this.recsegs = null
         let seg = ev.target.textContent
         // log('_SEG_', seg)
         let clause = ev.target.parentNode // q('.clause')
@@ -98,14 +99,14 @@ export default {
     showRec (ev) {
       if (ev.target.nodeName !== 'SPAN') return
       if (!ev.target.classList.contains('seg')) return
-      log('CLICK', ev.target)
+      // log('CLICK', ev.target)
       let data = ev.target.textContent
       if (data.length < 2) return
       let parent = ev.target.parentNode
-      // log('CLICK1', parent.res.segs)
-      log('CLICK_gd', parent.res.gdocs)
+      // log('CLICK_gd', parent.res.gdocs)
+
       let gdocs = parent.res.gdocs.map(gd => { return gd.dbns})
-      log('GDOCS', gdocs)
+      // log('GDOCS', gdocs)
       let docs = []
       gdocs.forEach(gdoc => {
         for (let dbn in gdoc) {
@@ -114,19 +115,32 @@ export default {
           docs.push(value)
         }
       })
-      log('DOCS', docs)
+      // log('DOCS', docs)
       docs = _.flatten(docs)
-      log('DOCS-F', docs)
+      // log('DOCS-F', docs)
+
       let segmented = segmenter(data, docs)
       this.recsegs = segmented.segs
-      log('SGM', segmented)
+      log('SGM', segmented.segs)
+      this.reccoords = getCoords(ev.target)
     },
     hideSeg (ev) {
       if (ev.target.classList.contains('text')) {
-        this.showRec = false
+        // this.showRec = false
       }
     }
   }
+}
+
+// function placeRec(ev) {
+//   log('PLACE', ev.target)
+//   let coords = getCoords(ev.target);
+//   // placePopup(coords, oSegs);
+// }
+
+function getCoords(el) {
+  let rect = el.getBoundingClientRect();
+  return {top: rect.top+28, left: rect.left};
 }
 
 // 根據中央社報導，童子賢今天出席科技部記者會，
