@@ -5,6 +5,7 @@
 </template>
 
 <script>
+  import {log, q} from '../utils'
   export default {
     name: 'recursive-popup',
     props: ['segs', 'coords'],
@@ -16,12 +17,21 @@
     watch: {
       segs: function (segs) {
         this.dictsegs = (segs) ? segs.map(seg => { return seg.dict }) : null
-        console.log('COORDS', this.coords)
+        let osegs = q('.segs')
+        log('COORDS', this.coords)
+        placePopup(this.coords, osegs)
       }
     },
     components: {},
     methods: {
     }
+  }
+
+  function placePopup (coords, el) {
+    var top = [coords.top, 'px'].join('')
+    var left = [coords.left, 'px'].join('')
+    el.style.top = top
+    el.style.left = left
   }
 </script>
 
