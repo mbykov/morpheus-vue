@@ -86,6 +86,7 @@ function createWindow () {
     queryDBs(dbns, data, function (err, res) {
       if (err) return log('err dbs')
       else {
+        // log('RES:::', res)
         let segmented = segmenter(data, res)
         mainWindow.webContents.send('segs', segmented)
         // mainWindow.webContents.send('segs', res)

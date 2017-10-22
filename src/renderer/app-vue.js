@@ -9,6 +9,7 @@ import 'han-css/dist/han.css'
 import {ipcRenderer} from 'electron'
 
 import {zh} from '../../../speckled-band'
+import {segmenter} from '../../../segmenter'
 
 const clipboard = require('electron-clipboard-extended')
 
@@ -29,9 +30,10 @@ export default {
   name: 'electron-vue',
   data: function () {
     return {
+      recsegs: [],
       showDict: true,
-      showRec: false,
       showAmbis: false,
+      showrec: true,
       odict: ''
     }
   },
@@ -91,8 +93,32 @@ export default {
         }
         this.showDict = true
         this.odict = dict
-        this.showRec = false
       }
+    },
+    showRec (ev) {
+      if (ev.target.nodeName !== 'SPAN') return
+      if (!ev.target.classList.contains('seg')) return
+      log('CLICK', ev.target)
+      let data = ev.target.textContent
+      let parent = ev.target.parentNode
+      // log('CLICK1', parent.res.segs)
+      log('CLICK_gd', parent.res.gdocs)
+      let gdocs = parent.res.gdocs.map(gd => { return gd.dbns})
+      log('GDOCS', gdocs)
+      let docs = []
+      gdocs.forEach(gdoc => {
+        for (let dbn in gdoc) {
+          let value = gdoc[dbn]
+          // log('V', value)
+          docs.push(value)
+        }
+      })
+      log('DOCS', docs)
+      docs = _.flatten(docs)
+      log('DOCS-F', docs)
+      let segmented = segmenter(data, docs)
+      this.recsegs = segmented.segs
+      log('SGM', segmented)
     },
     hideSeg (ev) {
       if (ev.target.classList.contains('text')) {
