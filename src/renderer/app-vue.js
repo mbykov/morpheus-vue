@@ -100,6 +100,7 @@ export default {
       if (!ev.target.classList.contains('seg')) return
       log('CLICK', ev.target)
       let data = ev.target.textContent
+      if (data.length < 2) return
       let parent = ev.target.parentNode
       // log('CLICK1', parent.res.segs)
       log('CLICK_gd', parent.res.gdocs)
