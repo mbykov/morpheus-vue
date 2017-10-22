@@ -15,6 +15,14 @@ const clipboard = require('electron-clipboard-extended')
 import Split from 'split.js'
 let split
 import code from './sections/code.html'
+import about from './sections/about.html'
+import ecbt from './sections/ecbt.html'
+import contacts from './sections/contacts.html'
+import screencast from './sections/screencast.html'
+import acknowledgements from './sections/acknowledgements.html'
+import help from './sections/help.html'
+// import ecbt from './sections/ecbt.html'
+// import ecbt from './sections/ecbt.html'
 // import {showSection} from './lib/sections/sections.js'
 
 export default {
@@ -144,11 +152,33 @@ ipcRenderer.on('segs', function (event, res) {
 })
 
 ipcRenderer.on('section', function (event, name) {
-  log('section start:', name)
   split.setSizes([100, 0])
   let text = q('#text')
   empty(text)
-  text.innerHTML = code
+  let html
+  switch (name) {
+  case 'about':
+    html = about
+    break
+  case 'ecbt':
+    html = ecbt
+    break
+  case 'code':
+    html = code
+    break
+  case 'contacts':
+    html = contacts
+    break
+  case 'screencast':
+    html = screencast
+    break
+  case 'acknowledgements':
+    html = acknowledgements
+    break
+  case 'help':
+    html = help
+    break
+  }
+  text.innerHTML = html
   // closePopups()
-  // showSection(name)
 })
