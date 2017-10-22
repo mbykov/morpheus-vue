@@ -1,10 +1,11 @@
 'use strict'
 
 // import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
-import { app, BrowserWindow, Menu, ipcMain, electron } from 'electron'
+import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
 import {log} from '../renderer/utils'
 import {segmenter} from '../../../segmenter'
 const _ = require('lodash')
+const path = require('path')
 
 /**
  * Set `__static` path to static files in production
@@ -25,6 +26,7 @@ process.on('uncaughtException', function (err) {
   app.quit()
 })
 
+let tray
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
@@ -44,6 +46,7 @@ function createWindow () {
 
   mainWindow.on('closed', () => {
     mainWindow = null
+    tray = null
   })
 
   mainWindow.webContents.on('crashed', function (err) {
@@ -59,6 +62,18 @@ function createWindow () {
   let template = require('./menu-template')(mainWindow, electron)
   const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
+
+  let trayicon = path.join(__dirname, '../../build/icons/64x64.png')
+  // let trayicon = path.join(__dirname, '../build/book.png')
+  tray = new Tray(trayicon)
+  // log('TRAY', tray)
+  const contextMenu = Menu.buildFromTemplate([
+    {label: 'help', role: 'help'},
+    {label: 'learn more', click () { shell.openExternal('http://diglossa.org') }},
+    {label: 'quit', role: 'quit'}
+  ])
+  tray.setToolTip('Morpheus-eastern')
+  tray.setContextMenu(contextMenu)
 
   let createdbs = require('./createDBs')
   let dbns = createdbs(app)
