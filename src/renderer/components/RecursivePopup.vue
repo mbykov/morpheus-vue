@@ -39,7 +39,8 @@
     components: {},
     methods: {
       showSegg: function (ev) {
-        log('==>', ev.target)
+        this.$parent.$options.methods.showSeg(ev)
+        // log('==>', this.$parent.$options.methods)
       }
     }
   }

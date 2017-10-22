@@ -73,9 +73,9 @@ export default {
       } else if (ev.target.classList.contains('seg')) {
         this.recsegs = null
         let seg = ev.target.textContent
-        // log('_SEG_', seg)
+        log('_SEG_', seg)
         let clause = ev.target.parentNode // q('.clause')
-        // log('_CLAUSE_', clause)
+        log('_CLAUSE_', clause)
         // clause.classList.remove('clause')
         if (!clause || !clause.res || !clause.res.segs) return
         let segs = clause.res.segs
