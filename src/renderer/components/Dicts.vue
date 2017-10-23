@@ -30,9 +30,9 @@
     name: 'dicts',
     props: ['odict'],
     created () {
-      EventBus.$on('i-got-clicked', segs => {
-        console.log('nice:', segs)
-        this.dict = {dict: 'kuku'}
+      EventBus.$on('i-got-clicked', dict => {
+        console.log('nice-dict:', dict)
+        this.dict = dict
       })
     },
 

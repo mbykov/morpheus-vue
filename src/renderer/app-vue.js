@@ -4,7 +4,7 @@ import AmbisPopup from '@/components/AmbisPopup'
 import RecursivePopup from '@/components/RecursivePopup'
 import Dicts from '@/components/Dicts'
 import _ from 'lodash'
-import {log, q, qs, empty, create, span} from './utils'
+import {log, q, qs, empty, create, span, segs2dict} from './utils'
 import 'han-css/dist/han.css'
 import {ipcRenderer} from 'electron'
 
@@ -23,9 +23,8 @@ import contacts from './sections/contacts.html'
 import screencast from './sections/screencast.html'
 import acknowledgements from './sections/acknowledgements.html'
 import help from './sections/help.html'
-// import ecbt from './sections/ecbt.html'
-// import ecbt from './sections/ecbt.html'
-// import {showSection} from './lib/sections/sections.js'
+import { EventBus } from './components/bus'
+
 
 export default {
   name: 'electron-vue',
@@ -86,24 +85,28 @@ export default {
         // HERE: должны быть данные для рекурсии тоже, вилка получить segs - и - dict?
         if (!clause || !clause.res || !clause.res.segs) return
         let segs = clause.res.segs
-        let dict = _.find(segs, (d) => { return d.dict === seg })
-        log('DICT:', dict)
-        for (let dbn in dict.dbns) {
-          let dns = dict.dbns[dbn]
-          let simps = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.simp }) }))))
-          let trads = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.trad }) }))))
-          // log('SIMPS', simps)
-          // log('TRADS', trads, trads.length)
-          if (trads.length && simps.length && simps.toString() !== trads.toString()) {
-            dict.other = (simps.includes(dict.dict)) ? ['trad:', trads].join(' ') : ['simp:', simps].join(' ')
-            // log('OTHER', dict.other)
-          }
-        }
-        // this.showDict = true
-        this.odict = dict
-        // this.odict = 'kuku'
+        let dict = segs2dict(seg, segs)
+        EventBus.$emit('i-got-clicked', dict)
+
+        // let dict = _.find(segs, (d) => { return d.dict === seg })
+        // log('DICT:', dict)
+        // for (let dbn in dict.dbns) {
+        //   let dns = dict.dbns[dbn]
+        //   let simps = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.simp }) }))))
+        //   let trads = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.trad }) }))))
+        //   // log('SIMPS', simps)
+        //   // log('TRADS', trads, trads.length)
+        //   if (trads.length && simps.length && simps.toString() !== trads.toString()) {
+        //     dict.other = (simps.includes(dict.dict)) ? ['trad:', trads].join(' ') : ['simp:', simps].join(' ')
+        //     // log('OTHER', dict.other)
+        //   }
+        // }
+        // // this.showDict = true
+
+        // this.odict = dict
       }
     },
+
     showDict(data) {
       log('DATA=', data)
       let dict = _.find(data.segs, (d) => { return d.dict === data.seg })

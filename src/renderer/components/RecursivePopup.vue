@@ -14,8 +14,8 @@
 </template>
 
 <script>
-  import {log, q} from '../utils'
-  import { EventBus } from './bus.js'
+  import {log, q, segs2dict} from '../utils'
+  import { EventBus } from './bus'
   export default {
     name: 'recursive-popup',
     props: ['segs', 'coords'],
@@ -52,7 +52,9 @@
         // this.$parent.$options.methods.showSeg(ev)
         // log('==>', this.$parent.$options.methods.showDict())
         log('--> event:')
-        EventBus.$emit('i-got-clicked', segs)
+        let seg = ev.target.textContent
+        let dict = segs2dict(seg, segs)
+        EventBus.$emit('i-got-clicked', dict)
       }
     }
   }
