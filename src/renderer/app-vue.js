@@ -10,6 +10,7 @@ import {ipcRenderer} from 'electron'
 
 import {zh} from '../../../speckled-band'
 import {segmenter} from '../../../segmenter'
+// import { EventBus } from './components/bus.js'
 
 const clipboard = require('electron-clipboard-extended')
 
@@ -46,6 +47,9 @@ export default {
 
   created () {
     this.setGrid()
+    // EventBus.$on('i-got-clicked', data => {
+    //   console.log('nice, nice - app-vue:', data)
+    // })
   },
 
   methods: {
@@ -88,8 +92,8 @@ export default {
           let dns = dict.dbns[dbn]
           let simps = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.simp }) }))))
           let trads = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.trad }) }))))
-          log('SIMPS', simps)
-          log('TRADS', trads, trads.length)
+          // log('SIMPS', simps)
+          // log('TRADS', trads, trads.length)
           if (trads.length && simps.length && simps.toString() !== trads.toString()) {
             dict.other = (simps.includes(dict.dict)) ? ['trad:', trads].join(' ') : ['simp:', simps].join(' ')
             // log('OTHER', dict.other)
@@ -108,8 +112,8 @@ export default {
         let dns = dict.dbns[dbn]
         let simps = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.simp }) }))))
         let trads = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.trad }) }))))
-        log('SIMPS=', simps)
-        log('TRADS=', trads, trads.length)
+        // log('SIMPS=', simps)
+        // log('TRADS=', trads, trads.length)
         if (trads.length && simps.length && simps.toString() !== trads.toString()) {
           dict.other = (simps.includes(dict.dict)) ? ['trad:', trads].join(' ') : ['simp:', simps].join(' ')
           // log('OTHER', dict.other)
@@ -154,11 +158,6 @@ export default {
   }
 }
 
-// function placeRec(ev) {
-//   log('PLACE', ev.target)
-//   let coords = getCoords(ev.target);
-//   // placePopup(coords, oSegs);
-// }
 
 function getCoords(el) {
   let rect = el.getBoundingClientRect();

@@ -43,8 +43,8 @@
       showSegg: function (ev) {
         // this.$emit('dictg', {seg: 'kukuseg', data: 'kukudata'})
         // let data = {seg: 'kukuseg', data: 'kukudata'}
-        // let osegs = q('.segs')
-        // let segs = osegs.res.segs
+        let osegs = q('.segs')
+        let segs = osegs.res.segs
         // log('--> event:', segs)
         // let seg = ev.target.textContent
         // let data = {seg: seg, segs: segs}
@@ -52,7 +52,7 @@
         // this.$parent.$options.methods.showSeg(ev)
         // log('==>', this.$parent.$options.methods.showDict())
         log('--> event:')
-        EventBus.$emit('i-got-clicked', 333)
+        EventBus.$emit('i-got-clicked', segs)
       }
     }
   }

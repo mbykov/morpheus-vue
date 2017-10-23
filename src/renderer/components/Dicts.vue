@@ -28,23 +28,32 @@
   import { EventBus } from './bus.js'
   export default {
     name: 'dicts',
-    props: ['dict'],
+    props: ['odict'],
+    created () {
+      EventBus.$on('i-got-clicked', segs => {
+        console.log('nice:', segs)
+        this.dict = {dict: 'kuku'}
+      })
+    },
+
     data: function () {
       return {
-        dict_: JSON.parse(JSON.stringify(this.dict))
+        dict: ''
+        // JSON.parse(JSON.stringify(this.dict))
       }
     },
     watch: {
-      dict: function (newdict) {
+      odict: function (newdict) {
         console.log('DICT CHANGED', newdict)
+        this.dict = JSON.parse(JSON.stringify(newdict))
       }
     },
     components: {},
     methods: {
     }
   }
-  EventBus.$on('i-got-clicked', clickCount => {
-    console.log('nice, nice')
+  EventBus.$on('i-got-clicked', data => {
+    console.log('nice, nice', data)
   })
 </script>
 

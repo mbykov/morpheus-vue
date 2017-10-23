@@ -15,7 +15,7 @@
          <recursive-popup v-show="recsegs" :segs="recsegs" :coords="reccoords"></recursive-popup>
          <!-- <keep-alive> -->
          <!-- <transition> -->
-           <dicts :dict="odict"></dicts>
+           <dicts :odict="odict"></dicts>
            <!-- </transition> -->
           <!-- </keep-alive> -->
        </div>
