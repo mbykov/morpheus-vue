@@ -13,7 +13,11 @@
        <div id="results" class="split split-horizontal">
          <ambis-popup v-show="showAmbis"></ambis-popup>
          <recursive-popup v-show="recsegs" :segs="recsegs" :coords="reccoords"></recursive-popup>
-         <dicts :dict="odict"></dicts>
+         <!-- <keep-alive> -->
+         <!-- <transition> -->
+           <dicts :dict="odict"></dicts>
+           <!-- </transition> -->
+          <!-- </keep-alive> -->
        </div>
   </div>
 </template>

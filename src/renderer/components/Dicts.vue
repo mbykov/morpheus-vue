@@ -25,18 +25,27 @@
 </template>
 
 <script>
+  import { EventBus } from './bus.js'
   export default {
     name: 'dicts',
     props: ['dict'],
-    // watch: {
-    //   dict: function () {
-    //     console.log('DICT CHANGED')
-    //   }
-    // },
+    data: function () {
+      return {
+        dict_: JSON.parse(JSON.stringify(this.dict))
+      }
+    },
+    watch: {
+      dict: function (newdict) {
+        console.log('DICT CHANGED', newdict)
+      }
+    },
     components: {},
     methods: {
     }
   }
+  EventBus.$on('i-got-clicked', clickCount => {
+    console.log('nice, nice')
+  })
 </script>
 
 <style src="./dicts.css">

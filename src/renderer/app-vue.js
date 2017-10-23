@@ -39,9 +39,9 @@ export default {
     }
   },
   components: {
+    Dicts,
     AmbisPopup,
-    RecursivePopup,
-    Dicts
+    RecursivePopup
   },
 
   created () {
@@ -97,6 +97,7 @@ export default {
         }
         // this.showDict = true
         this.odict = dict
+        // this.odict = 'kuku'
       }
     },
     showDict(data) {
