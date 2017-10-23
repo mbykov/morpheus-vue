@@ -28,6 +28,11 @@
   export default {
     name: 'dicts',
     props: ['dict'],
+    // watch: {
+    //   dict: function () {
+    //     console.log('DICT CHANGED')
+    //   }
+    // },
     components: {},
     methods: {
     }

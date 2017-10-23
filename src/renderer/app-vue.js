@@ -32,7 +32,7 @@ export default {
     return {
       recsegs: null,
       reccoords: null,
-      showDict: true,
+      // showDict: true,
       showAmbis: false,
       showrec: true,
       odict: ''
@@ -76,26 +76,47 @@ export default {
         log('_SEG_', seg)
         let clause = ev.target.parentNode // q('.clause')
         log('_CLAUSE_', clause)
+        // log('_SGS_1_', clause.res)
+        // log('_SGS_2_', clause.parentNode.res)
         // clause.classList.remove('clause')
+        // HERE: должны быть данные для рекурсии тоже, вилка получить segs - и - dict?
         if (!clause || !clause.res || !clause.res.segs) return
         let segs = clause.res.segs
         let dict = _.find(segs, (d) => { return d.dict === seg })
-        // log('DICT:', dict)
+        log('DICT:', dict)
         for (let dbn in dict.dbns) {
           let dns = dict.dbns[dbn]
           let simps = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.simp }) }))))
           let trads = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.trad }) }))))
-          // log('SIMPS', simps)
-          // log('TRADS', trads, trads.length)
+          log('SIMPS', simps)
+          log('TRADS', trads, trads.length)
           if (trads.length && simps.length && simps.toString() !== trads.toString()) {
             dict.other = (simps.includes(dict.dict)) ? ['trad:', trads].join(' ') : ['simp:', simps].join(' ')
             // log('OTHER', dict.other)
           }
         }
-        this.showDict = true
+        // this.showDict = true
         this.odict = dict
       }
     },
+    showDict(data) {
+      log('DATA=', data)
+      let dict = _.find(data.segs, (d) => { return d.dict === data.seg })
+      log('DICT=:', dict)
+      for (let dbn in dict.dbns) {
+        let dns = dict.dbns[dbn]
+        let simps = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.simp }) }))))
+        let trads = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.trad }) }))))
+        log('SIMPS=', simps)
+        log('TRADS=', trads, trads.length)
+        if (trads.length && simps.length && simps.toString() !== trads.toString()) {
+          dict.other = (simps.includes(dict.dict)) ? ['trad:', trads].join(' ') : ['simp:', simps].join(' ')
+          // log('OTHER', dict.other)
+        }
+      }
+      this.odict = dict
+    },
+
     showRec (ev) {
       if (ev.target.nodeName !== 'SPAN') return
       if (!ev.target.classList.contains('seg')) return

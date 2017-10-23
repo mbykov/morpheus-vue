@@ -4,10 +4,11 @@
       <!-- {{dictsegs}} -->
     <!-- </span> -->
     <span class="segs">
-      <span v-for="dict in dictsegs">
-        <!-- {{dict}} -->
-        <span class="seg" @mouseover="showSegg">{{dict}}</span>
-      </span>
+      <!-- <span v-for="dict in dictsegs"> -->
+      <!--   <\!-- {{dict}} -\-> -->
+      <!--   <span class="seg" @mouseover="showSegg">{{dict}}</span> -->
+      <!-- </span> -->
+      <span v-for="dict in dictsegs" class="seg" @mouseover="showSegg">{{dict}}</span>
     </span>
   </div>
 </template>
@@ -20,7 +21,8 @@
     data: function () {
       return {
         dictsegs: null,
-        seghtml: ''
+        seghtml: '',
+        dict: ''
       }
     },
     watch: {
@@ -28,19 +30,26 @@
         log('segs', segs)
         let dictsegs = (segs) ? segs.map(seg => { return seg.dict }) : []
         this.dictsegs = dictsegs
-        // this.dictsegs = (segs) ? segs.map(seg => { return seg.dict }) : []
-        // // this.seghtml = dictsegs.map(seg => { return ['<span class="seg" @click="showSegg" >', seg, '</span>'].join('') }).join('')
-        // log('dictsegs', this.dictsegs)
-        // // log('HTML', this.seghtml)
         let osegs = q('.segs')
+        // let oparent = q('.segs')
+        osegs.res = {segs: segs}
+        // osegs.res.segs = segs
         placePopup(this.coords, osegs)
       }
     },
     components: {},
     methods: {
       showSegg: function (ev) {
-        this.$parent.$options.methods.showSeg(ev)
-        // log('==>', this.$parent.$options.methods)
+        // this.$emit('dictg', {seg: 'kukuseg', data: 'kukudata'})
+        // let data = {seg: 'kukuseg', data: 'kukudata'}
+        let osegs = q('.segs')
+        let segs = osegs.res.segs
+        log('--> event:', segs)
+        let seg = ev.target.textContent
+        let data = {seg: seg, segs: segs}
+        this.$parent.$options.methods.showDict(data)
+        // log('==>', this.$parent.$options.methods.showDict())
+        // log('--> event:')
       }
     }
   }
