@@ -31,7 +31,9 @@ export default {
     return {
       recsegs: null,
       reccoords: null,
+      acoords: {},
       ambisegs: false,
+      ambis: '',
       showrec: true,
       odict: ''
     }
@@ -59,7 +61,7 @@ export default {
     },
     // 我们现在没有钱。
     showDict (ev) {
-      this.ambisegs = null
+      this.ambis = null
       this.recsegs = null
       if (ev.target.nodeName !== 'SPAN') return
 
@@ -73,7 +75,9 @@ export default {
 
       } else if (ev.target.classList.contains('ambi')) {
         log('AMBIS', ev.target)
-        this.ambisegs = {kuku: 1}
+        // this.ambisegs = {kuku: 1}
+        this.ambis = {ambis: 1}
+        this.acoords = getCoords(ev.target)
 
       } else if (ev.target.classList.contains('seg')) {
         let seg = ev.target.textContent

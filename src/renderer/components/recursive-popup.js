@@ -30,10 +30,3 @@ export default {
     }
   }
 }
-
-// function placePopup_ (coords, el) {
-//   var top = [coords.top, 'px'].join('')
-//   var left = [coords.left, 'px'].join('')
-//   el.style.top = top
-//   el.style.left = left
-// }

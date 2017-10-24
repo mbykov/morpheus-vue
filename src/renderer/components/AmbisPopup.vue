@@ -1,7 +1,8 @@
 <template>
   <div id="ambis">
-    __ambis popup__
-        <span class=""> {{popambis}}</span>
+    <span class="ambis">
+      <span class=""> AMB: {{ambis}}</span>
+    </span>
   </div>
 </template>
 
@@ -9,7 +10,7 @@
 </script>
 
 <style>
-  #ambis {
+.ambis {
     border: 1px solid rgba(0, 0, 0, 0.2);
     /* background-color: #8aba87; */
     /* color: white; */
