@@ -91,6 +91,13 @@ export function segs2dict (seg, segs) {
   return dict
 }
 
+export function placePopup (coords, el) {
+  var top = [coords.top, 'px'].join('')
+  var left = [coords.left, 'px'].join('')
+  el.style.top = top
+  el.style.left = left
+}
+
 export function log () { console.log.apply(console, arguments) }
 
 export function plog () {

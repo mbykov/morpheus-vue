@@ -1,15 +1,13 @@
 //
 
-import {log, q, segs2dict} from '../utils'
+import {log, q, segs2dict, placePopup} from '../utils'
 import { EventBus } from './bus'
 export default {
   name: 'recursive-popup',
   props: ['segs', 'coords'],
   data: function () {
     return {
-      dictsegs: null,
-      // seghtml: '',
-      dict: ''
+      dictsegs: null
     }
   },
   watch: {
@@ -22,13 +20,6 @@ export default {
       placePopup(this.coords, osegs)
     }
   },
-  // this.$emit('dictg', {seg: 'kukuseg', data: 'kukudata'})
-  // let data = {seg: 'kukuseg', data: 'kukudata'}
-  // log('--> event:', segs)
-  // let seg = ev.target.textContent
-  // let data = {seg: seg, segs: segs}
-  // this.$parent.$options.methods.showDict(ev)
-  // log('--> event:')
   methods: {
     showSegg: function (ev) {
       let osegs = q('.segs')
@@ -40,9 +31,9 @@ export default {
   }
 }
 
-function placePopup (coords, el) {
-  var top = [coords.top, 'px'].join('')
-  var left = [coords.left, 'px'].join('')
-  el.style.top = top
-  el.style.left = left
-}
+// function placePopup_ (coords, el) {
+//   var top = [coords.top, 'px'].join('')
+//   var left = [coords.left, 'px'].join('')
+//   el.style.top = top
+//   el.style.left = left
+// }

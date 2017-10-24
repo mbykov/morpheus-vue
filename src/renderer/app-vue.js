@@ -73,10 +73,9 @@ export default {
 
       } else if (ev.target.classList.contains('ambi')) {
         log('AMBIS', ev.target)
-        this.ambisegs = true
+        this.ambisegs = {kuku: 1}
 
       } else if (ev.target.classList.contains('seg')) {
-
         let seg = ev.target.textContent
         log('_SEG_', seg)
         let clause = ev.target.parentNode // q('.clause')

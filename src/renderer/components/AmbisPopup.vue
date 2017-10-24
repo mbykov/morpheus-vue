@@ -1,17 +1,32 @@
 <template>
-  <div id="ambis-popup">
+  <div id="ambis">
     __ambis popup__
+        <span class=""> {{popambis}}</span>
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'ambis-popup',
-    components: {},
-    methods: {
-    }
-  }
+<script src="./ambis-popup">
 </script>
 
 <style>
+  #ambis {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    /* background-color: #8aba87; */
+    /* color: white; */
+    /* line-height: 24px; */
+    background-color: white;
+    color: black;
+    display: 'block';
+    padding: 3px;
+    position: absolute;
+    z-index: 1000;
+    box-shadow: 0.15em 0.15em 1em rgba(0, 0, 0, 0.75);
+    /* box-shadow: 0 0 10px 1px rgba(0,0,0,.3); */
+    height: auto;
+    top: 250px;
+    left: 300px;
+    /* font-family: 'DejaVu Sans'; */
+    font-size: 26px;
+    padding: 3px;
+}
 </style>
