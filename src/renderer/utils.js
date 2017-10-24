@@ -1,4 +1,5 @@
 import _ from 'lodash'
+var util = require('util')
 
 export function q (sel) {
   return document.querySelector(sel)
@@ -91,3 +92,10 @@ export function segs2dict (seg, segs) {
 }
 
 export function log () { console.log.apply(console, arguments) }
+
+export function plog () {
+  var vs = _.values(arguments)
+  if (vs.length === 1) vs = vs[0]
+  // console.log(util.inspect(vs, {showHidden: false, depth: null}))
+  console.log(util.inspect(vs, {showHidden: false, depth: 3}))
+}

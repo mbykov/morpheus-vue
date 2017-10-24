@@ -1,6 +1,6 @@
 <template>
   <div id="ambis-popup">
-    ambis popup
+    __ambis popup__
   </div>
 </template>
 

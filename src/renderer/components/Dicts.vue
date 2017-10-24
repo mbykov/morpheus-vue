@@ -8,7 +8,6 @@
         <div v-for="(doc, idx) in dn.docs">
           <span class="pinyin">{{idx + 1}}. {{doc.pinyin}}</span>
           <span class="pos">{{doc.pos}}</span>
-          <!-- <span class="trns">{{doc.trns}}</span> -->
           <div class="trns" v-for="(trn, idy) in doc.trns">
             {{trn}}
           </div>
@@ -16,11 +15,6 @@
         </div>
       </div>
     </div>
-
-<!-- 他家白天一般 没有人，你还是晚上去吧。Tā jiā báitiā   !!!!!!!!!!!!!!! ОШИБКА !!             -->
-
-    <!-- <hr> -->
-    <!-- <p>{{dict}}</p> -->
   </div>
 </template>
 
@@ -28,33 +22,28 @@
   import { EventBus } from './bus.js'
   export default {
     name: 'dicts',
-    props: ['odict'],
+    // props: ['odict'], // не задействовано, потому что bus.event
     created () {
-      EventBus.$on('i-got-clicked', dict => {
+      EventBus.$on('show-dict', dict => {
         console.log('nice-dict:', dict)
         this.dict = dict
       })
     },
-
     data: function () {
       return {
         dict: ''
-        // JSON.parse(JSON.stringify(this.dict))
       }
-    },
-    watch: {
-      odict: function (newdict) {
-        console.log('DICT CHANGED', newdict)
-        this.dict = JSON.parse(JSON.stringify(newdict))
-      }
-    },
-    components: {},
-    methods: {
     }
+    // watch: {
+    //   odict: function (newdict) {
+    //     console.log('DICT CHANGED', newdict)
+    //     this.dict = JSON.parse(JSON.stringify(newdict))
+    //   }
+    // },
+    // components: {},
+    // methods: {
+    // }
   }
-  EventBus.$on('i-got-clicked', data => {
-    console.log('nice, nice', data)
-  })
 </script>
 
 <style src="./dicts.css">

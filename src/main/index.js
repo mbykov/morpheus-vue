@@ -81,16 +81,16 @@ function createWindow () {
   // ipcMain.on('getdbs', function(event, name) {
   //   mainWindow.webContents.send('dbs', dbs)
   // })
+  // 我们现在没有钱。
   ipcMain.on('data', function (event, data) {
-    log('DATA', data)
+    log('_DATA_', data)
     queryDBs(dbns, data, function (err, res) {
       if (err) return log('err dbs')
       else {
-        // log('RES:::', res)
+        // log('RES::', res)
         let segmented = segmenter(data, res)
-        mainWindow.webContents.send('segs', segmented)
-        // mainWindow.webContents.send('segs', res)
-        log('RES', segmented)
+        mainWindow.webContents.send('clause', segmented)
+        log('SGM::', segmented)
       }
     })
   })
@@ -132,7 +132,7 @@ function queryDBs (dbns, str, cb) {
     })
   })).then(function (arrayOfResults) {
     let flats = _.flatten(_.compact(arrayOfResults))
-    log('FLATS', flats)
+    // log('FLATS', flats)
     cb(null, flats)
   }).catch(function (err) {
     log('ERR 2', err)

@@ -25,15 +25,13 @@ import acknowledgements from './sections/acknowledgements.html'
 import help from './sections/help.html'
 import { EventBus } from './components/bus'
 
-
 export default {
   name: 'electron-vue',
   data: function () {
     return {
       recsegs: null,
       reccoords: null,
-      // showDict: true,
-      showAmbis: false,
+      ambisegs: false,
       showrec: true,
       odict: ''
     }
@@ -46,9 +44,6 @@ export default {
 
   created () {
     this.setGrid()
-    // EventBus.$on('i-got-clicked', data => {
-    //   console.log('nice, nice - app-vue:', data)
-    // })
   },
 
   methods: {
@@ -62,67 +57,35 @@ export default {
         })
       })
     },
-    showSeg (ev) {
+    // 我们现在没有钱。
+    showDict (ev) {
+      this.ambisegs = null
+      this.recsegs = null
       if (ev.target.nodeName !== 'SPAN') return
+
       if (ev.target.classList.contains('cl')) {
         log('CL', ev.target.textContent)
-        // let count = ev.target.childElementCount
         let cls = qs('.clause')
         cls.forEach(cl => { cl.classList.remove('clause') })
         ev.target.classList.add('clause')
         let data = ev.target.textContent
-        data = data.replace('。', '')
         ipcRenderer.send('data', data)
+
+      } else if (ev.target.classList.contains('ambi')) {
+        log('AMBIS', ev.target)
+        this.ambisegs = true
+
       } else if (ev.target.classList.contains('seg')) {
-        this.recsegs = null
+
         let seg = ev.target.textContent
         log('_SEG_', seg)
         let clause = ev.target.parentNode // q('.clause')
-        log('_CLAUSE_', clause)
-        // log('_SGS_1_', clause.res)
-        // log('_SGS_2_', clause.parentNode.res)
-        // clause.classList.remove('clause')
-        // HERE: должны быть данные для рекурсии тоже, вилка получить segs - и - dict?
+        // log('_CLAUSE_', clause)
         if (!clause || !clause.res || !clause.res.segs) return
         let segs = clause.res.segs
         let dict = segs2dict(seg, segs)
-        EventBus.$emit('i-got-clicked', dict)
-
-        // let dict = _.find(segs, (d) => { return d.dict === seg })
-        // log('DICT:', dict)
-        // for (let dbn in dict.dbns) {
-        //   let dns = dict.dbns[dbn]
-        //   let simps = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.simp }) }))))
-        //   let trads = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.trad }) }))))
-        //   // log('SIMPS', simps)
-        //   // log('TRADS', trads, trads.length)
-        //   if (trads.length && simps.length && simps.toString() !== trads.toString()) {
-        //     dict.other = (simps.includes(dict.dict)) ? ['trad:', trads].join(' ') : ['simp:', simps].join(' ')
-        //     // log('OTHER', dict.other)
-        //   }
-        // }
-        // // this.showDict = true
-
-        // this.odict = dict
+        EventBus.$emit('show-dict', dict)
       }
-    },
-
-    showDict(data) {
-      log('DATA=', data)
-      let dict = _.find(data.segs, (d) => { return d.dict === data.seg })
-      log('DICT=:', dict)
-      for (let dbn in dict.dbns) {
-        let dns = dict.dbns[dbn]
-        let simps = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.simp }) }))))
-        let trads = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.trad }) }))))
-        // log('SIMPS=', simps)
-        // log('TRADS=', trads, trads.length)
-        if (trads.length && simps.length && simps.toString() !== trads.toString()) {
-          dict.other = (simps.includes(dict.dict)) ? ['trad:', trads].join(' ') : ['simp:', simps].join(' ')
-          // log('OTHER', dict.other)
-        }
-      }
-      this.odict = dict
     },
 
     showRec (ev) {
@@ -155,7 +118,6 @@ export default {
     },
     hideSeg (ev) {
       if (ev.target.classList.contains('text')) {
-        // this.showRec = false
       }
     }
   }
@@ -195,24 +157,29 @@ ipcRenderer.on('before-quit', function (event) {
   // clipboard.stopWatching()
 })
 
-ipcRenderer.on('segs', function (event, res) {
-  log('_RES_:', res)
+ipcRenderer.on('clause', function (event, res) {
+  log('_RES-SEGS_:', res)
   let clause = q('.clause')
   // log('_CLAUSE_:', clause)
   if (!clause) return
-
   clause.textContent = ''
+  // есть еще гипотетический случай, когда строка не полная. Как обработать? Какой-то no-resut нужен
+
   if (clause.res) return
   clause.res = res
-  // let aaa = span('>|<')
-  // clause.appendChild(aaa)
 
-  // let count = clause.childElementCount
-  let dicts = res.segs.map((s) => { return s.dict })
-  dicts.forEach((d) => {
-    let spn = span(d)
-    spn.classList.add('seg')
-    clause.appendChild(spn)
+  res.segs.forEach(s => {
+    let spn
+    if (s.dict) {
+      spn = span(s.dict)
+      spn.classList.add('seg')
+      clause.appendChild(spn)
+    } else {
+      let ds = s.ambis[0].map(a => {return a.dict})
+      spn = span(ds.join(''))
+      spn.classList.add('ambi')
+      clause.appendChild(spn)
+    }
   })
 })
 

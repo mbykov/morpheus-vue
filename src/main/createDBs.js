@@ -9,7 +9,8 @@ function createDBs (app) {
   // HACK!
   app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-eastern'))
   let upath = app.getPath('userData')
-  let fname = 'morpheus-config.json'
+  // ================ NEW !!!!!!!!!!!!
+  let fname = 'morpheus-config-new.json'
   let cpath = path.join(upath, fname)
   let dbns
   try {
