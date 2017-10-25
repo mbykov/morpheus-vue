@@ -32,7 +32,7 @@ export default {
       recsegs: null,
       reccoords: null,
       acoords: {},
-      ambisegs: false,
+      // ambisegs: false,
       ambis: '',
       showrec: true,
       odict: ''
@@ -75,14 +75,23 @@ export default {
 
       } else if (ev.target.classList.contains('ambi')) {
         log('AMBIS', ev.target)
-        // this.ambisegs = {kuku: 1}
-        this.ambis = {ambis: 1}
+        let clause = ev.target.parentNode
+        let seg = ev.target.textContent
+        // log('_CLAUSE_', clause)
+        if (!clause || !clause.res || !clause.res.segs) return
+        let segs = clause.res.segs
+        let ambis = _.find(segs, (ambi) => { return ambi.seg === seg})
+        if (!ambis) return
+        // log('_a_segs_', segs)
+        log('ambis:', ambis)
+        // let dict = segs2dict(seg, segs)
+        this.ambis = ambis
         this.acoords = getCoords(ev.target)
 
       } else if (ev.target.classList.contains('seg')) {
         let seg = ev.target.textContent
         log('_SEG_', seg)
-        let clause = ev.target.parentNode // q('.clause')
+        let clause = ev.target.parentNode
         // log('_CLAUSE_', clause)
         if (!clause || !clause.res || !clause.res.segs) return
         let segs = clause.res.segs

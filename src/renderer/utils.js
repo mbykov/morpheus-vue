@@ -77,7 +77,7 @@ export function removeAll (sel) {
 
 export function segs2dict (seg, segs) {
   let dict = _.find(segs, (d) => { return d.dict === seg })
-  log('DICT:', dict)
+  log('u:DICT:', dict)
   for (let dbn in dict.dbns) {
     let dns = dict.dbns[dbn]
     let simps = _.compact(_.uniq(_.flatten(dns.map(dn => { return dn.docs.map(d => { return d.simp }) }))))

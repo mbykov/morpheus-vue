@@ -8,8 +8,8 @@ export default {
   watch: {
     ambis: function (ambis) {
       let oambis = q('.ambis')
-      log('OAM', oambis)
-      log('OAMC', this.coords)
+      // log('OAM', oambis)
+      // log('OAMC', this.coords)
       // osegs.res = {segs: segs}
       placePopup(this.coords, oambis)
     }
