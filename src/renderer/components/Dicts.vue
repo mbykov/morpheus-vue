@@ -18,32 +18,7 @@
   </div>
 </template>
 
-<script>
-  import { EventBus } from './bus.js'
-  export default {
-    name: 'dicts',
-    // props: ['odict'], // не задействовано, потому что bus.event
-    created () {
-      EventBus.$on('show-dict', dict => {
-        console.log('nice-dict:', dict)
-        this.dict = dict
-      })
-    },
-    data: function () {
-      return {
-        dict: ''
-      }
-    }
-    // watch: {
-    //   odict: function (newdict) {
-    //     console.log('DICT CHANGED', newdict)
-    //     this.dict = JSON.parse(JSON.stringify(newdict))
-    //   }
-    // },
-    // components: {},
-    // methods: {
-    // }
-  }
+<script src="./dicts">
 </script>
 
 <style src="./dicts.css">

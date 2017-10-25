@@ -1,7 +1,7 @@
 <template>
   <div id="recursive-popup">
     <span class="segs">
-      <span v-for="dict in dictsegs" class="seg" @mouseover="showDict">{{dict}}</span>
+      <span v-for="dict in segs" class="seg" @mouseover="showDict">{{dict}}</span>
     </span>
   </div>
 </template>

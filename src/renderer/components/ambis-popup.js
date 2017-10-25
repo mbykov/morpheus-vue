@@ -7,10 +7,20 @@ import _ from 'lodash'
 export default {
   name: 'ambis-popup',
   props: ['ambis', 'coords'],
+  data: function () {
+    return {
+      dictambis: ''
+    }
+  },
   watch: {
-    ambis: function (ambis) {
+    ambis: function (am) {
+      if (!am) return
+      let segs = am.res.segs
+      let ambis = _.find(segs, (ambi) => { return ambi.seg === am.seg})
       let oambis = q('.ambis')
-      oambis.ambis = ambis
+      this.dictambis = ambis.ambis
+      oambis.ambis = ambis.ambis
+      oambis.res = am.res
       placePopup(this.coords, oambis)
     }
   },
@@ -27,6 +37,9 @@ export default {
       })
       if (!dict) return
       EventBus.$emit('show-dict', dict)
+    },
+    showRec: function(ev) {
+      EventBus.$emit('show-recursive', ev)
     }
   }
 }

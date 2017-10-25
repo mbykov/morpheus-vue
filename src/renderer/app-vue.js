@@ -10,7 +10,6 @@ import {ipcRenderer} from 'electron'
 
 import {zh} from '../../../speckled-band'
 import {segmenter} from '../../../segmenter'
-// import { EventBus } from './components/bus.js'
 
 const clipboard = require('electron-clipboard-extended')
 
@@ -61,10 +60,10 @@ export default {
     },
     // 我们现在没有钱。
     showDict (ev) {
+      if (EventBus.res) EventBus.res.recsegs = null // выбрать segs для dicts
       this.ambis = null
       this.recsegs = null
       if (ev.target.nodeName !== 'SPAN') return
-
       if (ev.target.classList.contains('cl')) {
         log('CL', ev.target.textContent)
         let cls = qs('.clause')
@@ -75,6 +74,7 @@ export default {
 
       } else if (ev.target.classList.contains('ambi')) {
         log('AMBIS', ev.target)
+        // это плохо, нужно найти clause.res не только в первом ряду  <<=========
         let clause = ev.target.parentNode
         let seg = ev.target.textContent
         // log('_CLAUSE_', clause)
@@ -83,20 +83,15 @@ export default {
         let ambis = _.find(segs, (ambi) => { return ambi.seg === seg})
         if (!ambis) return
         // log('_a_segs_', segs)
-        log('ambis:', ambis.ambis)
+        // log('ambis:', ambis.ambis)
         // let dict = segs2dict(seg, segs)
-        this.ambis = ambis.ambis
+        let res = {seg: seg, res: clause.res}
+        this.ambis = res
         this.acoords = getCoords(ev.target)
 
       } else if (ev.target.classList.contains('seg')) {
         let seg = ev.target.textContent
-        log('_SEG_', seg)
-        let clause = ev.target.parentNode
-        // log('_CLAUSE_', clause)
-        if (!clause || !clause.res || !clause.res.segs) return
-        let segs = clause.res.segs
-        let dict = segs2dict(seg, segs)
-        EventBus.$emit('show-dict', dict)
+        EventBus.$emit('show-dict', seg)
       }
     },
 
@@ -104,30 +99,35 @@ export default {
       if (ev.target.nodeName !== 'SPAN') return
       if (!ev.target.classList.contains('seg')) return
       // log('CLICK', ev.target)
-      let data = ev.target.textContent
-      if (data.length < 2) return
-      let parent = ev.target.parentNode
-      // log('CLICK_gd', parent.res.gdocs)
+      let seg = ev.target.textContent
+      if (seg.length < 2) return
+      // let parent = ev.target.parentNode
+      // // log('CLICK_gd', parent.res.gdocs)
 
-      let gdocs = parent.res.gdocs.map(gd => { return gd.dbns})
-      // log('GDOCS', gdocs)
-      let docs = []
-      gdocs.forEach(gdoc => {
-        for (let dbn in gdoc) {
-          let value = gdoc[dbn]
-          // log('V', value)
-          docs.push(value)
-        }
-      })
-      // log('DOCS', docs)
-      docs = _.flatten(docs)
-      // log('DOCS-F', docs)
+      // let gdocs = parent.res.gdocs.map(gd => { return gd.dbns})
+      // // log('GDOCS', gdocs)
+      // let docs = []
+      // gdocs.forEach(gdoc => {
+      //   for (let dbn in gdoc) {
+      //     let value = gdoc[dbn]
+      //     // log('V', value)
+      //     docs.push(value)
+      //   }
+      // })
+      // // log('DOCS', docs)
+      // docs = _.flatten(docs)
+      // // log('DOCS-F', docs)
 
-      let segmented = segmenter(data, docs)
-      this.recsegs = segmented.segs
-      log('SGM', segmented.segs)
-      this.reccoords = getCoords(ev.target)
+      // let segmented = segmenter(seg, docs)
+      // this.recsegs = segmented.segs
+      // log('SGM', segmented.segs)
+      // this.reccoords = getCoords(ev.target)
+      this.recsegs = true
+      let coords = getCoords(ev.target)
+      let data = {seg: seg, coords: coords}
+      EventBus.$emit('show-recursive', data)
     },
+
     hideSeg (ev) {
       if (ev.target.classList.contains('text')) {
       }
@@ -170,16 +170,16 @@ ipcRenderer.on('before-quit', function (event) {
 })
 
 ipcRenderer.on('clause', function (event, res) {
-  log('_RES-SEGS_:', res)
+  // log('_LC:RES_:', res)
   let clause = q('.clause')
-  // log('_CLAUSE_:', clause)
   if (!clause) return
-  clause.textContent = ''
-  // есть еще гипотетический случай, когда строка не полная. Как обработать? Какой-то no-resut нужен
+  // есть еще гипотетический случай, когда сумма segs не полная. Как обработать? Какой-то no-resut нужен
+  EventBus.res = res
+  setSegs(clause, res)
+})
 
-  if (clause.res) return
-  clause.res = res
-
+function setSegs(clause, res) {
+  empty(clause)
   res.segs.forEach(s => {
     let spn
     if (s.dict) {
@@ -193,7 +193,7 @@ ipcRenderer.on('clause', function (event, res) {
       clause.appendChild(spn)
     }
   })
-})
+}
 
 ipcRenderer.on('section', function (event, name) {
   split.setSizes([100, 0])
