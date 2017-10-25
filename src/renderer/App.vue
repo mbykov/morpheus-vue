@@ -8,8 +8,7 @@
        </div>
 
        <div id="results" class="split split-horizontal">
-         <ambis-popup v-show="ambis" :ambis="ambis" :coords="acoords"></ambis-popup>
-         <!-- <recursive-popup v-show="recsegs" :segs="recsegs" :coords="reccoords"></recursive-popup> -->
+         <ambis-popup v-show="ambis"></ambis-popup>
          <recursive-popup v-show="recsegs"></recursive-popup>
          <!-- <transition> -->
          <dicts :odict="odict"></dicts>

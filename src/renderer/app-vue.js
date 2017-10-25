@@ -60,7 +60,7 @@ export default {
     },
     // 我们现在没有钱。
     showDict (ev) {
-      if (EventBus.res) EventBus.res.recsegs = null // выбрать segs для dicts
+      if (EventBus.res) EventBus.res.recsegs = null // выбрать segs для dicts не из .res
       this.ambis = null
       this.recsegs = null
       if (ev.target.nodeName !== 'SPAN') return
@@ -73,21 +73,12 @@ export default {
         ipcRenderer.send('data', data)
 
       } else if (ev.target.classList.contains('ambi')) {
-        log('AMBIS', ev.target)
-        // это плохо, нужно найти clause.res не только в первом ряду  <<=========
-        let clause = ev.target.parentNode
+        // log('AMBIS', ev.target)
+        this.ambis = true
         let seg = ev.target.textContent
-        // log('_CLAUSE_', clause)
-        if (!clause || !clause.res || !clause.res.segs) return
-        let segs = clause.res.segs
-        let ambis = _.find(segs, (ambi) => { return ambi.seg === seg})
-        if (!ambis) return
-        // log('_a_segs_', segs)
-        // log('ambis:', ambis.ambis)
-        // let dict = segs2dict(seg, segs)
-        let res = {seg: seg, res: clause.res}
-        this.ambis = res
-        this.acoords = getCoords(ev.target)
+        let coords = getCoords(ev.target)
+        let data = {seg: seg, coords: coords}
+        EventBus.$emit('show-ambis', data)
 
       } else if (ev.target.classList.contains('seg')) {
         let seg = ev.target.textContent

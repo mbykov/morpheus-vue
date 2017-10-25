@@ -1,7 +1,7 @@
 <template>
   <div id="ambis">
     <span class="ambis" @mouseover="showDict" @click="showRec">
-      <div v-for="row in dictambis" class="row">
+      <div v-for="row in ambis" class="row">
         <span v-for="col in row" class="seg">{{col.dict}}</span>
       </div>
       <!-- <span class=""> AMB: {{ambis}}</span> -->

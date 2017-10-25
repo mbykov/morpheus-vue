@@ -9,28 +9,14 @@ export default {
   name: 'recursive-popup',
   created () {
     EventBus.$on('show-recursive', data => {
-      // log('SEG', data.seg)
-      // log('CO', data.coords)
       this.showPopup(data)
     })
   },
-  // props: ['segs', 'coords'],
   data: function () {
     return {
-      // dictsegs: null
       segs: null
     }
   },
-  // watch: {
-  //   segs: function (segs) {
-  //     // log('segs', segs)
-  //     let dictsegs = (segs) ? segs.map(seg => { return seg.dict }) : []
-  //     this.dictsegs = dictsegs
-  //     let osegs = q('.segs')
-  //     osegs.res = {segs: segs}
-  //     placePopup(this.coords, osegs)
-  //   }
-  // },
   methods: {
     showPopup: function (data) {
       let gdocs = EventBus.res.gdocs.map(gd => { return gd.dbns})
@@ -46,6 +32,7 @@ export default {
 
       let segmented = segmenter(data.seg, docs)
       this.segs = segmented.segs.map(seg => { return seg.dict })
+
       let osegs = q('.segs')
       placePopup(data.coords, osegs)
 
