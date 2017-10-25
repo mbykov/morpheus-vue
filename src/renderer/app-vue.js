@@ -60,7 +60,7 @@ export default {
     },
     // 我们现在没有钱。
     showDict (ev) {
-      if (EventBus.res) EventBus.res.recsegs = null // выбрать segs для dicts не из .res
+      // if (EventBus.res) EventBus.res.recsegs = null // выбрать segs для dicts не из .res
       this.ambis = null
       this.recsegs = null
       if (ev.target.nodeName !== 'SPAN') return
@@ -92,27 +92,6 @@ export default {
       // log('CLICK', ev.target)
       let seg = ev.target.textContent
       if (seg.length < 2) return
-      // let parent = ev.target.parentNode
-      // // log('CLICK_gd', parent.res.gdocs)
-
-      // let gdocs = parent.res.gdocs.map(gd => { return gd.dbns})
-      // // log('GDOCS', gdocs)
-      // let docs = []
-      // gdocs.forEach(gdoc => {
-      //   for (let dbn in gdoc) {
-      //     let value = gdoc[dbn]
-      //     // log('V', value)
-      //     docs.push(value)
-      //   }
-      // })
-      // // log('DOCS', docs)
-      // docs = _.flatten(docs)
-      // // log('DOCS-F', docs)
-
-      // let segmented = segmenter(seg, docs)
-      // this.recsegs = segmented.segs
-      // log('SGM', segmented.segs)
-      // this.reccoords = getCoords(ev.target)
       this.recsegs = true
       let coords = getCoords(ev.target)
       let data = {seg: seg, coords: coords}
@@ -125,7 +104,6 @@ export default {
     }
   }
 }
-
 
 function getCoords(el) {
   let rect = el.getBoundingClientRect();

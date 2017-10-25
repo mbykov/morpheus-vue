@@ -28,7 +28,7 @@ export default {
         }
       })
       docs = _.flatten(docs)
-      // log('DOCS-F', docs)
+      log('rec_F', docs)
 
       let segmented = segmenter(data.seg, docs)
       this.segs = segmented.segs.map(seg => { return seg.dict })

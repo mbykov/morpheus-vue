@@ -26,25 +26,25 @@ export default {
       this.ambis = ambis.ambis
       let oambis = q('.ambis')
       placePopup(data.coords, oambis)
-      EventBus.res.recsegs = EventBus.res.gdocs
     },
 
     showDict: function (ev) {
       if (!ev.target.classList.contains('seg')) return
       let seg = ev.target.textContent
-      let dict
-      this.ambis.forEach(ambi => {
-        ambi.forEach(am => {
-          if (am.dict === seg) dict = am
-        })
-      })
+      let dict = _.find(EventBus.res.gdocs, doc => { return doc.dict === seg})
       if (!dict) return
       EventBus.res.recsegs = [dict]
       EventBus.$emit('show-dict', seg)
     },
 
     showRec: function(ev) {
-      EventBus.$emit('show-recursive', ev)
+      let data = {seg: ev.target.textContent, coords: getCoords(ev.target)}
+      EventBus.$emit('show-recursive', data)
     }
   }
+}
+
+function getCoords(el) {
+  let rect = el.getBoundingClientRect();
+  return {top: rect.top+28, left: rect.left};
 }
