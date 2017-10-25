@@ -83,9 +83,9 @@ export default {
         let ambis = _.find(segs, (ambi) => { return ambi.seg === seg})
         if (!ambis) return
         // log('_a_segs_', segs)
-        log('ambis:', ambis)
+        log('ambis:', ambis.ambis)
         // let dict = segs2dict(seg, segs)
-        this.ambis = ambis
+        this.ambis = ambis.ambis
         this.acoords = getCoords(ev.target)
 
       } else if (ev.target.classList.contains('seg')) {

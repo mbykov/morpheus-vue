@@ -1,6 +1,8 @@
 //
 
+import { EventBus } from './bus'
 import {log, q, segs2dict, placePopup} from '../utils'
+import _ from 'lodash'
 
 export default {
   name: 'ambis-popup',
@@ -8,28 +10,23 @@ export default {
   watch: {
     ambis: function (ambis) {
       let oambis = q('.ambis')
-      // log('OAM', oambis)
-      // log('OAMC', this.coords)
-      // osegs.res = {segs: segs}
+      oambis.ambis = ambis
       placePopup(this.coords, oambis)
     }
   },
-  // data: function () {
-  //   return {
-  //     ambis: ''
-  //   }
-  // },
-  // watch: {
-  //   ambis: function (ambis) {
-  //     log('AMBIS_', ambis)
-  //     // let dictsegs = (segs) ? segs.map(seg => { return seg.dict }) : []
-  //     // this.popambis = ambis
-  //     // let osegs = q('.segs')
-  //     // osegs.res = {segs: segs}
-  //     // placePopup(this.coords, osegs)
-  //   }
-  // },
-  components: {},
   methods: {
+    showDict: function (ev) {
+      if (!ev.target.classList.contains('seg')) return
+      let seg = ev.target.textContent
+      let ambis = q('.ambis').ambis
+      let dict
+      ambis.forEach(ambi => {
+        ambi.forEach(am => {
+          if (am.dict === seg) dict = am
+        })
+      })
+      if (!dict) return
+      EventBus.$emit('show-dict', dict)
+    }
   }
 }

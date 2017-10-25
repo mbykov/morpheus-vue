@@ -1,7 +1,10 @@
 <template>
   <div id="ambis">
-    <span class="ambis">
-      <span class=""> AMB: {{ambis}}</span>
+    <span class="ambis" @mouseover="showDict">
+      <div v-for="row in ambis" class="row">
+        <span v-for="col in row" class="seg">{{col.dict}}</span>
+      </div>
+      <!-- <span class=""> AMB: {{ambis}}</span> -->
     </span>
   </div>
 </template>

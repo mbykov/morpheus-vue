@@ -21,7 +21,7 @@ export default {
     }
   },
   methods: {
-    showSegg: function (ev) {
+    showDict: function (ev) {
       let osegs = q('.segs')
       let segs = osegs.res.segs
       let seg = ev.target.textContent
