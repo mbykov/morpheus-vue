@@ -19,24 +19,31 @@ export default {
   },
   methods: {
     showPopup: function (data) {
-      let gdocs = EventBus.res.gdocs.map(gd => { return gd.dbns })
-      let docs = []
-      gdocs.forEach(gdoc => {
-        for (let dbn in gdoc) {
-          let value = gdoc[dbn]
-          docs.push(value)
-        }
-      })
-      docs = _.flatten(docs)
-      log('rec_F', docs)
+      // let docs = _.filter(EventBus.res.docs, doc => { return doc.dict === data.seg})
+      let dicts = _.uniq(EventBus.res.docs.map(doc => { return doc.dict }))
+      // log('DDo', docs)
+      log('DDi', dicts)
+      // let gdocs = EventBus.res.gdocs.map(gd => { return gd.dbns })
+      // let docs = []
+      // gdocs.forEach(gdoc => {
+      //   for (let dbn in gdoc) {
+      //     let value = gdoc[dbn]
+      //     docs.push(value)
+      //   }
+      // })
+      // docs = _.flatten(docs)
+      // log('rec_F', docs)
 
-      let segmented = segmenter(data.seg, docs)
-      this.segs = segmented.segs.map(seg => { return seg.dict })
+      //  непонятно. Нужно убрать в segmenter dict=str. Но если str как раз под вопросом?
+
+      let segs = segmenter(data.seg, dicts)
+      log('SS', segs)
+      this.segs = segs.map(s => { return s.seg })
 
       let osegs = q('.segs')
       placePopup(data.coords, osegs)
 
-      EventBus.res.recsegs = segmented.segs
+      // EventBus.res.recsegs = segmented.segs
     },
 
     showDict: function (ev) {
