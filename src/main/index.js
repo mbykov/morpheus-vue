@@ -133,6 +133,7 @@ function queryDBs (dbns, str, cb) {
       rdocs.forEach(rd => {
         rd.docs.forEach(d => {
           d.dname = db.dname
+          d.dict = rd._id
         })
       })
       // return _.flatten(_.compact(docs))

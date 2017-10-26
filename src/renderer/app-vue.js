@@ -126,8 +126,7 @@ clipboard
     pars.forEach((cls) => {
       let par = create('p')
       cls.forEach((cl) => {
-        let text = cl.text.trim()
-        let spn = span(text)
+        let spn = span(cl.text)
         spn.classList = (cl.type === 'cl') ? 'cl' : 'sp'
         par.appendChild(spn)
       })
@@ -147,30 +146,24 @@ ipcRenderer.on('data', function (event, data) {
   let clause = q('.clause')
   if (!clause) return
   // есть еще гипотетический случай, когда сумма segs не полная. Как обработать? Какой-то no-resut нужен
-
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
   let segs = segmenter(data.str, dicts)
   log('SGS', segs)
-
   EventBus.res = {docs: docs, segs: segs}
-  // setSegs(clause, res)
+  setSegs(clause, segs)
 })
 
-function setSegs (clause, res) {
+function setSegs (clause, segs) {
   empty(clause)
-  res.segs.forEach(s => {
-    let spn
-    if (s.dict) {
-      spn = span(s.dict)
-      spn.classList.add('seg')
-      clause.appendChild(spn)
-    } else {
-      let ds = s.ambis[0].map(a => { return a.dict })
-      spn = span(ds.join(''))
+  segs.forEach(s => {
+    let spn = span(s.seg)
+    if (s.ambis) {
       spn.classList.add('ambi')
-      clause.appendChild(spn)
+    } else {
+      spn.classList.add('seg')
     }
+    clause.appendChild(spn)
   })
 }
 
