@@ -86,9 +86,11 @@ export default {
       } else if (ev.target.classList.contains('ambi')) {
         // log('AMBIS', ev.target)
         this.ambis = true
+        let cl = findAncestor(ev.target, 'cl')
+        let clkey = cl.textContent
         let seg = ev.target.textContent
         let coords = getCoords(ev.target)
-        let data = {seg: seg, coords: coords, ambis: ev.target.ambis}
+        let data = {seg: seg, coords: coords, ambis: ev.target.ambis, cl: clkey}
         EventBus.$emit('show-ambis', data)
       } else if (ev.target.classList.contains('seg')) {
         let cl = findAncestor(ev.target, 'cl')

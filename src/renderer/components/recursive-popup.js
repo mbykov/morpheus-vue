@@ -20,11 +20,9 @@ export default {
   },
   methods: {
     showPopup: function (data) {
-      // log('RECU->')
       this.cl = data.cl
+      log('RECU->', EventBus.res[data.cl])
       let dicts = _.uniq(EventBus.res[data.cl].docs.map(doc => { return doc.dict }))
-      // log('DDi', dicts)
-      //  непонятно. Нужно убрать в segmenter dict=str. Но если str как раз под вопросом?
 
       let segs = segmenter(data.seg, dicts)
       // log('SS', segs)
@@ -32,8 +30,6 @@ export default {
 
       let osegs = q('.segs')
       placePopup(data.coords, osegs)
-
-      // EventBus.res.recsegs = segmented.segs
     },
 
     showDict: function (ev) {
