@@ -19,21 +19,9 @@ export default {
   },
   methods: {
     showPopup: function (data) {
-      // let docs = _.filter(EventBus.res.docs, doc => { return doc.dict === data.seg})
+      log('RECU->')
       let dicts = _.uniq(EventBus.res.docs.map(doc => { return doc.dict }))
-      // log('DDo', docs)
-      log('DDi', dicts)
-      // let gdocs = EventBus.res.gdocs.map(gd => { return gd.dbns })
-      // let docs = []
-      // gdocs.forEach(gdoc => {
-      //   for (let dbn in gdoc) {
-      //     let value = gdoc[dbn]
-      //     docs.push(value)
-      //   }
-      // })
-      // docs = _.flatten(docs)
-      // log('rec_F', docs)
-
+      // log('DDi', dicts)
       //  непонятно. Нужно убрать в segmenter dict=str. Но если str как раз под вопросом?
 
       let segs = segmenter(data.seg, dicts)

@@ -2,7 +2,7 @@
   <div id="ambis">
     <span class="ambis" @mouseover="showDict" @click="showRec">
       <div v-for="row in ambis" class="row">
-        <span v-for="col in row" class="seg">{{col.dict}}</span>
+        <span v-for="col in row" class="seg">{{col.seg}}</span>
       </div>
       <!-- <span class=""> AMB: {{ambis}}</span> -->
     </span>

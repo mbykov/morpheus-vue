@@ -5,6 +5,8 @@
          <p>民事案件 mínshì  刑事案件 xíngshì ànjiàn</p>
          <p>陀洹道,xū tuó huá</p>
          <p>ambi: 我们现在没有钱。</p>
+         <p>ambi: 想法國。</p>
+         <p>ambi: 研究生命。</p>
        </div>
 
        <div id="results" class="split split-horizontal">

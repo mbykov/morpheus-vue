@@ -46,6 +46,9 @@ export default {
   created () {
     this.setGrid()
     EventBus.$on('show-ambis', data => {
+      // this.ambis = true
+    })
+    EventBus.$on('show-recursive', data => {
       this.recsegs = true
     })
   },
@@ -81,7 +84,7 @@ export default {
         this.ambis = true
         let seg = ev.target.textContent
         let coords = getCoords(ev.target)
-        let data = {seg: seg, coords: coords}
+        let data = {seg: seg, coords: coords, ambis: ev.target.ambis}
         EventBus.$emit('show-ambis', data)
       } else if (ev.target.classList.contains('seg')) {
         let seg = ev.target.textContent
@@ -160,6 +163,7 @@ function setSegs (clause, segs) {
     let spn = span(s.seg)
     if (s.ambis) {
       spn.classList.add('ambi')
+      spn.ambis = s.ambis
     } else {
       spn.classList.add('seg')
     }
