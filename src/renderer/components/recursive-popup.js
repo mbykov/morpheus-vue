@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     showPopup: function (data) {
-      let gdocs = EventBus.res.gdocs.map(gd => { return gd.dbns})
+      let gdocs = EventBus.res.gdocs.map(gd => { return gd.dbns })
       let docs = []
       gdocs.forEach(gdoc => {
         for (let dbn in gdoc) {

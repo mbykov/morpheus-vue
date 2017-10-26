@@ -45,6 +45,9 @@ export default {
 
   created () {
     this.setGrid()
+    EventBus.$on('show-ambis', data => {
+      this.recsegs = true
+    })
   },
 
   methods: {
@@ -58,6 +61,7 @@ export default {
         })
       })
     },
+    // =====>>> 你们都用wiki吗？====>>> BUG
     // 我们现在没有钱。
     showDict (ev) {
       // if (EventBus.res) EventBus.res.recsegs = null // выбрать segs для dicts не из .res
@@ -65,13 +69,13 @@ export default {
       this.recsegs = null
       if (ev.target.nodeName !== 'SPAN') return
       if (ev.target.classList.contains('cl')) {
+        // либо пересчитывать, либо запоминать каждую клаузу - потому что новая затирает .res сейчас
         log('CL', ev.target.textContent)
         let cls = qs('.clause')
         cls.forEach(cl => { cl.classList.remove('clause') })
         ev.target.classList.add('clause')
         let data = ev.target.textContent
         ipcRenderer.send('data', data)
-
       } else if (ev.target.classList.contains('ambi')) {
         // log('AMBIS', ev.target)
         this.ambis = true
@@ -79,7 +83,6 @@ export default {
         let coords = getCoords(ev.target)
         let data = {seg: seg, coords: coords}
         EventBus.$emit('show-ambis', data)
-
       } else if (ev.target.classList.contains('seg')) {
         let seg = ev.target.textContent
         EventBus.$emit('show-dict', seg)
@@ -105,9 +108,9 @@ export default {
   }
 }
 
-function getCoords(el) {
-  let rect = el.getBoundingClientRect();
-  return {top: rect.top+28, left: rect.left};
+function getCoords (el) {
+  let rect = el.getBoundingClientRect()
+  return {top: rect.top + 28, left: rect.left}
 }
 
 // 根據中央社報導，童子賢今天出席科技部記者會，
@@ -123,7 +126,8 @@ clipboard
     pars.forEach((cls) => {
       let par = create('p')
       cls.forEach((cl) => {
-        let spn = span(cl.text)
+        let text = cl.text.trim()
+        let spn = span(text)
         spn.classList = (cl.type === 'cl') ? 'cl' : 'sp'
         par.appendChild(spn)
       })
@@ -138,16 +142,22 @@ ipcRenderer.on('before-quit', function (event) {
   // clipboard.stopWatching()
 })
 
-ipcRenderer.on('clause', function (event, res) {
-  // log('_LC:RES_:', res)
+ipcRenderer.on('data', function (event, data) {
+  log('_RES_:', data.str, data.res)
   let clause = q('.clause')
   if (!clause) return
   // есть еще гипотетический случай, когда сумма segs не полная. Как обработать? Какой-то no-resut нужен
-  EventBus.res = res
-  setSegs(clause, res)
+
+  let docs = _.flatten(data.res.map(d => { return d.docs }))
+  let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
+  let segs = segmenter(data.str, dicts)
+  log('SGS', segs)
+
+  EventBus.res = {docs: docs, segs: segs}
+  // setSegs(clause, res)
 })
 
-function setSegs(clause, res) {
+function setSegs (clause, res) {
   empty(clause)
   res.segs.forEach(s => {
     let spn
@@ -156,7 +166,7 @@ function setSegs(clause, res) {
       spn.classList.add('seg')
       clause.appendChild(spn)
     } else {
-      let ds = s.ambis[0].map(a => {return a.dict})
+      let ds = s.ambis[0].map(a => { return a.dict })
       spn = span(ds.join(''))
       spn.classList.add('ambi')
       clause.appendChild(spn)
@@ -170,27 +180,27 @@ ipcRenderer.on('section', function (event, name) {
   empty(text)
   let html
   switch (name) {
-  case 'about':
-    html = about
-    break
-  case 'ecbt':
-    html = ecbt
-    break
-  case 'code':
-    html = code
-    break
-  case 'contacts':
-    html = contacts
-    break
-  case 'screencast':
-    html = screencast
-    break
-  case 'acknowledgements':
-    html = acknowledgements
-    break
-  case 'help':
-    html = help
-    break
+    case 'about':
+      html = about
+      break
+    case 'ecbt':
+      html = ecbt
+      break
+    case 'code':
+      html = code
+      break
+    case 'contacts':
+      html = contacts
+      break
+    case 'screencast':
+      html = screencast
+      break
+    case 'acknowledgements':
+      html = acknowledgements
+      break
+    case 'help':
+      html = help
+      break
   }
   text.innerHTML = html
   // closePopups()

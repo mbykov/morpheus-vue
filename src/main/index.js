@@ -3,9 +3,10 @@
 // import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
 import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
 import {log} from '../renderer/utils'
-import {segmenter} from '../../../segmenter'
+// import {segmenter} from '../../../segmenter'
 const _ = require('lodash')
 const path = require('path')
+// const util = require('util')
 
 /**
  * Set `__static` path to static files in production
@@ -81,16 +82,21 @@ function createWindow () {
   // ipcMain.on('getdbs', function(event, name) {
   //   mainWindow.webContents.send('dbs', dbs)
   // })
+
   // 我们现在没有钱。
-  ipcMain.on('data', function (event, data) {
-    log('_DATA_', data)
-    queryDBs(dbns, data, function (err, res) {
+  ipcMain.on('data', function (event, str) {
+    log('_DATA_', str)
+    queryDBs(dbns, str, function (err, res) {
       if (err) return log('err dbs')
       else {
         // log('RES::', res)
-        let segmented = segmenter(data, res)
-        mainWindow.webContents.send('clause', segmented)
-        log('SGM::', segmented)
+        // let segmented = segmenter(data, res)
+        // plog(segmented, 3)
+        // log('Segmented')
+        let data = {str: str, res: res}
+        // mainWindow.webContents.send('clause', segmented)
+        mainWindow.webContents.send('data', data)
+        // mainWindow.webContents.send('clause', null)
       }
     })
   })
@@ -123,7 +129,12 @@ function queryDBs (dbns, str, cb) {
       if (!res || !res.rows) throw new Error('no dbn result')
       let rdocs = _.compact(res.rows.map(row => { return row.doc }))
       if (!rdocs.length) return
-      rdocs.forEach(d => { d.dname = db.dname })
+      // rdocs.forEach(d => { d.dname = db.dname })
+      rdocs.forEach(rd => {
+        rd.docs.forEach(d => {
+          d.dname = db.dname
+        })
+      })
       // return _.flatten(_.compact(docs))
       return rdocs
     }).catch(function (err) {
@@ -175,3 +186,9 @@ function parseKeys (str) {
   }
   return padas
 }
+
+// function plog (o, d) {
+//   if (!d) d = 3
+//   // console.log(util.inspect(o, false, null))
+//   console.log(util.inspect(o, {showHidden: false, depth: d}))
+// }

@@ -20,7 +20,7 @@ export default {
   methods: {
     showPopup: function (data) {
       let segs = EventBus.res.segs
-      let ambis = _.find(segs, (ambi) => { return ambi.seg === data.seg})
+      let ambis = _.find(segs, (ambi) => { return ambi.seg === data.seg })
       // log('===AMBIS', ambis)
       if (!ambis) return
       this.ambis = ambis.ambis
@@ -31,20 +31,20 @@ export default {
     showDict: function (ev) {
       if (!ev.target.classList.contains('seg')) return
       let seg = ev.target.textContent
-      let dict = _.find(EventBus.res.gdocs, doc => { return doc.dict === seg})
+      let dict = _.find(EventBus.res.gdocs, doc => { return doc.dict === seg })
       if (!dict) return
       EventBus.res.recsegs = [dict]
       EventBus.$emit('show-dict', seg)
     },
 
-    showRec: function(ev) {
+    showRec: function (ev) {
       let data = {seg: ev.target.textContent, coords: getCoords(ev.target)}
       EventBus.$emit('show-recursive', data)
     }
   }
 }
 
-function getCoords(el) {
-  let rect = el.getBoundingClientRect();
-  return {top: rect.top+28, left: rect.left};
+function getCoords (el) {
+  let rect = el.getBoundingClientRect()
+  return {top: rect.top + 28, left: rect.left}
 }
