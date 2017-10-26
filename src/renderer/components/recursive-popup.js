@@ -14,18 +14,20 @@ export default {
   },
   data: function () {
     return {
-      segs: null
+      segs: null,
+      cl: null
     }
   },
   methods: {
     showPopup: function (data) {
-      log('RECU->')
-      let dicts = _.uniq(EventBus.res.docs.map(doc => { return doc.dict }))
+      // log('RECU->')
+      this.cl = data.cl
+      let dicts = _.uniq(EventBus.res[data.cl].docs.map(doc => { return doc.dict }))
       // log('DDi', dicts)
       //  непонятно. Нужно убрать в segmenter dict=str. Но если str как раз под вопросом?
 
       let segs = segmenter(data.seg, dicts)
-      log('SS', segs)
+      // log('SS', segs)
       this.segs = segs.map(s => { return s.seg })
 
       let osegs = q('.segs')
@@ -36,7 +38,17 @@ export default {
 
     showDict: function (ev) {
       let seg = ev.target.textContent
-      EventBus.$emit('show-dict', seg)
+      // let cl = findAncestor(ev.target, 'cl')
+      // log('====FROMDICT', cl)
+      // ах ты ёшкин кот, это не предок
+      // let clkey = cl.textContent
+      let data = {seg: seg, cl: this.cl}
+      EventBus.$emit('show-dict', data)
     }
   }
+}
+
+function findAncestor (el, cls) {
+  while ((el = el.parentElement) && !el.classList.contains(cls));
+  return el;
 }

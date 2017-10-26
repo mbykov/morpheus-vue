@@ -21,7 +21,7 @@ export default {
     showPopup: function (data) {
       let segs = EventBus.res.segs
       // let ambis = _.find(EventBus.res.docs, doc => { return doc.dict === data.seg })
-      log('===AMBIS', data.ambis)
+      // log('===AMBIS', data.ambis)
       // if (!ambis.length) return
       // log('AMBIS', ambis)
       this.ambis = data.ambis
@@ -32,7 +32,7 @@ export default {
     showDict: function (ev) {
       if (!ev.target.classList.contains('seg')) return
       let seg = ev.target.textContent
-      log('SHOW DICT')
+      // log('SHOW DICT')
       // let dict = _.find(EventBus.res.gdocs, doc => { return doc.dict === seg })
       // if (!dict) return
       // EventBus.res.recsegs = [dict]
@@ -40,7 +40,7 @@ export default {
     },
 
     showRec: function (ev) {
-      log('SHOW RECU')
+      // log('SHOW RECU')
       let data = {seg: ev.target.textContent, coords: getCoords(ev.target)}
       EventBus.$emit('show-recursive', data)
     }

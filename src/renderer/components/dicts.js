@@ -8,11 +8,12 @@ export default {
   name: 'dicts',
   // props: ['odict'], // не задействовано, потому что bus.event
   created () {
-    EventBus.$on('show-dict', seg => {
-      let docs = _.filter(EventBus.res.docs, doc => { return doc.dict === seg})
-      // log('DOCS', docs)
+    EventBus.$on('show-dict', data => {
+      log('CLDICT', data.cl)
+      let docs = _.filter(EventBus.res[data.cl].docs, doc => { return doc.dict === data.seg})
+      log('DOCS', docs)
       let dbns = _.groupBy(docs, 'dname')
-      this.dict = {seg: seg, dbns: dbns}
+      this.dict = {seg: data.seg, dbns: dbns}
       // log('>>', this.dict)
     })
   },

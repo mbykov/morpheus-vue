@@ -4,7 +4,7 @@ import AmbisPopup from '@/components/AmbisPopup'
 import RecursivePopup from '@/components/RecursivePopup'
 import Dicts from '@/components/Dicts'
 import _ from 'lodash'
-import {log, q, qs, empty, create, span, segs2dict} from './utils'
+import {log, q, qs, empty, create, span} from './utils'
 import 'han-css/dist/han.css'
 import {ipcRenderer} from 'electron'
 
@@ -70,7 +70,11 @@ export default {
       // if (EventBus.res) EventBus.res.recsegs = null // выбрать segs для dicts не из .res
       this.ambis = null
       this.recsegs = null
+      // log('EV', ev.target.classList)
       if (ev.target.nodeName !== 'SPAN') return
+      // let cl = findAncestor(ev.target, 'cl')
+      // let clkey = cl.textContent
+      // log('=cl=', cl)
       if (ev.target.classList.contains('cl')) {
         // либо пересчитывать, либо запоминать каждую клаузу - потому что новая затирает .res сейчас
         log('CL', ev.target.textContent)
@@ -87,8 +91,11 @@ export default {
         let data = {seg: seg, coords: coords, ambis: ev.target.ambis}
         EventBus.$emit('show-ambis', data)
       } else if (ev.target.classList.contains('seg')) {
+        let cl = findAncestor(ev.target, 'cl')
+        let clkey = cl.textContent
         let seg = ev.target.textContent
-        EventBus.$emit('show-dict', seg)
+        let data = {seg: seg, cl: clkey}
+        EventBus.$emit('show-dict', data)
       }
     },
 
@@ -99,8 +106,10 @@ export default {
       let seg = ev.target.textContent
       if (seg.length < 2) return
       this.recsegs = true
+      let cl = findAncestor(ev.target, 'cl')
+      let clkey = cl.textContent
       let coords = getCoords(ev.target)
-      let data = {seg: seg, coords: coords}
+      let data = {seg: seg, coords: coords, cl: clkey}
       EventBus.$emit('show-recursive', data)
     },
 
@@ -152,8 +161,13 @@ ipcRenderer.on('data', function (event, data) {
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
   let segs = segmenter(data.str, dicts)
+  let newstr = segs.map(s => { return s.seg }).join('')
   log('SGS', segs)
-  EventBus.res = {docs: docs, segs: segs}
+  let key = clause.textContent
+  // log('KEY', key)
+  if (clause.textContent != newstr) throw new Error('NON COMPLETE STR')
+  if (!EventBus.res) EventBus.res = {}
+  EventBus.res[key] = {docs: docs, segs: segs}
   setSegs(clause, segs)
 })
 
@@ -202,3 +216,9 @@ ipcRenderer.on('section', function (event, name) {
   text.innerHTML = html
   // closePopups()
 })
+
+// wtf?
+function findAncestor (el, cls) {
+  while ((el = el.parentElement) && !el.classList.contains(cls));
+  return el;
+}

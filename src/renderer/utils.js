@@ -75,6 +75,12 @@ export function removeAll (sel) {
 //     ipcRenderer.send('sync', 'window-hide')
 // }
 
+export function findAncestor (el, cls) {
+  while ((el = el.parentElement) && !el.classList.contains(cls)) {
+    return el
+  }
+}
+
 export function segs2dict (seg, segs) {
   let dict = _.find(segs, (d) => { return d.dict === seg })
   if (!dict) {
