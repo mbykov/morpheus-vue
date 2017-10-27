@@ -167,7 +167,12 @@ ipcRenderer.on('data', function (event, data) {
   log('SGS', segs)
   let key = clause.textContent
   // log('KEY', key)
-  if (clause.textContent != newstr) throw new Error('NON COMPLETE STR')
+  if (clause.textContent != newstr) {
+    log('==============NON COMPLETE STR')
+    log('=old=>', clause.textContent, '<=')
+    log('=new=>', newstr, '<=')
+  }
+
   if (!EventBus.res) EventBus.res = {}
   EventBus.res[key] = {docs: docs, segs: segs}
   setSegs(clause, segs)
