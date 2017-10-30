@@ -14,6 +14,7 @@
          <recursive-popup v-show="recsegs"></recursive-popup>
          <!-- <transition> -->
          <dicts :odict="odict"></dicts>
+         <hanzi :ohanzi="ohanzi"></hanzi>
          <!-- </transition> -->
        </div>
   </div>

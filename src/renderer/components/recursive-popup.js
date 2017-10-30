@@ -21,7 +21,7 @@ export default {
   methods: {
     showPopup: function (data) {
       this.cl = data.cl
-      log('RECU->', EventBus.res[data.cl])
+      // log('RECU-VUE>', EventBus.res[data.cl])
       let dicts = _.uniq(EventBus.res[data.cl].docs.map(doc => { return doc.dict }))
 
       let segs = segmenter(data.seg, dicts)

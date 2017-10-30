@@ -3,6 +3,7 @@
 import AmbisPopup from '@/components/AmbisPopup'
 import RecursivePopup from '@/components/RecursivePopup'
 import Dicts from '@/components/Dicts'
+import Hanzi from '@/components/Hanzi'
 import _ from 'lodash'
 import {log, q, qs, empty, create, span} from './utils'
 import 'han-css/dist/han.css'
@@ -34,20 +35,30 @@ export default {
       // ambisegs: false,
       ambis: '',
       showrec: true,
+      ohanzi: '',
       odict: ''
     }
   },
+
   components: {
     Dicts,
+    Hanzi,
     AmbisPopup,
     RecursivePopup
   },
 
   created () {
     this.setGrid()
-    EventBus.$on('show-ambis', data => {
-      // this.ambis = true
+    ipcRenderer.on('hanzi', function (event, data) {
+      log('IPC SVG')
+      // TODO - сделать реальные данные из main, вызвать компонент
     })
+    // EventBus.$on('show-ambis', data => {
+      // this.ambis = true
+    // })
+    // EventBus.$on('show-hanzi', data => {
+      // log('=== ответ hanzi', data)
+    // })
     EventBus.$on('show-recursive', data => {
       this.recsegs = true
     })
@@ -67,7 +78,6 @@ export default {
     // =====>>> 你们都用wiki吗？====>>> BUG
     // 我们现在没有钱。
     showDict (ev) {
-      // if (EventBus.res) EventBus.res.recsegs = null // выбрать segs для dicts не из .res
       this.ambis = null
       this.recsegs = null
       // log('EV', ev.target.classList)
@@ -108,8 +118,14 @@ export default {
     showRec (ev) {
       if (ev.target.nodeName !== 'SPAN') return
       if (!ev.target.classList.contains('seg')) return
-      // log('CLICK', ev.target)
+      // log('REC-CLICK', ev.target)
       let seg = ev.target.textContent
+      if (seg.length === 1) {
+        ipcRenderer.send('hanzi', seg)
+        // TODO: это унести в ответ ipc, и реальные data
+        EventBus.$emit('show-hanzi', seg)
+        log('svg click')
+      }
       if (seg.length < 2) return
       this.recsegs = true
       let cl = findAncestor(ev.target, 'cl')
@@ -159,6 +175,7 @@ ipcRenderer.on('before-quit', function (event) {
   // clipboard.stopWatching()
 })
 
+// строка сегментов - spans
 ipcRenderer.on('data', function (event, data) {
   log('_RES_:', data.str, data.res)
   let clause = q('.clause')
@@ -167,9 +184,9 @@ ipcRenderer.on('data', function (event, data) {
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
   let segs = segmenter(data.str, dicts)
-  log('SGS', segs)
+  // log('SGS', segs)
   let key = clause.textContent
-  log('KEY', key)
+  // log('KEY', key)
 
   // small 案件案件刑戋戔刑事 jiān. 刑事案件
   if (!EventBus.res) EventBus.res = {}
