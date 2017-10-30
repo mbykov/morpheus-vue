@@ -92,6 +92,10 @@ export default {
         let coords = getCoords(ev.target)
         let data = {seg: seg, coords: coords, ambis: ev.target.ambis, cl: clkey}
         EventBus.$emit('show-ambis', data)
+      } else if (ev.target.classList.contains('hole')) {
+        let seg = ev.target.textContent
+        let data = {seg: seg, cl: 'no-result', hole: true}
+        EventBus.$emit('show-dict', data)
       } else if (ev.target.classList.contains('seg')) {
         let cl = findAncestor(ev.target, 'cl')
         let clkey = cl.textContent
@@ -163,16 +167,11 @@ ipcRenderer.on('data', function (event, data) {
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
   let segs = segmenter(data.str, dicts)
-  let newstr = segs.map(s => { return s.seg }).join('')
   log('SGS', segs)
   let key = clause.textContent
-  // log('KEY', key)
-  if (clause.textContent != newstr) {
-    log('==============NON COMPLETE STR')
-    log('=old=>', clause.textContent, '<=')
-    log('=new=>', newstr, '<=')
-  }
+  log('KEY', key)
 
+  // small 案件案件刑戋戔刑事 jiān. 刑事案件
   if (!EventBus.res) EventBus.res = {}
   EventBus.res[key] = {docs: docs, segs: segs}
   setSegs(clause, segs)
@@ -185,6 +184,8 @@ function setSegs (clause, segs) {
     if (s.ambis) {
       spn.classList.add('ambi')
       spn.ambis = s.ambis
+    } else if (s.hole) {
+      spn.classList.add('hole')
     } else {
       spn.classList.add('seg')
     }
