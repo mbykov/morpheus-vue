@@ -50,14 +50,11 @@ export default {
   created () {
     this.setGrid()
     ipcRenderer.on('hanzi', function (event, data) {
-      log('IPC SVG')
+      log('IPC SVG', data)
       // TODO - сделать реальные данные из main, вызвать компонент
     })
     // EventBus.$on('show-ambis', data => {
       // this.ambis = true
-    // })
-    // EventBus.$on('show-hanzi', data => {
-      // log('=== ответ hanzi', data)
     // })
     EventBus.$on('show-recursive', data => {
       this.recsegs = true
@@ -123,7 +120,7 @@ export default {
       if (seg.length === 1) {
         ipcRenderer.send('hanzi', seg)
         // TODO: это унести в ответ ipc, и реальные data
-        EventBus.$emit('show-hanzi', seg)
+        // EventBus.$emit('show-hanzi', seg)
         log('svg click')
       }
       if (seg.length < 2) return

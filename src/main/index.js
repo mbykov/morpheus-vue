@@ -3,6 +3,8 @@
 // import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
 import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
 import {log} from '../renderer/utils'
+import {createdbs, queryHanzi} from './createDBs'
+
 // import {segmenter} from '../../../segmenter'
 const _ = require('lodash')
 const path = require('path')
@@ -76,12 +78,11 @@ function createWindow () {
   tray.setToolTip('Morpheus-eastern')
   tray.setContextMenu(contextMenu)
 
-  let createdbs = require('./createDBs')
-  let dbns = createdbs(app)
+  app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-eastern'))
+  let upath = app.getPath('userData')
+  // let createdbs = require('./createDBs')
+  let dbns = createdbs(upath)
   log('DBNS', dbns.length)
-  // ipcMain.on('getdbs', function(event, name) {
-  //   mainWindow.webContents.send('dbs', dbs)
-  // })
 
   // 我们现在没有钱。
   ipcMain.on('data', function (event, str) {
@@ -98,6 +99,27 @@ function createWindow () {
         mainWindow.webContents.send('data', data)
         // mainWindow.webContents.send('clause', null)
       }
+    })
+  })
+
+  ipcMain.on('hanzi', function (event, seg) {
+    log('HANZI', seg)
+    // queryHanzi(upath, seg, function (err, res) {
+    //   if (err) return log('err hanzi')
+    //   else {
+    //     log('RES::', res)
+    //     // mainWindow.webContents.send('data', data)
+    //   }
+    // })
+    // let ds = queryHanzi(upath, seg)
+    // log('=>DS', ds)
+    Promise.resolve(queryHanzi(upath, seg)).then(function (res) {
+      log('main=>>>', res)
+      // if (!res || !res.rows) throw new Error('no hanzi result')
+      // let rdocs = _.compact(res.rows.map(row => { return row.doc }))
+      log('MAIN DOCS')
+    }).catch(function (err) {
+      console.log('ERR HANZI', err)
     })
   })
 }
@@ -117,9 +139,19 @@ app.on('activate', () => {
 })
 
 // 根據中央社報導，童子賢今天出 席科技部記者會，
+// function queryHanzi (seg, cb) {
+// function recursive(data){
+//   return newThenable(data).then(function(val){
+//     if (val.a){
+//       return val
+//     } else {
+//       return recursive(val)
+//     }
+//   })
+// }
+
 function queryDBs (dbns, str, cb) {
   let keys = parseKeys(str)
-
   Promise.all(dbns.map(function (dbn) {
     let db = dbn.db
     return db.allDocs({
