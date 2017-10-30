@@ -1,5 +1,6 @@
 <template>
-  <div id="hanzi">==== HANZI ====
+  <div id="hanzi">
+    <!-- <embed src="./hanzi.svg" alt="Kiwi standing on oval"> -->
   </div>
 </template>
 

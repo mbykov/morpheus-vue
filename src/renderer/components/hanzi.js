@@ -1,10 +1,13 @@
 //
 
 import { EventBus } from './bus.js'
-import {log} from '../utils'
+import {log, q} from '../utils'
 import _ from 'lodash'
 
-log('=== hanzi-recu')
+let fs = require('fs');
+let path = require('path');
+
+
 export default {
   name: 'hanzi',
   created () {
@@ -20,12 +23,36 @@ export default {
   },
   data: function () {
     return {
-      dict: ''
+      svg: 'svg'
     }
   },
   methods: {
     showHanzi: function (data) {
       log('== ответ hanzi', data)
+
+      let hanzipath = path.join(__dirname, './hanzi.svg');
+      let html = fs.readFileSync(hanzipath,'utf8').trim();
+      log('HTML', html)
+
+      // let svg = require('./hanzi.svg')
+      // log('== svg', svg)
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(html, "image/svg+xml");
+      let el = q('#hanzi')
+      // el.appendChild(doc)
+      // error on line 1 at column 1: Document is empty
+
+      el.appendChild(
+        el.ownerDocument.importNode(doc.documentElement, true)
+      )
+      // frame.innerHTML = svg
+      // this.svg = svg
     }
   }
+}
+
+let drawSVG = function(svgStr) {
+  var parser = new DOMParser();
+  var dom = parser.parseFromString(svgStr, "text/xml");
+  document.getElementById('hanzi').appendChild(dom.documentElement);
 }
