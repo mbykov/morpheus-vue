@@ -1,5 +1,5 @@
 <template>
-  <div id="hanzi">
+  <div id="hanzi">HANZI
     <!-- <embed src="./hanzi.svg" alt="Kiwi standing on oval"> -->
   </div>
 </template>

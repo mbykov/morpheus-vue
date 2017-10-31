@@ -36,7 +36,7 @@ export default {
       ambis: '',
       showrec: true,
       ohanzi: '',
-      odict: ''
+      odict: true
     }
   },
 
@@ -103,7 +103,9 @@ export default {
         let seg = ev.target.textContent
         let data = {seg: seg, cl: 'no-result', hole: true}
         EventBus.$emit('show-dict', data)
+        this.odict = true
       } else if (ev.target.classList.contains('seg')) {
+        this.odict = true
         let cl = findAncestor(ev.target, 'cl')
         let clkey = cl.textContent
         let seg = ev.target.textContent
@@ -121,6 +123,8 @@ export default {
         ipcRenderer.send('hanzi', seg)
         // TODO: это унести в ответ ipc, и реальные data
         // EventBus.$emit('show-hanzi', seg)
+        this.odict = false
+        this.ohanzi = true
         log('svg click')
       }
       if (seg.length < 2) return

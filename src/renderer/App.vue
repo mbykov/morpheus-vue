@@ -13,8 +13,8 @@
          <ambis-popup v-show="ambis"></ambis-popup>
          <recursive-popup v-show="recsegs"></recursive-popup>
          <!-- <transition> -->
-         <dicts :odict="odict"></dicts>
-         <hanzi :ohanzi="ohanzi"></hanzi>
+         <dicts :odict="odict" v-show="odict"></dicts>
+         <hanzi :ohanzi="ohanzi" v-show="ohanzi"></hanzi>
          <!-- </transition> -->
        </div>
   </div>
