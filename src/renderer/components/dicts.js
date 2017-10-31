@@ -6,7 +6,11 @@ import _ from 'lodash'
 
 export default {
   name: 'dicts',
-  // props: ['odict'], // не задействовано, потому что bus.event
+  data: function () {
+    return {
+      dict: ''
+    }
+  },
   created () {
     EventBus.$on('show-dict', data => {
       if (data.hole) {
@@ -21,9 +25,4 @@ export default {
       // log('>>', this.dict)
     })
   },
-  data: function () {
-    return {
-      dict: ''
-    }
-  }
 }
