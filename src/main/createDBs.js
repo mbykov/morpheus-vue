@@ -40,71 +40,28 @@ export function createdbs (upath) {
 
 // 古
 // 件
-export function queryHanzi (upath, seg) {
+export function queryHanzi (upath, seg, cb) {
   console.log('=====> BEFORE', seg)
   let keys = [seg]
   let dpath = path.resolve(upath, 'hanzi')
-  // log('DPATH', dpath)
-
   let dstate = jetpack.exists(dpath)
-  if (dstate) {
-    let pouch = new PouchDB(dpath)
-    return pouch.allDocs({
-      keys: keys,
-      include_docs: true
-    }).then(function (res) {
-      log('-->', res)
-      if (!res || !res.rows) throw new Error('no dbn result')
-      let rdocs = _.compact(res.rows.map(row => { return row.doc }))
-      return rdocs
-    }).catch(function (err) {
-      log('ERR query HANZI', err)
-    })
-  } else {
+  if (!dstate) {
     log('NO DB query HANZI', dpath)
+    return
   }
+  let pouch = new PouchDB(dpath)
+  let opt = {keys: keys, include_docs: true}
+  pouch.allDocs(opt).then(function (res) {
+    if (!res || !res.rows) throw new Error('no dbn result')
+    let docs = _.compact(res.rows.map(row => { return row.doc }))
+    return Promise.all(docs.map(function (doc) {
+      return doc
+    }))
+  }).then(function (docs) {
+    let doc = docs[0]
+    delete doc._rev
+    cb(null, docs[0])
+  }).catch(function (err) {
+    log('ERR query HANZI', err, null)
+  })
 }
-
-// 根據中央社報導，童子賢今天出 席科技部記者會，
-// function queryHanzi (seg, cb) {
-// function recursive(data){
-//   return newThenable(data).then(function(val){
-//     if (val.a){
-//       return val
-//     } else {
-//       return recursive(val)
-//     }
-//   })
-// }
-
-//   Promise.all(dbns.map(function (dbn) {
-//     let db = dbn.db
-//     return db.allDocs({
-//       keys: keys,
-//       include_docs: true
-//     }).then(function (res) {
-//       if (!res || !res.rows) throw new Error('no dbn result')
-//       let rdocs = _.compact(res.rows.map(row => { return row.doc }))
-//       if (!rdocs.length) return
-//       // rdocs.forEach(d => { d.dname = db.dname })
-//       rdocs.forEach(rd => {
-//         rd.docs.forEach(d => {
-//           d.dname = db.dname
-//           d.dict = rd._id
-//         })
-//       })
-//       // return _.flatten(_.compact(docs))
-//       return rdocs
-//     }).catch(function (err) {
-//       cb(err, null)
-//       log('ERR 1', err)
-//     })
-//   })).then(function (arrayOfResults) {
-//     let flats = _.flatten(_.compact(arrayOfResults))
-//     // log('FLATS', flats)
-//     cb(null, flats)
-//   }).catch(function (err) {
-//     log('ERR 2', err)
-//     cb(err, null)
-//   })
-// }

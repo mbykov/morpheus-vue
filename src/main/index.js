@@ -104,22 +104,12 @@ function createWindow () {
 
   ipcMain.on('hanzi', function (event, seg) {
     log('HANZI', seg)
-    // queryHanzi(upath, seg, function (err, res) {
-    //   if (err) return log('err hanzi')
-    //   else {
-    //     log('RES::', res)
-    //     // mainWindow.webContents.send('data', data)
-    //   }
-    // })
-    // let ds = queryHanzi(upath, seg)
-    // log('=>DS', ds)
-    Promise.resolve(queryHanzi(upath, seg)).then(function (res) {
-      log('main=>>>', res)
-      // if (!res || !res.rows) throw new Error('no hanzi result')
-      // let rdocs = _.compact(res.rows.map(row => { return row.doc }))
-      log('MAIN DOCS')
-    }).catch(function (err) {
-      console.log('ERR HANZI', err)
+    queryHanzi(upath, seg, function (err, doc) {
+      if (err) {
+        return
+      }
+      log('maindoc=>>>', doc.decomposition)
+      mainWindow.webContents.send('hanzi', doc)
     })
   })
 }

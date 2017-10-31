@@ -49,8 +49,8 @@ export default {
 
   created () {
     this.setGrid()
-    ipcRenderer.on('hanzi', function (event, data) {
-      log('IPC SVG', data)
+    ipcRenderer.on('hanzi', function (event, doc) {
+      log('IPC SVG', doc)
       // TODO - сделать реальные данные из main, вызвать компонент
     })
     // EventBus.$on('show-ambis', data => {
