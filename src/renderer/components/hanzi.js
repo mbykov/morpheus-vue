@@ -36,27 +36,29 @@ export default {
   data: function () {
     return {
       paths: paths,
-      hanzi: ''
+      hanzi: {pinyin: []}
     }
   },
   methods: {
     showHanzi: function (doc) {
       log('IPC SVG', doc)
+      // this.paths = doc.strokes
+      this.hanzi = doc
 
-      let hanzipath = path.join(__dirname, './hanzi.svg');
-      let html = fs.readFileSync(hanzipath,'utf8').trim();
+      // let hanzipath = path.join(__dirname, './hanzi.svg');
+      // let html = fs.readFileSync(hanzipath,'utf8').trim();
 
-      // let svg = require('./hanzi.svg')
-      // log('== svg', svg)
-      var parser = new DOMParser();
-      var doc = parser.parseFromString(html, "image/svg+xml");
-      let el = q('#hanzi')
-      // el.appendChild(doc)
-      // error on line 1 at column 1: Document is empty
+      // // let svg = require('./hanzi.svg')
+      // // log('== svg', svg)
+      // var parser = new DOMParser();
+      // var doc = parser.parseFromString(html, "image/svg+xml");
+      // let el = q('#hanzi')
+      // // el.appendChild(doc)
+      // // error on line 1 at column 1: Document is empty
 
-      el.appendChild(
-        el.ownerDocument.importNode(doc.documentElement, true)
-      )
+      // el.appendChild(
+      //   el.ownerDocument.importNode(doc.documentElement, true)
+      // )
       // frame.innerHTML = svg
       // this.svg = svg
     }
