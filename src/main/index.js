@@ -69,7 +69,6 @@ function createWindow () {
   let trayicon = path.join(__dirname, '../../build/icons/64x64.png')
   // let trayicon = path.join(__dirname, '../build/book.png')
   tray = new Tray(trayicon)
-  // log('TRAY', tray)
   const contextMenu = Menu.buildFromTemplate([
     {label: 'help', role: 'help'},
     {label: 'learn more', click () { shell.openExternal('http://diglossa.org') }},
@@ -80,38 +79,25 @@ function createWindow () {
 
   app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-eastern'))
   let upath = app.getPath('userData')
-  // let createdbs = require('./createDBs')
   let dbns = createdbs(upath)
-  log('DBNS', dbns.length)
 
-  // 我们现在没有钱。
   ipcMain.on('data', function (event, str) {
-    log('_DATA_', str)
     queryDBs(dbns, str, function (err, res) {
-      if (err) return log('err dbs')
+      if (err) return console.log('err dbs')
       else {
-        // log('RES::', res)
-        // let segmented = segmenter(data, res)
-        // plog(segmented, 3)
-        // log('Segmented')
         let data = {str: str, res: res}
-        // mainWindow.webContents.send('clause', segmented)
         mainWindow.webContents.send('data', data)
-        // mainWindow.webContents.send('clause', null)
       }
     })
   })
 
   ipcMain.on('hanzi', function (event, seg) {
-    log('HANZI', seg)
-    queryHanzi(upath, seg).then(function(doc) {
-      log('maindoc=>>>', doc.decomposition)
+    queryHanzi(upath, seg).then(function (doc) {
       mainWindow.webContents.send('hanzi', doc)
-    }).catch(function(err) {
-      log('catched hanzi err')
+    }).catch(function (err) {
+      log('catched hanzi err', err)
     })
   })
-
 }
 
 app.on('ready', createWindow)
@@ -127,18 +113,6 @@ app.on('activate', () => {
     createWindow()
   }
 })
-
-// 根據中央社報導，童子賢今天出 席科技部記者會，
-// function queryHanzi (seg, cb) {
-// function recursive(data){
-//   return newThenable(data).then(function(val){
-//     if (val.a){
-//       return val
-//     } else {
-//       return recursive(val)
-//     }
-//   })
-// }
 
 function queryDBs (dbns, str, cb) {
   let keys = parseKeys(str)
@@ -162,14 +136,13 @@ function queryDBs (dbns, str, cb) {
       return rdocs
     }).catch(function (err) {
       cb(err, null)
-      log('ERR 1', err)
+      console.log('ERR 1', err)
     })
   })).then(function (arrayOfResults) {
     let flats = _.flatten(_.compact(arrayOfResults))
-    // log('FLATS', flats)
     cb(null, flats)
   }).catch(function (err) {
-    log('ERR 2', err)
+    console.log('ERR 2', err)
     cb(err, null)
   })
 }

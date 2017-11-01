@@ -1,8 +1,9 @@
 //
 
 import { EventBus } from './bus'
-import {log, q, segs2dict, placePopup} from '../utils'
+import {log, q, placePopup} from '../utils'
 import _ from 'lodash'
+import {ipcRenderer} from 'electron'
 
 export default {
   name: 'ambis-popup',
@@ -34,9 +35,13 @@ export default {
     },
 
     showRec: function (ev) {
-      // log('SHOW RECU')
-      let data = {seg: ev.target.textContent, coords: getCoords(ev.target), cl: this.cl}
-      EventBus.$emit('show-recursive', data)
+      let seg = ev.target.textContent
+      if (seg.length > 1) {
+        let data = {seg: seg, coords: getCoords(ev.target), cl: this.cl}
+        EventBus.$emit('show-recursive', data)
+      } else {
+        ipcRenderer.send('hanzi', seg)
+      }
     }
   }
 }

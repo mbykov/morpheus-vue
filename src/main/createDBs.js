@@ -51,7 +51,7 @@ export function queryHanzi (upath, seg) {
   let pouch = new PouchDB(dpath)
   let opt = {keys: keys, include_docs: true}
 
-  let promise =  new Promise((resolve, reject) => {
+  let promise = new Promise((resolve, reject) => {
     pouch.allDocs(opt).then(function (res) {
       if (!res || !res.rows) throw new Error('no dbn result')
       let docs = _.compact(res.rows.map(row => { return row.doc }))

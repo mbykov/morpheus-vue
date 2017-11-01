@@ -50,13 +50,14 @@ export default {
     this.setGrid()
     let that = this
     ipcRenderer.on('hanzi', function (event, doc) {
-      // log('IPC SVG', doc)
-      that.hanzi = true
+      that.odict = false
+      that.ohanzi = true
       EventBus.$emit('show-hanzi', doc)
     })
-    // EventBus.$on('show-ambis', data => {
-      // this.ambis = true
-    // })
+    EventBus.$on('show-dict', data => {
+      this.odict = true
+      this.ohanzi = false
+    })
     EventBus.$on('show-recursive', data => {
       this.recsegs = true
     })
@@ -82,14 +83,12 @@ export default {
       this.recsegs = false
       this.ohanzi = false
       if (ev.target.classList.contains('cl')) {
-        // log('CL', ev.target.textContent)
         let cls = qs('.clause')
         cls.forEach(cl => { cl.classList.remove('clause') })
         ev.target.classList.add('clause')
         let data = ev.target.textContent
         ipcRenderer.send('data', data)
       } else if (ev.target.classList.contains('ambi')) {
-        // log('AMBIS', ev.target)
         this.ambis = true
         let cl = findAncestor(ev.target, 'cl')
         let clkey = cl.textContent
@@ -116,15 +115,11 @@ export default {
       if (ev.shiftKey) return
       if (ev.target.nodeName !== 'SPAN') return
       if (!ev.target.classList.contains('seg')) return
-      // log('REC-CLICK', ev.target)
       let seg = ev.target.textContent
       if (seg.length === 1) {
         ipcRenderer.send('hanzi', seg)
-        // TODO: это унести в ответ ipc, и реальные data
-        // EventBus.$emit('show-hanzi', seg)
         this.odict = false
         this.ohanzi = true
-        log('svg click')
       }
       if (seg.length < 2) return
       this.recsegs = true
@@ -151,7 +146,6 @@ function getCoords (el) {
 clipboard
   .on('text-changed', () => {
     let currentText = clipboard.readText()
-    // log('TEXT:', currentText)
     let pars = zh(currentText)
     if (!pars) return
     split.setSizes([60, 40])
@@ -166,7 +160,6 @@ clipboard
       })
       text.appendChild(par)
     })
-    log('PARS:', pars)
   })
   .startWatching()
 
@@ -177,18 +170,14 @@ ipcRenderer.on('before-quit', function (event) {
 
 // строка сегментов - spans
 ipcRenderer.on('data', function (event, data) {
-  log('_RES_:', data.str, data.res)
   let clause = q('.clause')
   if (!clause) return
   // есть еще гипотетический случай, когда сумма segs не полная. Как обработать? Какой-то no-resut нужен
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
   let segs = segmenter(data.str, dicts)
-  // log('SGS', segs)
   let key = clause.textContent
-  // log('KEY', key)
 
-  // small 案件案件刑戋戔刑事 jiān. 刑事案件
   if (!EventBus.res) EventBus.res = {}
   EventBus.res[key] = {docs: docs, segs: segs}
   setSegs(clause, segs)
