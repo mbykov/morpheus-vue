@@ -11,3 +11,7 @@
 ul {
     list-style-type: none;
 }
+
+.component {
+    fint-size: 42px;
+}

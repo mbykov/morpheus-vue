@@ -19,18 +19,39 @@
       <li><b>pinyin</b>: {{hanzi.pinyin.join(', ')}}</li>
       <li><b>decomposition</b>: {{hanzi.decomposition}}</li>
       <li><b>radical</b>: {{hanzi.radical}}</li>
-      <li v-if="hanzi.etymology">
+      <li v-if="hanzi.etymology"><b>etymology</b>:
         <ul>
-          <li>etymology:</li>
           <li>type: {{hanzi.etymology.type}}</li>
           <li v-if="hanzi.etymology.phonetic">phonetic: {{hanzi.etymology.phonetic}}</li>
           <li v-if="hanzi.etymology.semantic">semantic: {{hanzi.etymology.semantic}}</li>
           <li>hint: {{hanzi.etymology.hint}}</li>
           <li></li>
+        </ul>
+      </li>
+      <li>&nbsp;</li>
+      <li v-if="hanzi.children" v-for="child in hanzi.children"><b><span class="component">{{child.dict}}</span></b> conponent:
+        <ul>
+          <!-- <li><b>dict</b>: {{child.dict}}</li> -->
+          <li><b>def</b>: {{child.definition}}</li>
+          <li><b>decomposition</b>: {{child.decomposition}}</li>
+          <li><b>pinyin</b>: {{child.pinyin.join(', ')}}</li>
+          <li><b>radical</b>: {{child.radical}}</li>
+          <li v-if="child.etymology"><b>etymology</b>:
+            <ul>
+              <li>type: {{child.etymology.type}}</li>
+              <li v-if="child.etymology.phonetic">phonetic: {{child.etymology.phonetic}}</li>
+              <li v-if="child.etymology.semantic">semantic: {{child.etymology.semantic}}</li>
+              <li>hint: {{child.etymology.hint}}</li>
+              <li></li>
+            </ul>
+          <li>&nbsp;</li>
+          <li><b></b></li>
+          <!-- <li>child: {{child}}</li> -->
           <li></li>
         </ul>
       </li>
-      <li></li>
+      <li>&nbsp;</li>
+       <li></li>
       <li></li>
       <li></li>
       </ul>
