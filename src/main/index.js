@@ -104,14 +104,14 @@ function createWindow () {
 
   ipcMain.on('hanzi', function (event, seg) {
     log('HANZI', seg)
-    queryHanzi(upath, seg, function (err, doc) {
-      if (err) {
-        return
-      }
+    queryHanzi(upath, seg).then(function(doc) {
       log('maindoc=>>>', doc.decomposition)
       mainWindow.webContents.send('hanzi', doc)
+    }).catch(function(err) {
+      log('catched hanzi err')
     })
   })
+
 }
 
 app.on('ready', createWindow)

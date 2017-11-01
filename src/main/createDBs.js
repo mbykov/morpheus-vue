@@ -38,9 +38,8 @@ export function createdbs (upath) {
   return databases
 }
 
-// 古
-// 件
-export function queryHanzi (upath, seg, cb) {
+// 古 件
+export function queryHanzi (upath, seg) {
   console.log('=====> BEFORE', seg)
   let keys = [seg]
   let dpath = path.resolve(upath, 'hanzi')
@@ -51,17 +50,22 @@ export function queryHanzi (upath, seg, cb) {
   }
   let pouch = new PouchDB(dpath)
   let opt = {keys: keys, include_docs: true}
-  pouch.allDocs(opt).then(function (res) {
-    if (!res || !res.rows) throw new Error('no dbn result')
-    let docs = _.compact(res.rows.map(row => { return row.doc }))
-    return Promise.all(docs.map(function (doc) {
-      return doc
-    }))
-  }).then(function (docs) {
-    let doc = docs[0]
-    delete doc._rev
-    cb(null, docs[0])
-  }).catch(function (err) {
-    log('ERR query HANZI', err, null)
+
+  let promise =  new Promise((resolve, reject) => {
+    pouch.allDocs(opt).then(function (res) {
+      if (!res || !res.rows) throw new Error('no dbn result')
+      let docs = _.compact(res.rows.map(row => { return row.doc }))
+      return Promise.all(docs.map(function (doc) {
+        return doc
+      }))
+    }).then(function (docs) {
+      let doc = docs[0]
+      delete doc._rev
+      resolve(doc)
+    }).catch(function (err) {
+      log('ERR query HANZI', err)
+      reject(err)
+    })
   })
+  return promise
 }

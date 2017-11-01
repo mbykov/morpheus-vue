@@ -32,7 +32,6 @@ export default {
       recsegs: null,
       reccoords: null,
       acoords: {},
-      // ambisegs: false,
       ambis: '',
       showrec: true,
       ohanzi: '',
@@ -49,8 +48,10 @@ export default {
 
   created () {
     this.setGrid()
+    let that = this
     ipcRenderer.on('hanzi', function (event, doc) {
       // log('IPC SVG', doc)
+      that.hanzi = true
       EventBus.$emit('show-hanzi', doc)
     })
     // EventBus.$on('show-ambis', data => {
@@ -75,16 +76,13 @@ export default {
     // =====>>> 你们都用wiki吗？====>>> BUG
     // 我们现在没有钱。
     showDict (ev) {
-      this.ambis = null
-      this.recsegs = null
-      // log('EV', ev.target.classList)
       if (ev.target.nodeName !== 'SPAN') return
-      // let cl = findAncestor(ev.target, 'cl')
-      // let clkey = cl.textContent
-      // log('=cl=', cl)
+      if (ev.shiftKey) return
+      this.ambis = false
+      this.recsegs = false
+      this.ohanzi = false
       if (ev.target.classList.contains('cl')) {
-        // либо пересчитывать, либо запоминать каждую клаузу - потому что новая затирает .res сейчас
-        log('CL', ev.target.textContent)
+        // log('CL', ev.target.textContent)
         let cls = qs('.clause')
         cls.forEach(cl => { cl.classList.remove('clause') })
         ev.target.classList.add('clause')
@@ -115,6 +113,7 @@ export default {
     },
 
     showRec (ev) {
+      if (ev.shiftKey) return
       if (ev.target.nodeName !== 'SPAN') return
       if (!ev.target.classList.contains('seg')) return
       // log('REC-CLICK', ev.target)

@@ -34,12 +34,13 @@ export default {
 
     showDict: function (ev) {
       let seg = ev.target.textContent
-      // let cl = findAncestor(ev.target, 'cl')
-      // log('====FROMDICT', cl)
-      // ах ты ёшкин кот, это не предок
-      // let clkey = cl.textContent
       let data = {seg: seg, cl: this.cl}
       EventBus.$emit('show-dict', data)
+    },
+
+    queryHanzi: function(ev) {
+      let seg = ev.target.textContent
+      EventBus.$emit('show-hanzi', seg)
     }
   }
 }

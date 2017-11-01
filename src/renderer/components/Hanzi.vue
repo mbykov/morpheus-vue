@@ -16,7 +16,8 @@
     <div id="hanzidescr">
       <ul>
       <li><b>definition</b>: {{hanzi.definition}}</li>
-      <li><b>pinyin</b>: {{hanzi.pinyin.join(', ')}}</li>
+      <li><b>pinyin</b>: {{hanzi.pinyin}}</li>
+      <!-- <li><b>pinyin</b>: {{hanzi.pinyin.join(', ')}}</li> -->
       <li><b>decomposition</b>: {{hanzi.decomposition}}</li>
       <li><b>radical</b>: {{hanzi.radical}}</li>
       <li v-if="hanzi.etymology"><b>etymology</b>:
@@ -34,7 +35,8 @@
           <!-- <li><b>dict</b>: {{child.dict}}</li> -->
           <li><b>def</b>: {{child.definition}}</li>
           <li><b>decomposition</b>: {{child.decomposition}}</li>
-          <li><b>pinyin</b>: {{child.pinyin.join(', ')}}</li>
+          <li><b>pinyin</b>: {{child.pinyin}}</li>
+          <!-- <li><b>pinyin</b>: {{child.pinyin.join(', ')}}</li> -->
           <li><b>radical</b>: {{child.radical}}</li>
           <li v-if="child.etymology"><b>etymology</b>:
             <ul>
