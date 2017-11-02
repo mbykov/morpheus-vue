@@ -30,6 +30,7 @@ build_script:
   #- yarn test
   # - yarn build
   - yarn
+  - yarn add cfonts
   - yarn release
 
 test: off
