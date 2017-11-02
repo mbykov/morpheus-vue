@@ -40,6 +40,9 @@ script:
 deploy:
   provider: releases
   skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+    on:
+    tags: true
 branches:
   only:
   - master
