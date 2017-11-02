@@ -10,13 +10,13 @@ module.exports = function (win, e) {
         {role: 'quit'}
       ]
     },
-    {
-      label: 'actions',
-      submenu: [
-        {label: 'dictionaries', click () { win.webContents.send('section', 'dicts') }},
-        {label: 'signup/login'}
-      ]
-    },
+    // {
+    //   label: 'actions',
+    //   submenu: [
+    //     {label: 'dictionaries', click () { win.webContents.send('section', 'dicts') }},
+    //     {label: 'signup/login'}
+    //   ]
+    // },
     {
       label: 'about',
       submenu: [

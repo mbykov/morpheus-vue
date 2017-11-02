@@ -32,6 +32,7 @@ export default {
     },
 
     showDict: function (ev) {
+      // TODO: а если длина больше 1, и м.б. и rec, и ambis?
       let seg = ev.target.textContent
       let data = {seg: seg, cl: this.cl}
       EventBus.$emit('show-dict', data)

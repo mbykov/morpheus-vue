@@ -122,6 +122,7 @@ export default {
         this.ohanzi = true
       }
       if (seg.length < 2) return
+      // TODO: next level
       this.recsegs = true
       let cl = findAncestor(ev.target, 'cl')
       let clkey = cl.textContent
