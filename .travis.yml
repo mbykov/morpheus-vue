@@ -39,6 +39,7 @@ script:
 - yarn run release
 deploy:
   provider: releases
+  skip_cleanup: true
 branches:
   only:
   - master
