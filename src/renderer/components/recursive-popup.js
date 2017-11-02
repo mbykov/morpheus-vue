@@ -1,7 +1,7 @@
 //
 
 import _ from 'lodash'
-import {log, q, placePopup} from '../utils'
+import {q, placePopup} from '../utils'
 import { EventBus } from './bus'
 import {segmenter} from '../../../../segmenter'
 import {ipcRenderer} from 'electron'

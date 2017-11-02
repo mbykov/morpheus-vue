@@ -6,7 +6,7 @@ import Dicts from '@/components/Dicts'
 import Hanzi from '@/components/Hanzi'
 
 import _ from 'lodash'
-import {log, q, qs, empty, create, span} from './utils'
+import {q, qs, empty, create, span} from './utils'
 import 'han-css/dist/han.css'
 import {ipcRenderer} from 'electron'
 

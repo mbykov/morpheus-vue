@@ -1,7 +1,7 @@
 //
 
 import { EventBus } from './bus.js'
-import {log} from '../utils'
+// import {log} from '../utils'
 import _ from 'lodash'
 
 export default {
