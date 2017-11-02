@@ -20,6 +20,7 @@
     "unit": "karma start test/unit/karma.conf.js",
     "postinstall": "npm run lint:fix"
   },
+  "release": "node .electron-vue/build.js && electron-builder",
   "homepage": "http://diglossa.org",
   "repository": "https://github.com/mbykov/morpheus-vue",
   "keywords": [
@@ -37,6 +38,13 @@
     "directories": {
       "output": "build"
     },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "mbykov",
+        "repo": "morpheus-vue"
+      }
+    ],
     "files": [
       "dist/electron/**/*"
     ],
