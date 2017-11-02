@@ -24,7 +24,7 @@ import { EventBus } from './components/bus'
 // import {segmenter} from 'recursive-segmenter'
 let segmenter = require('recursive-segmenter')
 // import {zh} from '../../../speckled-band'
-let zh = require('../../../speckled-band')
+let zh = require('speckled-band')
 
 const clipboard = require('electron-clipboard-extended')
 let split
