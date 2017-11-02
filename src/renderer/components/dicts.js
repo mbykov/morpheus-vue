@@ -17,7 +17,7 @@ export default {
         this.dict = {seg: data.seg, dbns: {'no result': []}}
         return
       }
-      let docs = _.filter(EventBus.res[data.cl].docs, doc => { return doc.dict === data.seg})
+      let docs = _.filter(EventBus.res[data.cl].docs, doc => { return doc.dict === data.seg })
       let dbns = _.groupBy(docs, 'dname')
       this.dict = {seg: data.seg, dbns: dbns}
     })

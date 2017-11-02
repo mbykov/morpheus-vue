@@ -38,7 +38,7 @@ export default {
       EventBus.$emit('show-dict', data)
     },
 
-    queryHanzi: function(ev) {
+    queryHanzi: function (ev) {
       let seg = ev.target.textContent
       ipcRenderer.send('hanzi', seg)
       // EventBus.$emit('show-hanzi', seg)
@@ -46,7 +46,7 @@ export default {
   }
 }
 
-function findAncestor (el, cls) {
-  while ((el = el.parentElement) && !el.classList.contains(cls));
-  return el;
-}
+// function findAncestor (el, cls) {
+//   while ((el = el.parentElement) && !el.classList.contains(cls));
+//   return el
+// }

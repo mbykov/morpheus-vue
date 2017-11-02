@@ -4,6 +4,7 @@ import AmbisPopup from '@/components/AmbisPopup'
 import RecursivePopup from '@/components/RecursivePopup'
 import Dicts from '@/components/Dicts'
 import Hanzi from '@/components/Hanzi'
+
 import _ from 'lodash'
 import {log, q, qs, empty, create, span} from './utils'
 import 'han-css/dist/han.css'
@@ -12,10 +13,7 @@ import {ipcRenderer} from 'electron'
 import {zh} from '../../../speckled-band'
 import {segmenter} from '../../../segmenter'
 
-const clipboard = require('electron-clipboard-extended')
-
 import Split from 'split.js'
-let split
 import code from './sections/code.html'
 import about from './sections/about.html'
 import ecbt from './sections/ecbt.html'
@@ -25,7 +23,10 @@ import acknowledgements from './sections/acknowledgements.html'
 import help from './sections/help.html'
 import { EventBus } from './components/bus'
 
-export default {
+const clipboard = require('electron-clipboard-extended')
+let split
+
+let vm = {
   name: 'electron-vue',
   data: function () {
     return {
@@ -60,6 +61,12 @@ export default {
     })
     EventBus.$on('show-recursive', data => {
       this.recsegs = true
+    })
+    EventBus.$on('close-popups', data => {
+      this.ambis = false
+      this.recsegs = false
+      this.ohanzi = false
+      this.odict = false
     })
   },
 
@@ -138,6 +145,8 @@ export default {
   }
 }
 
+export default vm
+
 function getCoords (el) {
   let rect = el.getBoundingClientRect()
   return {top: rect.top + 28, left: rect.left}
@@ -146,6 +155,8 @@ function getCoords (el) {
 // 根據中央社報導，童子賢今天出席科技部記者會，
 clipboard
   .on('text-changed', () => {
+    EventBus.$emit('close-popups')
+
     let currentText = clipboard.readText()
     let pars = zh(currentText)
     if (!pars) return
@@ -235,5 +246,5 @@ ipcRenderer.on('section', function (event, name) {
 // wtf?
 function findAncestor (el, cls) {
   while ((el = el.parentElement) && !el.classList.contains(cls));
-  return el;
+  return el
 }
