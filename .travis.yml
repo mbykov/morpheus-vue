@@ -37,6 +37,8 @@ install:
 script:
 #- xvfb-maybe node_modules/.bin/karma start test/unit/karma.conf.js
 - yarn run release
+deploy:
+  provider: releases
 branches:
   only:
   - master
