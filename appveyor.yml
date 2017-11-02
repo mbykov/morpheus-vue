@@ -23,14 +23,14 @@ install:
   - ps: Install-Product node 8 x64
   # - choco install yarn --ignore-dependencies
   # - git reset --hard HEAD
-  - yarn
+  # - yarn
+  - npm install
   - node --version
 
 build_script:
   #- yarn test
   # - yarn build
-  - yarn install
-  # - yarn add cfonts
-  - yarn release
+  - npm install
+  - npm run release
 
 test: off
