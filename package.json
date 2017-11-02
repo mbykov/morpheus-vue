@@ -18,9 +18,9 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "test": "npm run unit",
     "unit": "karma start test/unit/karma.conf.js",
+    "release": "node .electron-vue/build.js && electron-builder",
     "postinstall": "npm run lint:fix"
   },
-  "release": "node .electron-vue/build.js && electron-builder",
   "homepage": "http://diglossa.org",
   "repository": "https://github.com/mbykov/morpheus-vue",
   "keywords": [
