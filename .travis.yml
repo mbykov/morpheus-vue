@@ -43,8 +43,8 @@ deploy:
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   # api_key: $API_TOKEN
-  on:
-    tags: true
+  # on:
+    # tags: true
 branches:
   only:
   - master
