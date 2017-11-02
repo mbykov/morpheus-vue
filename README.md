@@ -1,6 +1,6 @@
 # electron-vue
 
-> An electron-vue project
+> An electron-vue project, just test
 
 #### Build Setup
 
