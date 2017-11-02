@@ -3,8 +3,11 @@
 import _ from 'lodash'
 import {q, placePopup} from '../utils'
 import { EventBus } from './bus'
-import {segmenter} from '../../../../segmenter'
 import {ipcRenderer} from 'electron'
+
+// import {segmenter} from '../../../../segmenter'
+// import {segmenter} from 'recursive-segmenter'
+let segmenter = require('recursive-segmenter')
 
 export default {
   name: 'recursive-popup',

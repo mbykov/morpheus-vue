@@ -10,9 +10,6 @@ import {q, qs, empty, create, span} from './utils'
 import 'han-css/dist/han.css'
 import {ipcRenderer} from 'electron'
 
-import {zh} from '../../../speckled-band'
-import {segmenter} from '../../../segmenter'
-
 import Split from 'split.js'
 import code from './sections/code.html'
 import about from './sections/about.html'
@@ -22,6 +19,12 @@ import screencast from './sections/screencast.html'
 import acknowledgements from './sections/acknowledgements.html'
 import help from './sections/help.html'
 import { EventBus } from './components/bus'
+
+// import {segmenter} from '../../../segmenter'
+// import {segmenter} from 'recursive-segmenter'
+let segmenter = require('recursive-segmenter')
+// import {zh} from '../../../speckled-band'
+let zh = require('../../../speckled-band')
 
 const clipboard = require('electron-clipboard-extended')
 let split

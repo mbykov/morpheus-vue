@@ -40,7 +40,6 @@ export function createdbs (upath) {
 
 // 古 件
 export function queryHanzi (upath, seg) {
-  console.log('=====> BEFORE', seg)
   let keys = [seg]
   let dpath = path.resolve(upath, 'hanzi')
   let dstate = jetpack.exists(dpath)

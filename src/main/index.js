@@ -6,10 +6,9 @@ import {log} from '../renderer/utils'
 import {createdbs, queryHanzi, queryDBs} from './createDBs'
 import { autoUpdater } from 'electron-updater'
 
-// import {segmenter} from '../../../segmenter'
-// const _ = require('lodash')
 const path = require('path')
 // const util = require('util')
+// const _ = require('lodash')
 
 /**
  * Set `__static` path to static files in production

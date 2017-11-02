@@ -6725,9 +6725,9 @@ recast@~0.11.12:
     private "~0.1.5"
     source-map "~0.5.0"
 
-recursive-segmenter@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/recursive-segmenter/-/recursive-segmenter-0.3.1.tgz#ff2419b7a9f6c56d8c7a82f3951466b49a6ab0fb"
+recursive-segmenter@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/recursive-segmenter/-/recursive-segmenter-0.4.1.tgz#b8f80afb941ce0a37105a603f0bb7734d100cf2d"
   dependencies:
     lodash "^4.17.4"
 
@@ -7380,6 +7380,10 @@ spdy@^3.4.1:
     safe-buffer "^5.0.1"
     select-hose "^2.0.0"
     spdy-transport "^2.0.18"
+
+speckled-band@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/speckled-band/-/speckled-band-0.3.0.tgz#6d6c6e82b549100a4c4d2d8944d9b52cbc724751"
 
 speedometer@~0.1.2:
   version "0.1.4"
