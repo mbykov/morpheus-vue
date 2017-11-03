@@ -13,9 +13,9 @@ platform:
 cache:
   - node_modules
   - "%LOCALAPPDATA%\\Yarn"
-  # - '%APPDATA%\npm-cache'
-  # - '%USERPROFILE%\.electron'
-  # - '%USERPROFILE%\AppData\Local\Yarn\cache'
+  - '%APPDATA%\npm-cache'
+  - '%USERPROFILE%\.electron'
+  - '%USERPROFILE%\AppData\Local\Yarn\cache'
 
 init:
   - git config --global core.autocrlf input
