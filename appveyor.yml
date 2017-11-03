@@ -12,12 +12,12 @@ platform:
 
 cache:
   - node_modules
-  # - '%APPDATA%\npm-cache'
-  # - '%USERPROFILE%\.electron'
-  # - '%USERPROFILE%\AppData\Local\Yarn\cache'
+  - '%APPDATA%\npm-cache'
+  - '%USERPROFILE%\.electron'
+  - '%USERPROFILE%\AppData\Local\Yarn\cache'
 
-# init:
-  # - git config --global core.autocrlf input
+init:
+  - git config --global core.autocrlf input
 
 install:
   - ps: Install-Product node 8 x64
@@ -29,9 +29,9 @@ install:
   # - node --version
 
 build_script:
-  #- yarn test
-  # - yarn build
-  - yarn release
+  - yarn test
+  - yarn build
+  # - yarn release
   # - npm install
   # - npm run release
 
