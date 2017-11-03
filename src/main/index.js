@@ -47,6 +47,13 @@ function createWindow () {
 
   mainWindow.loadURL(winURL)
 
+  // let pckg = require('../../package.json')
+  // let name = pckg.name
+  // let version = pckg.version
+  // mainWindow.setTitle([name, 'v.', version].join(' '))
+  mainWindow.setTitle('=======')
+  console.log('TITLE', mainWindow.getTitle())
+
   mainWindow.on('closed', () => {
     mainWindow = null
     tray = null
@@ -77,7 +84,12 @@ function createWindow () {
   tray.setToolTip('Morpheus-eastern')
   tray.setContextMenu(contextMenu)
 
-  app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-eastern'))
+  // ELECTRON_IS_DEV to 1
+  // /home/michael/.config/electron-vue
+  // HACK
+  app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'electron-vue'))
+  // let userDataPath = '/home/michael/.config/electron-vue'
+  log('USERDATA', app.getPath('userData'))
   let upath = app.getPath('userData')
   let dbns = createdbs(upath)
 

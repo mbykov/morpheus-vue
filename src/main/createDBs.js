@@ -10,8 +10,15 @@ export function createdbs (upath) {
   // HACK!
   // app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-eastern'))
   // let upath = app.getPath('userData')
+  // let fname = 'morpheus-config-new.json'
   // ================ NEW !!!!!!!!!!!!
-  let fname = 'morpheus-config-new.json'
+  /*
+    если нет $userData/electron-vue/pouch - создать
+    если нет pouch/hanzi - создать и скопировать
+    если нет pouch/ntireader - создать и скопировать, записать info.json
+
+   */
+  let fname = 'morpheus-config.json'
   let cpath = path.join(upath, fname)
   let dbns
   try {

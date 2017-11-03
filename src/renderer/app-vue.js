@@ -6,7 +6,7 @@ import Dicts from '@/components/Dicts'
 import Hanzi from '@/components/Hanzi'
 
 import _ from 'lodash'
-import {q, qs, empty, create, span} from './utils'
+import {log, q, qs, empty, create, span} from './utils'
 import 'han-css/dist/han.css'
 import {ipcRenderer} from 'electron'
 
@@ -71,7 +71,12 @@ let vm = {
       this.ohanzi = false
       this.odict = false
     })
+    // document.body.addEventListener('scroll', this.onWheel)
+    // document.body.addEventListener('scroll', log('---->>>'))
   },
+  // destroyed () {
+  //   document.body.removeEventListener('scroll', this.onWheel)
+  // },
 
   methods: {
     setGrid () {
@@ -119,6 +124,17 @@ let vm = {
         let data = {seg: seg, cl: clkey}
         EventBus.$emit('show-dict', data)
       }
+    },
+
+    onWheel (ev) {
+      log('scroll', ev.deltaY)
+      let isShift = !!ev.shiftKey;
+      if (!isShift) return
+      let oRes = q('#results')
+      oRes.scrollTop += ev.deltaY
+      let oHanzi = q('#hanzi')
+      oHanzi.scrollTop += ev.deltaY
+      ev.preventDefault()
     },
 
     showRec (ev) {
