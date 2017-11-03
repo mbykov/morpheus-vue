@@ -21,16 +21,18 @@ init:
   - git config --global core.autocrlf input
 
 install:
-  - ps: Install-Product node 7 x64
+  - ps: Install-Product node 8 x64
   # - choco install yarn --ignore-dependencies
   # - git reset --hard HEAD
   - yarn install
   # - npm install
   # - yarn install
-  - node --version
+  # - node --version
+  - yarn --version
 
 build_script:
   # - yarn test
+  - yarn add cfonts
   - yarn build
   # - yarn release
   # - npm install
