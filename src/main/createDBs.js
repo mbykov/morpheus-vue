@@ -1,31 +1,61 @@
+import {app} from 'electron'
 import {log} from '../renderer/utils'
 const path = require('path')
 const jetpack = require('fs-jetpack')
 const _ = require('lodash')
 let PouchDB = require('pouchdb')
 
-// module.exports = createDBs
+export function checkDBs (upath) {
+  let dpath = path.resolve(upath, 'pouch')
+  let spath = path.resolve(__dirname, '../..', 'pouch')
 
-export function createdbs (upath) {
-  // HACK!
-  // app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-eastern'))
-  // let upath = app.getPath('userData')
-  // let fname = 'morpheus-config-new.json'
-  // ================ NEW !!!!!!!!!!!!
-  /*
-    если нет $userData/electron-vue/pouch - создать
-    если нет pouch/hanzi - создать и скопировать
-    если нет pouch/ntireader - создать и скопировать, записать info.json
+  const nsrc = path.resolve(spath, 'ntireader')
+  const ndest = path.resolve(dpath, 'ntireader')
+  const hsrc = path.resolve(spath, 'hanzi')
+  const hdest = path.resolve(dpath, 'hanzi')
 
-   */
-  let fname = 'morpheus-config.json'
-  let cpath = path.join(upath, fname)
+  try {
+    let dstate = jetpack.exists(dpath)
+    if (!dstate) {
+      jetpack.dir(dpath, {empty: true})
+    }
+  } catch (err) {
+    log('ERR options', err)
+    app.quit()
+  }
+
+  try {
+    let nstate = jetpack.exists(ndest)
+    if (!nstate) {
+      jetpack.copy(nsrc, ndest, { matching: '**/*' })
+    }
+  } catch (err) {
+    log('ERR options', err)
+    app.quit()
+  }
+
+  try {
+    let hstate = jetpack.exists(hdest)
+    if (!hstate) {
+      jetpack.copy(hsrc, hdest, { matching: '**/*' })
+    }
+  } catch (err) {
+    log('ERR options', err)
+    app.quit()
+  }
+  return true
+}
+
+export function createDBs (upath) {
+  let cname = 'morpheus-config.json'
+  let cpath = path.join(upath, cname)
   let dbns
   try {
     let config = jetpack.read(cpath, 'json')
     dbns = config.dbns
   } catch (err) {
     console.log('ERR', err)
+    app.quit()
   }
   let databases = []
   dbns.forEach(dn => {
@@ -48,7 +78,7 @@ export function createdbs (upath) {
 // 古 件
 export function queryHanzi (upath, seg) {
   let keys = [seg]
-  let dpath = path.resolve(upath, 'hanzi')
+  let dpath = path.resolve(upath, 'pouch', 'hanzi', 'db')
   let dstate = jetpack.exists(dpath)
   if (!dstate) {
     log('NO DB query HANZI', dpath)

@@ -3,7 +3,7 @@
 // import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
 import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
 import {log} from '../renderer/utils'
-import {createdbs, queryHanzi, queryDBs} from './createDBs'
+import {checkDBs, createDBs, queryHanzi, queryDBs} from './createDBs'
 import { autoUpdater } from 'electron-updater'
 
 const path = require('path')
@@ -47,11 +47,11 @@ function createWindow () {
 
   mainWindow.loadURL(winURL)
 
-  // let pckg = require('../../package.json')
-  // let name = pckg.name
-  // let version = pckg.version
-  // mainWindow.setTitle([name, 'v.', version].join(' '))
-  mainWindow.setTitle('=======')
+  let pckg = require('../../package.json')
+  let name = pckg.name
+  let version = pckg.version
+  mainWindow.setTitle([name, 'v.', version].join(' '))
+  // mainWindow.setTitle('=======')
   console.log('TITLE', mainWindow.getTitle())
 
   mainWindow.on('closed', () => {
@@ -85,13 +85,13 @@ function createWindow () {
   tray.setContextMenu(contextMenu)
 
   // ELECTRON_IS_DEV to 1
-  // /home/michael/.config/electron-vue
   // HACK
   app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'electron-vue'))
-  // let userDataPath = '/home/michael/.config/electron-vue'
-  log('USERDATA', app.getPath('userData'))
+
   let upath = app.getPath('userData')
-  let dbns = createdbs(upath)
+  let check = checkDBs(upath)
+  if (!check) log('here will be message to user')
+  let dbns = createDBs(upath)
 
   ipcMain.on('data', function (event, str) {
     queryDBs(dbns, str, function (err, res) {
