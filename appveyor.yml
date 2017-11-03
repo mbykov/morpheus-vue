@@ -21,16 +21,16 @@ cache:
 
 install:
   - ps: Install-Product node 8 x64
-  # - choco install yarn --ignore-dependencies
-  # - git reset --hard HEAD
-  # - yarn
+  - choco install yarn --ignore-dependencies
+  - git reset --hard HEAD
+  - yarn
   # - npm install
-  - yarn install
-  - node --version
+  # - yarn install
+  # - node --version
 
 build_script:
   #- yarn test
-  - yarn build
+  # - yarn build
   - yarn release
   # - npm install
   # - npm run release
