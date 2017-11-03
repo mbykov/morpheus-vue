@@ -32,8 +32,6 @@ install:
 
 build_script:
   # - yarn test
-  - yarn add cfonts
-  - yarn add chalk
   - yarn build
   # - yarn release
   # - npm install
