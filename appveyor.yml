@@ -32,7 +32,7 @@ install:
 
 build_script:
   # - yarn test
-  - yarn install
+  - yarn add cfonts
   - yarn build
   # - yarn release
   # - npm install
