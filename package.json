@@ -68,7 +68,10 @@
     },
     "win": {
       "icon": "build/icons/icon.ico",
-      "publisherName": "Michael Bykov"
+      "publisherName": "Michael Bykov",
+      "publish": [
+        "github"
+      ]
     },
     "linux": {
       "category": "Educational software",
