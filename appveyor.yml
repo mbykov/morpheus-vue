@@ -12,6 +12,7 @@ platform:
 
 cache:
   - node_modules
+  - "%LOCALAPPDATA%\\Yarn"
   - '%APPDATA%\npm-cache'
   - '%USERPROFILE%\.electron'
   - '%USERPROFILE%\AppData\Local\Yarn\cache'
