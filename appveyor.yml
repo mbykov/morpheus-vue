@@ -13,17 +13,17 @@ platform:
 cache:
   - node_modules
   - "%LOCALAPPDATA%\\Yarn"
-  - '%APPDATA%\npm-cache'
-  - '%USERPROFILE%\.electron'
-  - '%USERPROFILE%\AppData\Local\Yarn\cache'
+  # - '%APPDATA%\npm-cache'
+  # - '%USERPROFILE%\.electron'
+  # - '%USERPROFILE%\AppData\Local\Yarn\cache'
 
 init:
   - git config --global core.autocrlf input
 
 install:
   - ps: Install-Product node 8 x64
-  - choco install yarn --ignore-dependencies
-  - git reset --hard HEAD
+  # - choco install yarn --ignore-dependencies
+  # - git reset --hard HEAD
   - yarn install
   # - npm install
   # - yarn install
