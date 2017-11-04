@@ -12,7 +12,6 @@ platform:
 
 cache:
   - node_modules
-  - "%LOCALAPPDATA%\\Yarn"
   - '%APPDATA%\npm-cache'
   - '%USERPROFILE%\.electron'
   - '%USERPROFILE%\AppData\Local\Yarn\cache'
@@ -22,19 +21,13 @@ init:
 
 install:
   - ps: Install-Product node 8 x64
-  # - choco install yarn --ignore-dependencies
-  # - git reset --hard HEAD
-  - yarn install
-  # - npm install
-  # - yarn install
-  # - node --version
-  - yarn --version
+  - choco install yarn --ignore-dependencies
+  - git reset --hard HEAD
+  - yarn
+  - node --version
 
 build_script:
-  # - yarn test
+  #- yarn test
   - yarn build
-  # - yarn release
-  # - npm install
-  # - npm run release
 
 test: off
