@@ -20,27 +20,29 @@ export function checkDBs (upath) {
       jetpack.dir(dpath, {empty: true})
     }
   } catch (err) {
-    log('ERR options', err)
+    log('ERR pouch', err)
     app.quit()
   }
 
   try {
     let nstate = jetpack.exists(ndest)
     if (!nstate) {
+      // jetpack.dir(ndest, {empty: true})
       jetpack.copy(nsrc, ndest, { matching: '**/*' })
     }
   } catch (err) {
-    log('ERR options', err)
+    log('ERR nstate', err)
     app.quit()
   }
 
   try {
     let hstate = jetpack.exists(hdest)
     if (!hstate) {
+      // jetpack.dir(hdest, {empty: true})
       jetpack.copy(hsrc, hdest, { matching: '**/*' })
     }
   } catch (err) {
-    log('ERR options', err)
+    log('ERR hstate', err)
     app.quit()
   }
 
