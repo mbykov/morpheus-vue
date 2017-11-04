@@ -1,7 +1,7 @@
 import {app} from 'electron'
 import {log} from '../renderer/utils'
 const path = require('path')
-const jetpack = require('fs-jetpack')
+const fse = require('fs-extra')
 const _ = require('lodash')
 let PouchDB = require('pouchdb')
 
@@ -15,20 +15,20 @@ export function checkDBs (upath) {
   const hdest = path.resolve(dpath, 'hanzi')
 
   try {
-    let dstate = jetpack.exists(dpath)
+    let dstate = fse.pathExistsSync(dpath)
     if (!dstate) {
-      jetpack.dir(dpath, {empty: true})
+      fse.mkdirsSync(dpath, {empty: true})
     }
   } catch (err) {
     log('ERR pouch', err)
     app.quit()
+    return
   }
 
   try {
-    let nstate = jetpack.exists(ndest)
+    let nstate = fse.pathExistsSync(ndest)
     if (!nstate) {
-      // jetpack.dir(ndest, {empty: true})
-      jetpack.copy(nsrc, ndest, { matching: '**/*' })
+      fse.copySync(nsrc, ndest, { matching: '**/*' })
     }
   } catch (err) {
     log('ERR nstate', err)
@@ -36,37 +36,32 @@ export function checkDBs (upath) {
   }
 
   try {
-    let hstate = jetpack.exists(hdest)
+    let hstate = fse.pathExistsSync(hdest)
     if (!hstate) {
-      // jetpack.dir(hdest, {empty: true})
-      jetpack.copy(hsrc, hdest, { matching: '**/*' })
+      fse.copySync(hsrc, hdest, { matching: '**/*' })
     }
   } catch (err) {
     log('ERR hstate', err)
     app.quit()
+    return
   }
 
   let config
   let cname = 'morpheus-config.json'
   let cpath = path.join(upath, cname)
   try {
-    config = jetpack.read(cpath, 'json')
-    if (config) return config
+    config = fse.readJsonSync(cpath)
+    if (!config || !config.dbns) throw new Error()
+  } catch (err) {
     config = {dbns: ['ntireader']}
     try {
-      jetpack.write(cpath, config)
+      fse.writeJsonSync(cpath, config)
+      return config
     } catch (err) {
       console.log('CONFIG WRITE ERR', err)
       app.quit()
+      return
     }
-  } catch (err) {
-    console.log('CONFIG READ ERR', err)
-    app.quit()
-  }
-
-  if (!config.dbns) {
-    console.log('CONFIG DBNS ERR')
-    app.quit()
   }
   return config
 }
@@ -75,12 +70,12 @@ export function createDBs (upath, config) {
   let databases = []
   config.dbns.forEach(dn => {
     let dpath = path.resolve(upath, 'pouch', dn, 'db')
-    let dstate = jetpack.exists(dpath)
+    let dstate = fse.exists(dpath)
     if (dstate) {
       let pouch = new PouchDB(dpath)
       pouch.dname = dn
       let infopath = path.resolve(upath, 'pouch', dn, 'info.json')
-      let info = jetpack.read(infopath, 'json')
+      let info = fse.readJsonSync(infopath)
       let db = {info: info, db: pouch}
       databases.push(db)
     } else {
@@ -94,7 +89,7 @@ export function createDBs (upath, config) {
 export function queryHanzi (upath, seg) {
   let keys = [seg]
   let dpath = path.resolve(upath, 'pouch', 'hanzi', 'db')
-  let dstate = jetpack.exists(dpath)
+  let dstate = fse.exists(dpath)
   if (!dstate) {
     log('NO DB query HANZI', dpath)
     return
