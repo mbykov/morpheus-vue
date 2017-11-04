@@ -1,6 +1,6 @@
 {
   "name": "morpheus-vue",
-  "version": "0.5.13",
+  "version": "0.5.14",
   "author": "Michael Bykov <m.bykov@gmail.com>",
   "description": "An electron-vue test project",
   "license": "GPL-3.0",
@@ -48,7 +48,7 @@
     ],
     "files": [
       "dist/electron/**/*",
-      "builds/icons/**/*",
+      "build/icons/**/*",
       "pouch/**/*"
     ],
     "dmg": {
