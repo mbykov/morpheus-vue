@@ -1,24 +1,24 @@
 {
-  "name": "electron-vue",
-  "version": "0.5.11",
+  "name": "morpheus-vue",
+  "version": "0.5.12",
   "author": "Michael Bykov <m.bykov@gmail.com>",
-  "description": "An electron-vue project",
+  "description": "An morpheus-vue test project",
   "license": "GPL-3.0",
   "main": "./dist/electron/main.js",
   "scripts": {
-    "build": "node .electron-vue/build.js && electron-builder",
-    "build:dir": "node .electron-vue/build.js && electron-builder --dir",
-    "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
-    "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
-    "dev": "node .electron-vue/dev-runner.js",
+    "build": "node .morpheus-vue/build.js && electron-builder",
+    "build:dir": "node .morpheus-vue/build.js && electron-builder --dir",
+    "build:clean": "cross-env BUILD_TARGET=clean node .morpheus-vue/build.js",
+    "build:web": "cross-env BUILD_TARGET=web node .morpheus-vue/build.js",
+    "dev": "node .morpheus-vue/dev-runner.js",
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src test",
     "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix src test",
     "pack": "npm run pack:main && npm run pack:renderer",
-    "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
-    "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
+    "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .morpheus-vue/webpack.main.config.js",
+    "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .morpheus-vue/webpack.renderer.config.js",
     "test": "npm run unit",
     "unit": "karma start test/unit/karma.conf.js",
-    "release": "node .electron-vue/build.js && electron-builder",
+    "release": "build",
     "postinstall_": "npm run lint:fix"
   },
   "homepage": "http://diglossa.org",
@@ -33,7 +33,7 @@
     "electron.js"
   ],
   "build": {
-    "productName": "electron-vue",
+    "productName": "morpheus-vue",
     "appId": "org.diglossa.morpheus-vue",
     "directories": {
       "output": "build"
