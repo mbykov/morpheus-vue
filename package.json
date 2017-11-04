@@ -46,7 +46,9 @@
       }
     ],
     "files": [
-      "dist/electron/**/*"
+      "dist/electron/**/*",
+      "builds/icons/**/*",
+      "pouch/**/*"
     ],
     "dmg": {
       "contents": [
