@@ -2,7 +2,7 @@
   "name": "morpheus-vue",
   "version": "0.5.12",
   "author": "Michael Bykov <m.bykov@gmail.com>",
-  "description": "An morpheus-vue test project",
+  "description": "An electron-vue test project",
   "license": "GPL-3.0",
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -14,12 +14,11 @@
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src test",
     "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix src test",
     "pack": "npm run pack:main && npm run pack:renderer",
-    "pack_yarn": "yarn run pack:main && yarn run pack:renderer",
-    "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .morpheus-vue/webpack.main.config.js",
-    "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .morpheus-vue/webpack.renderer.config.js",
+    "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
+    "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "test": "npm run unit",
     "unit": "karma start test/unit/karma.conf.js",
-    "release": "build",
+    "release": "node .electron-vue/build.js && electron-builder",
     "postinstall_": "npm run lint:fix"
   },
   "homepage": "http://diglossa.org",
@@ -47,9 +46,7 @@
       }
     ],
     "files": [
-      "dist/electron/**/*",
-      "build/**/*",
-      "pouch/**/*"
+      "dist/electron/**/*"
     ],
     "dmg": {
       "contents": [
@@ -87,7 +84,6 @@
   "dependencies": {
     "axios": "^0.17.0",
     "electron-clipboard-extended": "^1.1.0",
-    "electron-is-dev": "^0.3.0",
     "electron-updater": "^2.15.0",
     "fs-jetpack": "^1.2.0",
     "gunzip-maybe": "^1.4.1",
