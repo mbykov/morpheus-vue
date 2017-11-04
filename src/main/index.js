@@ -86,12 +86,12 @@ function createWindow () {
 
   // ELECTRON_IS_DEV to 1
   // HACK
-  app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'electron-vue'))
+  app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-vue'))
 
   let upath = app.getPath('userData')
-  let check = checkDBs(upath)
-  if (!check) log('here will be message to user')
-  let dbns = createDBs(upath)
+  let config = checkDBs(upath)
+  if (!config) log('here will be crash message to user')
+  let dbns = createDBs(upath, config)
 
   ipcMain.on('data', function (event, str) {
     queryDBs(dbns, str, function (err, res) {

@@ -30,7 +30,7 @@ const clipboard = require('electron-clipboard-extended')
 let split
 
 let vm = {
-  name: 'electron-vue',
+  name: 'morpheus-vue',
   data: function () {
     return {
       recsegs: null,

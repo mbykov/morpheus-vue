@@ -43,22 +43,35 @@ export function checkDBs (upath) {
     log('ERR options', err)
     app.quit()
   }
-  return true
-}
 
-export function createDBs (upath) {
+  let config
   let cname = 'morpheus-config.json'
   let cpath = path.join(upath, cname)
-  let dbns
   try {
-    let config = jetpack.read(cpath, 'json')
-    dbns = config.dbns
+    config = jetpack.read(cpath, 'json')
+    if (config) return config
+    config = {dbns: ['ntireader']}
+    try {
+      jetpack.write(cpath, config)
+    } catch (err) {
+      console.log('CONFIG WRITE ERR', err)
+      app.quit()
+    }
   } catch (err) {
-    console.log('ERR', err)
+    console.log('CONFIG READ ERR', err)
     app.quit()
   }
+
+  if (!config.dbns) {
+    console.log('CONFIG DBNS ERR')
+    app.quit()
+  }
+  return config
+}
+
+export function createDBs (upath, config) {
   let databases = []
-  dbns.forEach(dn => {
+  config.dbns.forEach(dn => {
     let dpath = path.resolve(upath, 'pouch', dn, 'db')
     let dstate = jetpack.exists(dpath)
     if (dstate) {
