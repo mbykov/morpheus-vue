@@ -44,9 +44,14 @@ p {
 
 .section {
     height: 100%;
-    padding: 50px;
+    /* padding: 50px; */
     overflow-y: auto;
-    font-size: 1em;
+    font-size: 0.7em;
+}
+
+.newslink {
+    color: maroon;
+    cursor: pointer;
 }
 
 .external {

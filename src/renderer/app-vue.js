@@ -8,7 +8,7 @@ import Hanzi from '@/components/Hanzi'
 import _ from 'lodash'
 import {log, q, qs, empty, create, span} from './utils'
 import 'han-css/dist/han.css'
-import {ipcRenderer} from 'electron'
+import {ipcRenderer, shell} from 'electron'
 
 import Split from 'split.js'
 import code from './sections/code.html'
@@ -19,6 +19,7 @@ import screencast from './sections/screencast.html'
 import acknowledgements from './sections/acknowledgements.html'
 import help from './sections/help.html'
 import tests from './sections/tests.html'
+import news from './sections/news.html'
 import { EventBus } from './components/bus'
 // import { morpheuspng } from '@static/morpheus.png'
 const morpheuspng  = 'static/256x256.png'
@@ -161,6 +162,16 @@ let vm = {
       EventBus.$emit('show-recursive', data)
     },
 
+    showNew (ev) {
+      showSection('news')
+    },
+
+    externaLink (ev) {
+      if (!ev.target.classList.contains('external')) return
+      let href = ev.target.getAttribute('href')
+      shell.openExternal(href)
+    },
+
     hideSeg (ev) {
       if (ev.target.classList.contains('text')) {
       }
@@ -235,38 +246,47 @@ function setSegs (clause, segs) {
 
 ipcRenderer.on('section', function (event, name) {
   split.setSizes([100, 0])
+  showSection(name)
+})
+
+function showSection(name) {
   let text = q('#text')
   empty(text)
+  let sect = create('div')
+  sect.classList.add('section')
   let html
   switch (name) {
-    case 'about':
-      html = about
-      break
-    case 'ecbt':
-      html = ecbt
-      break
-    case 'code':
-      html = code
-      break
-    case 'contacts':
-      html = contacts
-      break
-    case 'screencast':
-      html = screencast
-      break
-    case 'acknowledgements':
-      html = acknowledgements
-      break
-    case 'help':
-      html = help
-      break
+  case 'about':
+    html = about
+    break
+  case 'ecbt':
+    html = ecbt
+    break
+  case 'code':
+    html = code
+    break
+  case 'contacts':
+    html = contacts
+    break
+  case 'screencast':
+    html = screencast
+    break
+  case 'acknowledgements':
+    html = acknowledgements
+    break
+  case 'help':
+    html = help
+    break
   case 'tests':
     html = tests
     break
+  case 'news':
+    html = news
+    break
   }
-  text.innerHTML = html
-  // closePopups()
-})
+  sect.innerHTML = html
+  text.appendChild(sect)
+}
 
 // wtf?
 function findAncestor (el, cls) {
