@@ -52,7 +52,7 @@ function createWindow () {
   let version = pckg.version
   mainWindow.setTitle([name, 'v.', version].join(' '))
   // mainWindow.setTitle('=======')
-  console.log('TITLE', mainWindow.getTitle())
+  // console.log('TITLE', mainWindow.getTitle())
 
   mainWindow.on('closed', () => {
     mainWindow = null
@@ -105,6 +105,7 @@ function createWindow () {
 
   ipcMain.on('hanzi', function (event, seg) {
     queryHanzi(upath, seg).then(function (doc) {
+      if (!doc) return
       mainWindow.webContents.send('hanzi', doc)
     }).catch(function (err) {
       log('catched hanzi err', err)

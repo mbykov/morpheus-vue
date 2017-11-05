@@ -8,6 +8,16 @@
          <p>ambi: 我们现在没有钱。</p>
          <p>ambi: 想法國。</p>
          <p>ambi: 研究生命。</p>
+         <p>&nbsp;</p>
+         <p>山僧对棋坐</p>
+         <p>局上竹阴清</p>
+         <p>映竹无人见</p>
+         <p>时闻下子声</p>
+         <p>Shān sēng duì qí zuò</p>
+         <p>jú shàng zhú yīn qīng</p>
+         <p>yìng zhú wú rén jiàn</p>
+         <p></p>
+
        </div>
 
        <div id="results" class="split split-horizontal">

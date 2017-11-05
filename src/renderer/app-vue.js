@@ -203,7 +203,6 @@ ipcRenderer.on('before-quit', function (event) {
 ipcRenderer.on('data', function (event, data) {
   let clause = q('.clause')
   if (!clause) return
-  // есть еще гипотетический случай, когда сумма segs не полная. Как обработать? Какой-то no-resut нужен
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
   let segs = segmenter(data.str, dicts)

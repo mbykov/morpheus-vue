@@ -87,6 +87,7 @@ export function createDBs (upath, config) {
 
 // 古 件
 export function queryHanzi (upath, seg) {
+  log('H KEY', seg)
   let keys = [seg]
   let dpath = path.resolve(upath, 'pouch', 'hanzi', 'db')
   let dstate = fse.exists(dpath)
@@ -99,14 +100,16 @@ export function queryHanzi (upath, seg) {
 
   let promise = new Promise((resolve, reject) => {
     pouch.allDocs(opt).then(function (res) {
+      log('H RES', res)
       if (!res || !res.rows) throw new Error('no dbn result')
       let docs = _.compact(res.rows.map(row => { return row.doc }))
+      log('H DOCS', docs)
       return Promise.all(docs.map(function (doc) {
         return doc
       }))
     }).then(function (docs) {
       let doc = docs[0]
-      delete doc._rev
+      if (doc) delete doc._rev
       resolve(doc)
     }).catch(function (err) {
       log('ERR query HANZI', err)

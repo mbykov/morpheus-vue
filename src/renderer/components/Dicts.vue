@@ -1,6 +1,6 @@
 <template>
   <div id="dicts">
-    <div id="dict-glyph"><span class="dict-glyph">{{dict.seg}}</span> <span class="dict-other">{{dict.other}}</span></div>
+    <div id="dict-glyph" @click="showHanzi"><span class="dict-glyph">{{dict.seg}}</span> <span class="dict-other">{{dict.other}}</span></div>
     <div v-for="(docs, dn) in dict.dbns">
       <br>
       <span class="dname">{{dn}}</span>
