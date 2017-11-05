@@ -18,9 +18,12 @@ import contacts from './sections/contacts.html'
 import screencast from './sections/screencast.html'
 import acknowledgements from './sections/acknowledgements.html'
 import help from './sections/help.html'
+import tests from './sections/tests.html'
 import { EventBus } from './components/bus'
+// import { morpheuspng } from '@static/morpheus.png'
+const morpheuspng  = 'static/256x256.png'
 
-// import {segmenter} from '../../../segmenter'
+      // import {segmenter} from '../../../segmenter'
 // import {segmenter} from 'recursive-segmenter'
 let segmenter = require('recursive-segmenter')
 // import {zh} from '../../../speckled-band'
@@ -33,6 +36,7 @@ let vm = {
   name: 'morpheus-vue',
   data: function () {
     return {
+      msrc: morpheuspng,
       recsegs: null,
       reccoords: null,
       acoords: {},
@@ -83,7 +87,7 @@ let vm = {
       // let that = this
       this.$nextTick(function () {
         split = Split(['#text', '#results'], {
-          sizes: [60, 40],
+          sizes: [100, 0],
           cursor: 'col-resize',
           minSize: [0, 0]
         })
@@ -256,6 +260,9 @@ ipcRenderer.on('section', function (event, name) {
     case 'help':
       html = help
       break
+  case 'tests':
+    html = tests
+    break
   }
   text.innerHTML = html
   // closePopups()

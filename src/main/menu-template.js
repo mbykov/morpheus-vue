@@ -32,11 +32,17 @@ module.exports = function (win, e) {
         // }
       ]
     },
+    // {
+    //   label: 'help',
+    //   submenu: [
+    //     {label: 'help', click () { win.webContents.send('section', 'help') }}
+    //   ]
+    // }
     {
-      label: 'help',
-      submenu: [
-        {label: 'help', click () { win.webContents.send('section', 'help') }}
-      ]
+      label: 'help', click () { win.webContents.send('section', 'help') }
+    },
+    {
+      label: 'tests', click () { win.webContents.send('section', 'tests') }
     }
   ]
 }

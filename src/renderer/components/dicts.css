@@ -4,11 +4,13 @@
 .dict-glyph {
     font-size: 52px;
     color: maroon;
+    cursor: pointer;
 }
 
 .dict-other {
     font-size: 32px;
     color: grey;
+    cursor: pointer;
 }
 
 .dict-other-type {
