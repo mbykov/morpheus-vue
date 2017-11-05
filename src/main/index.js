@@ -4,7 +4,7 @@
 import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
 import {log} from '../renderer/utils'
 import {checkDBs, createDBs, queryHanzi, queryDBs} from './createDBs'
-import { autoUpdater } from 'electron-updater'
+// import { autoUpdater } from 'electron-updater'
 
 const path = require('path')
 // const util = require('util')
