@@ -29,6 +29,15 @@ process.on('uncaughtException', function (err) {
   app.quit()
 })
 
+// Can be overridden by setting the ELECTRON_IS_DEV environment variable to 1.
+const isDev = require('electron-is-dev')
+
+if (isDev) {
+  console.log('Running in development')
+} else {
+  console.log('Running in production')
+}
+
 let tray
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
@@ -135,10 +144,10 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
+// autoUpdater.on('update-downloaded', () => {
+//   autoUpdater.quitAndInstall()
+// })
 
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
+// app.on('ready', () => {
+//   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+// })

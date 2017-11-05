@@ -1,7 +1,7 @@
 //
 
 import { EventBus } from './bus.js'
-import {log} from '../utils'
+// import {log} from '../utils'
 // import _ from 'lodash'
 
 let paths = []
@@ -21,7 +21,6 @@ export default {
   },
   methods: {
     showHanzi: function (doc) {
-      log('HHDOC', doc)
       if (doc) this.hanzi = doc
     }
   }

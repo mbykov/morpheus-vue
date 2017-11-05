@@ -1,6 +1,6 @@
 {
   "name": "morpheus-vue",
-  "version": "0.5.17",
+  "version": "0.5.18",
   "author": "Michael Bykov <m.bykov@gmail.com>",
   "description": "An electron-vue test project",
   "license": "GPL-3.0",
@@ -86,6 +86,7 @@
   },
   "dependencies": {
     "electron-clipboard-extended": "^1.1.0",
+    "electron-is-dev": "^0.3.0",
     "electron-updater": "^2.15.0",
     "gunzip-maybe": "^1.4.1",
     "han-css": "^3.3.0",
