@@ -19,8 +19,8 @@ export default {
         return
       }
       let docs = _.filter(EventBus.res[data.cl].docs, doc => { return doc.dict === data.seg })
-      let simps = _.compact(_.uniq(docs.map(doc => {return doc.simp})))
-      let trads = _.compact(_.uniq(docs.map(doc => {return doc.trad})))
+      let simps = _.compact(_.uniq(docs.map(doc => { return doc.simp })))
+      let trads = _.compact(_.uniq(docs.map(doc => { return doc.trad })))
       let other, otype
       if (trads.length && simps.length && simps.toString() !== trads.toString()) {
         otype = (simps.includes(data.seg)) ? 'trad:' : 'simp:'
