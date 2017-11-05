@@ -60,7 +60,6 @@ function createWindow () {
   let name = pckg.name
   let version = pckg.version
   mainWindow.setTitle([name, 'v.', version].join(' '))
-  // mainWindow.setTitle('=======')
   // console.log('TITLE', mainWindow.getTitle())
 
   mainWindow.on('closed', () => {

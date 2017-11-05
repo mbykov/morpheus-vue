@@ -28,6 +28,7 @@ export default {
     },
 
     showDict: function (ev) {
+      if (ev.shiftKey) return
       if (!ev.target.classList.contains('seg')) return
       let seg = ev.target.textContent
       let data = {seg: seg, cl: this.cl}
@@ -35,6 +36,7 @@ export default {
     },
 
     showRec: function (ev) {
+      if (ev.shiftKey) return
       let seg = ev.target.textContent
       if (seg.length > 1) {
         let data = {seg: seg, coords: getCoords(ev.target), cl: this.cl}
