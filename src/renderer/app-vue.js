@@ -223,7 +223,6 @@ ipcRenderer.on('data', function (event, data) {
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
   segmenter(data.str, dicts).then(segs => {
-    log('APP-VUE-SEGS:', segs)
     let key = clause.textContent
     if (!EventBus.res) EventBus.res = {}
     EventBus.res[key] = {docs: docs, segs: segs}

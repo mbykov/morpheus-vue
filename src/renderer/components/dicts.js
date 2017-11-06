@@ -18,6 +18,7 @@ export default {
         this.dict = {seg: data.seg, dbns: {'no result': []}}
         return
       }
+      if (!EventBus.res[data.cl]) return
       let docs = _.filter(EventBus.res[data.cl].docs, doc => { return doc.dict === data.seg })
       let simps = _.compact(_.uniq(docs.map(doc => { return doc.simp })))
       let trads = _.compact(_.uniq(docs.map(doc => { return doc.trad })))

@@ -25,6 +25,7 @@ export default {
   methods: {
     showPopup: function (data) {
       this.cl = data.cl
+      if (!EventBus.res[data.cl]) return
       let dicts = _.uniq(EventBus.res[data.cl].docs.map(doc => { return doc.dict }))
 
       // let segs = segmenter(data.seg, dicts)
