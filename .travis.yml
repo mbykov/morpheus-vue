@@ -38,13 +38,13 @@ script:
 #- xvfb-maybe node_modules/.bin/karma start test/unit/karma.conf.js
 - yarn run release
 
-deploy:
-  provider: releases
-  skip_cleanup: true
-  # github_token: $GITHUB_TOKEN
-  api_key: $API_KEY
-  # on:
-    # tags: true
+# deploy:
+#   provider: releases
+#   skip_cleanup: true
+#   # github_token: $GITHUB_TOKEN
+#   api_key: $API_KEY
+#   # on:
+#     # tags: true
 branches:
   only:
   - master
