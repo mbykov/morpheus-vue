@@ -2,7 +2,6 @@
 
 import { EventBus } from './bus'
 import {q, placePopup} from '../utils'
-// import _ from 'lodash'
 import {ipcRenderer} from 'electron'
 
 export default {

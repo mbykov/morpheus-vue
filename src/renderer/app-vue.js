@@ -24,9 +24,9 @@ import { EventBus } from './components/bus'
 // import { morpheuspng } from '@static/morpheus.png'
 const morpheuspng  = 'static/256x256.png'
 
-      // import {segmenter} from '../../../segmenter'
+import {segmenter} from '../../../segmenter'
 // import {segmenter} from 'recursive-segmenter'
-let segmenter = require('recursive-segmenter')
+
 // import {zh} from '../../../speckled-band'
 let zh = require('speckled-band')
 
@@ -220,12 +220,13 @@ ipcRenderer.on('data', function (event, data) {
   if (!clause) return
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
-  let segs = segmenter(data.str, dicts)
-  let key = clause.textContent
-
-  if (!EventBus.res) EventBus.res = {}
-  EventBus.res[key] = {docs: docs, segs: segs}
-  setSegs(clause, segs)
+  segmenter(data.str, dicts).then(segs => {
+    log('APP-VUE-SEGS:', segs)
+    let key = clause.textContent
+    if (!EventBus.res) EventBus.res = {}
+    EventBus.res[key] = {docs: docs, segs: segs}
+    setSegs(clause, segs)
+  })
 })
 
 function setSegs (clause, segs) {

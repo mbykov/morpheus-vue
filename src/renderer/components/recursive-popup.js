@@ -5,9 +5,8 @@ import {q, placePopup} from '../utils'
 import { EventBus } from './bus'
 import {ipcRenderer} from 'electron'
 
-// import {segmenter} from '../../../../segmenter'
+import {segmenter} from '../../../../segmenter'
 // import {segmenter} from 'recursive-segmenter'
-let segmenter = require('recursive-segmenter')
 
 export default {
   name: 'recursive-popup',
@@ -27,8 +26,12 @@ export default {
       this.cl = data.cl
       let dicts = _.uniq(EventBus.res[data.cl].docs.map(doc => { return doc.dict }))
 
-      let segs = segmenter(data.seg, dicts)
-      this.segs = segs.map(s => { return s.seg })
+      // let segs = segmenter(data.seg, dicts)
+      // this.segs = segs.map(s => { return s.seg })
+
+      segmenter(data.seg, dicts).then(segs => {
+        this.segs = segs.map(s => { return s.seg })
+      })
 
       let osegs = q('.segs')
       placePopup(data.coords, osegs)

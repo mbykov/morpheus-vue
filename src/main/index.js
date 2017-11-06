@@ -7,8 +7,6 @@ import {checkDBs, createDBs, queryHanzi, queryDBs} from './createDBs'
 // import { autoUpdater } from 'electron-updater'
 
 const path = require('path')
-// const util = require('util')
-// const _ = require('lodash')
 
 /**
  * Set `__static` path to static files in production
@@ -92,10 +90,10 @@ function createWindow () {
   tray.setToolTip('Morpheus-eastern')
   tray.setContextMenu(contextMenu)
 
-  // ELECTRON_IS_DEV to 1
   // HACK
   app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-vue'))
 
+  // == HERE WE ARE ==
   let upath = app.getPath('userData')
   let config = checkDBs(upath)
   if (!config) log('here will be crash message to user')

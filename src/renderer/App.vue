@@ -4,7 +4,7 @@
      <div id="text" class="split split-horizontal text" @mouseover="showDict"  @mouseleave="hideSeg" @click="showRec">
        <img :src="msrc">
        <p>just copy some Chinese text (Ctrl-C) anywhere on a desktop and move mouse over it</p>
-       <p>example: 你好</p>
+       <p>try, for example, this word: 你好</p>
        <p><a class="newslink" @click="showNew">new in this version</a></p>
        </div>
 

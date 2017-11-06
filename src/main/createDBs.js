@@ -1,8 +1,9 @@
 import {app} from 'electron'
 import {log} from '../renderer/utils'
+import _ from 'lodash'
+
 const path = require('path')
 const fse = require('fs-extra')
-const _ = require('lodash')
 let PouchDB = require('pouchdb')
 
 export function checkDBs (upath) {
