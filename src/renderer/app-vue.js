@@ -21,11 +21,13 @@ import help from './sections/help.html'
 import tests from './sections/tests.html'
 import news from './sections/news.html'
 import { EventBus } from './components/bus'
-// import { morpheuspng } from '@static/morpheus.png'
-const morpheuspng  = 'static/256x256.png'
 
 // import {segmenter} from '../../../segmenter'
-import {segmenter} from 'recursive-segmenter'
+// import {segmenter} from 'recursive-segmenter'
+// let segmenter = require('../../../segmenter')
+let segmenter = require('recursive-segmenter')
+
+const morpheuspng  = 'static/256x256.png'
 
 // import {zh} from '../../../speckled-band'
 let zh = require('speckled-band')

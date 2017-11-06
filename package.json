@@ -1,6 +1,6 @@
 {
   "name": "morpheus-vue",
-  "version": "0.5.20",
+  "version": "0.5.21",
   "author": "Michael Bykov <m.bykov@gmail.com>",
   "description": "An electron-vue test project",
   "license": "GPL-3.0",
@@ -92,7 +92,7 @@
     "lodash": "^4.17.4",
     "node-fs-extra": "^0.8.2",
     "pouchdb": "^6.3.4",
-    "recursive-segmenter": "^0.4.2",
+    "recursive-segmenter": "^0.4.4",
     "speckled-band": "^0.3.0",
     "split.js": "^1.3.5",
     "vue": "^2.5.2",

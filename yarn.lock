@@ -6762,9 +6762,9 @@ recast@~0.11.12:
     private "~0.1.5"
     source-map "~0.5.0"
 
-recursive-segmenter@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/recursive-segmenter/-/recursive-segmenter-0.4.1.tgz#b8f80afb941ce0a37105a603f0bb7734d100cf2d"
+recursive-segmenter@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/recursive-segmenter/-/recursive-segmenter-0.4.4.tgz#a9643059d688a2a5400d0d6e56d85176251284e8"
   dependencies:
     lodash "^4.17.4"
 
