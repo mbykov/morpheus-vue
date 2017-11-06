@@ -24,8 +24,8 @@ import { EventBus } from './components/bus'
 // import { morpheuspng } from '@static/morpheus.png'
 const morpheuspng  = 'static/256x256.png'
 
-import {segmenter} from '../../../segmenter'
-// import {segmenter} from 'recursive-segmenter'
+// import {segmenter} from '../../../segmenter'
+import {segmenter} from 'recursive-segmenter'
 
 // import {zh} from '../../../speckled-band'
 let zh = require('speckled-band')

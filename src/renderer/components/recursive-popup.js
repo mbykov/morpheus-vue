@@ -5,8 +5,8 @@ import {q, placePopup} from '../utils'
 import { EventBus } from './bus'
 import {ipcRenderer} from 'electron'
 
-import {segmenter} from '../../../../segmenter'
-// import {segmenter} from 'recursive-segmenter'
+// import {segmenter} from '../../../../segmenter'
+import {segmenter} from 'recursive-segmenter'
 
 export default {
   name: 'recursive-popup',
