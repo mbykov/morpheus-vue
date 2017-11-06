@@ -41,10 +41,9 @@ script:
 # deploy:
 #   provider: releases
 #   skip_cleanup: true
-#   # github_token: $GITHUB_TOKEN
 #   api_key: $API_KEY
-#   # on:
-#     # tags: true
+#   on:
+#     tags: false
 branches:
   only:
   - master

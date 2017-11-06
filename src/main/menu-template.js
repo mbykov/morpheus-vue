@@ -39,10 +39,18 @@ module.exports = function (win, e) {
     //   ]
     // }
     {
-      label: 'help', click () { win.webContents.send('section', 'help') }
+      label: 'help',
+      click () {
+        win.webContents.send('section', 'help')
+        return true
+      }
     },
     {
-      label: 'tests', click () { win.webContents.send('section', 'tests') }
+      label: 'tests',
+      click () {
+        win.webContents.send('section', 'tests')
+        return true
+      }
     }
   ]
 }
