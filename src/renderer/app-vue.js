@@ -20,6 +20,8 @@ import acknowledgements from './sections/acknowledgements.html'
 import help from './sections/help.html'
 import tests from './sections/tests.html'
 import news from './sections/news.html'
+import install from './sections/install.html'
+import dicts from './sections/dicts.html'
 import { EventBus } from './components/bus'
 
 // import {segmenter} from '../../../segmenter'
@@ -194,6 +196,7 @@ clipboard
     EventBus.$emit('close-popups')
 
     let currentText = clipboard.readText()
+    log('CLIP', currentText)
     let pars = zh(currentText)
     if (!pars) return
     split.setSizes([60, 40])
@@ -216,16 +219,19 @@ ipcRenderer.on('before-quit', function (event) {
   // clipboard.stopWatching()
 })
 
-// строка сегментов - spans
+// string of the segments - spans
 ipcRenderer.on('data', function (event, data) {
   let clause = q('.clause')
   if (!clause) return
+  log('=bs', data)
+  // data = {res: [], str: data.str}
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
   segmenter(data.str, dicts).then(segs => {
     let key = clause.textContent
     if (!EventBus.res) EventBus.res = {}
     EventBus.res[key] = {docs: docs, segs: segs}
+    log('segs', segs)
     setSegs(clause, segs)
   })
 })
@@ -284,6 +290,12 @@ function showSection(name) {
     break
   case 'news':
     html = news
+    break
+  case 'install':
+    html = install
+    break
+  case 'dicts':
+    html = dicts
     break
   }
   sect.innerHTML = html

@@ -125,3 +125,13 @@ p {
 .ambi:hover {
     background-color: #eee;
 }
+
+.dict-install {
+    padding: 0;
+    margins: 5px;
+}
+
+.dict-install li span {
+    padding: 15px;
+    /* margins: 15px; */
+}

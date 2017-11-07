@@ -32,12 +32,18 @@ module.exports = function (win, e) {
         // }
       ]
     },
-    // {
+    {
+      label: 'dicts',
+      submenu: [
+        {label: 'install', click () { win.webContents.send('section', 'install') }},
+        {label: 'descriptions', click () { win.webContents.send('section', 'dicts') }}
+      ]
+    },
     //   label: 'help',
     //   submenu: [
     //     {label: 'help', click () { win.webContents.send('section', 'help') }}
     //   ]
-    // }
+    // },
     {
       label: 'help',
       click () {

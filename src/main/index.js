@@ -97,9 +97,15 @@ function createWindow () {
   let upath = app.getPath('userData')
   let config = checkDBs(upath)
   if (!config) log('here will be crash message to user')
-  let dbns = createDBs(upath, config)
+  let dbns
+  createDBs(upath, config).then(res => {
+    dbns = res
+  }).catch(err => {
+    console.log('err creating dbns', err)
+  })
 
   ipcMain.on('data', function (event, str) {
+    if (!dbns) return
     queryDBs(dbns, str, function (err, res) {
       if (err) return console.log('err dbs')
       else {

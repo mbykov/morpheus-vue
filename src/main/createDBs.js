@@ -68,6 +68,12 @@ export function checkDBs (upath) {
 }
 
 export function createDBs (upath, config) {
+  return new Promise(function (resolve, reject) {
+    resolve(manyDBs(upath, config))
+  })
+}
+
+function manyDBs (upath, config) {
   let databases = []
   config.dbns.forEach(dn => {
     let dpath = path.resolve(upath, 'pouch', dn, 'db')
@@ -84,6 +90,59 @@ export function createDBs (upath, config) {
     }
   })
   return databases
+}
+
+export function createDBs_ (upath, config) {
+  let databases = []
+  config.dbns.forEach(dn => {
+    let dpath = path.resolve(upath, 'pouch', dn, 'db')
+    let dstate = fse.exists(dpath)
+    if (dstate) {
+      let pouch = new PouchDB(dpath)
+      pouch.dname = dn
+      let infopath = path.resolve(upath, 'pouch', dn, 'info.json')
+      let info = fse.readJsonSync(infopath)
+      let db = {info: info, db: pouch}
+      databases.push(db)
+    } else {
+      console.log('NO DB', dn, dpath)
+    }
+  })
+  return databases
+}
+
+export function queryDBs (dbns, str, cb) {
+  let keys = parseKeys(str)
+  Promise.all(dbns.map(function (dbn) {
+    let db = dbn.db
+    return db.allDocs({
+      keys: keys,
+      include_docs: true
+    }).then(function (res) {
+      if (!res || !res.rows) throw new Error('no dbn result')
+      let rdocs = _.compact(res.rows.map(row => { return row.doc }))
+      if (!rdocs.length) return
+      // rdocs.forEach(d => { d.dname = db.dname })
+      rdocs.forEach(rd => {
+        rd.docs.forEach(d => {
+          d.dname = db.dname
+          d.dict = rd._id
+        })
+      })
+      // return _.flatten(_.compact(docs))
+      return rdocs
+    }).catch(function (err) {
+      cb(err, null)
+      console.log('ERR 1', err)
+    })
+  })).then(function (arrayOfResults) {
+    let flats = _.flatten(_.compact(arrayOfResults))
+    // cb(null, [])
+    cb(null, flats)
+  }).catch(function (err) {
+    console.log('ERR 2', err)
+    cb(err, null)
+  })
 }
 
 // 古 件
@@ -115,39 +174,6 @@ export function queryHanzi (upath, seg) {
     })
   })
   return promise
-}
-
-export function queryDBs (dbns, str, cb) {
-  let keys = parseKeys(str)
-  Promise.all(dbns.map(function (dbn) {
-    let db = dbn.db
-    return db.allDocs({
-      keys: keys,
-      include_docs: true
-    }).then(function (res) {
-      if (!res || !res.rows) throw new Error('no dbn result')
-      let rdocs = _.compact(res.rows.map(row => { return row.doc }))
-      if (!rdocs.length) return
-      // rdocs.forEach(d => { d.dname = db.dname })
-      rdocs.forEach(rd => {
-        rd.docs.forEach(d => {
-          d.dname = db.dname
-          d.dict = rd._id
-        })
-      })
-      // return _.flatten(_.compact(docs))
-      return rdocs
-    }).catch(function (err) {
-      cb(err, null)
-      console.log('ERR 1', err)
-    })
-  })).then(function (arrayOfResults) {
-    let flats = _.flatten(_.compact(arrayOfResults))
-    cb(null, flats)
-  }).catch(function (err) {
-    console.log('ERR 2', err)
-    cb(err, null)
-  })
 }
 
 function parseKeys (str) {
