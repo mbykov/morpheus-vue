@@ -29,7 +29,6 @@ process.on('uncaughtException', function (err) {
 
 // Can be overridden by setting the ELECTRON_IS_DEV environment variable to 1.
 const isDev = require('electron-is-dev')
-
 if (isDev) {
   console.log('Running in development')
 } else {
@@ -96,17 +95,21 @@ function createWindow () {
   // == HERE WE ARE ==
   let upath = app.getPath('userData')
   let config = checkDBs(upath)
-  if (!config) log('here will be crash message to user')
-  let dbns
+  if (!config || !config.dbns.length) {
+    log('no dbs found')
+    app.quit()
+  }
+
+  let dbs
   createDBs(upath, config).then(res => {
-    dbns = res
+    dbs = res
   }).catch(err => {
     console.log('err creating dbns', err)
   })
 
   ipcMain.on('data', function (event, str) {
-    if (!dbns) return
-    queryDBs(dbns, str, function (err, res) {
+    if (!dbs) return
+    queryDBs(dbs, str, function (err, res) {
       if (err) return console.log('err dbs')
       else {
         let data = {str: str, res: res}

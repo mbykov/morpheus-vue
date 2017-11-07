@@ -7,84 +7,50 @@ const fse = require('fs-extra')
 let PouchDB = require('pouchdb')
 
 export function checkDBs (upath) {
-  let dpath = path.resolve(upath, 'pouch')
-  let spath = path.resolve(__dirname, '../..', 'pouch')
-
-  const nsrc = path.resolve(spath, 'ntireader')
-  const ndest = path.resolve(dpath, 'ntireader')
-  const hsrc = path.resolve(spath, 'hanzi')
-  const hdest = path.resolve(dpath, 'hanzi')
+  let dest = path.resolve(upath, 'pouch')
+  let src = path.resolve(__dirname, '../..', 'pouch')
 
   try {
-    let dstate = fse.pathExistsSync(dpath)
+    let dstate = fse.pathExistsSync(dest)
+    dstate = false // FIX:
     if (!dstate) {
-      fse.mkdirsSync(dpath, {empty: true})
+      fse.copySync(src, dest, { matching: '**/*' })
     }
   } catch (err) {
-    log('ERR pouch', err)
+    log('ERR creating pouch', err)
     app.quit()
     return
   }
 
-  try {
-    let nstate = fse.pathExistsSync(ndest)
-    if (!nstate) {
-      fse.copySync(nsrc, ndest, { matching: '**/*' })
-    }
-  } catch (err) {
-    log('ERR nstate', err)
-    app.quit()
-  }
-
-  try {
-    let hstate = fse.pathExistsSync(hdest)
-    if (!hstate) {
-      fse.copySync(hsrc, hdest, { matching: '**/*' })
-    }
-  } catch (err) {
-    log('ERR hstate', err)
-    app.quit()
-    return
-  }
-
-  let config
-  let cname = 'morpheus-config.json'
-  let cpath = path.join(upath, cname)
-  try {
-    config = fse.readJsonSync(cpath)
-    if (!config || !config.dbns) throw new Error()
-  } catch (err) {
-    config = {dbns: ['ntireader']}
-    try {
-      fse.writeJsonSync(cpath, config)
-      return config
-    } catch (err) {
-      console.log('CONFIG WRITE ERR', err)
-      app.quit()
-      return
-    }
-  }
-  return config
+  let infos = []
+  fse.readdirSync(dest).forEach(fn => {
+    if (path.extname(fn) !== '.json') return
+    if (fn === 'hanzi.json') return
+    let ipath = path.resolve(dest, fn)
+    let info = fse.readJsonSync(ipath)
+    infos.push(info)
+  })
+  let dbns = infos.map(info => { return info.path })
+  return {dbns: dbns, infos: infos}
 }
 
 export function createDBs (upath, config) {
-  return new Promise(function (resolve, reject) {
+  if (!config) return
+  let promis = new Promise(function (resolve, reject) {
     resolve(manyDBs(upath, config))
   })
+  return promis
 }
 
 function manyDBs (upath, config) {
   let databases = []
   config.dbns.forEach(dn => {
-    let dpath = path.resolve(upath, 'pouch', dn, 'db')
+    let dpath = path.resolve(upath, 'pouch', dn)
     let dstate = fse.exists(dpath)
     if (dstate) {
       let pouch = new PouchDB(dpath)
       pouch.dname = dn
-      let infopath = path.resolve(upath, 'pouch', dn, 'info.json')
-      let info = fse.readJsonSync(infopath)
-      let db = {info: info, db: pouch}
-      databases.push(db)
+      databases.push(pouch)
     } else {
       console.log('NO DB', dn, dpath)
     }
@@ -92,29 +58,9 @@ function manyDBs (upath, config) {
   return databases
 }
 
-export function createDBs_ (upath, config) {
-  let databases = []
-  config.dbns.forEach(dn => {
-    let dpath = path.resolve(upath, 'pouch', dn, 'db')
-    let dstate = fse.exists(dpath)
-    if (dstate) {
-      let pouch = new PouchDB(dpath)
-      pouch.dname = dn
-      let infopath = path.resolve(upath, 'pouch', dn, 'info.json')
-      let info = fse.readJsonSync(infopath)
-      let db = {info: info, db: pouch}
-      databases.push(db)
-    } else {
-      console.log('NO DB', dn, dpath)
-    }
-  })
-  return databases
-}
-
-export function queryDBs (dbns, str, cb) {
+export function queryDBs (dbs, str, cb) {
   let keys = parseKeys(str)
-  Promise.all(dbns.map(function (dbn) {
-    let db = dbn.db
+  Promise.all(dbs.map(function (db) {
     return db.allDocs({
       keys: keys,
       include_docs: true
@@ -122,14 +68,12 @@ export function queryDBs (dbns, str, cb) {
       if (!res || !res.rows) throw new Error('no dbn result')
       let rdocs = _.compact(res.rows.map(row => { return row.doc }))
       if (!rdocs.length) return
-      // rdocs.forEach(d => { d.dname = db.dname })
       rdocs.forEach(rd => {
         rd.docs.forEach(d => {
           d.dname = db.dname
           d.dict = rd._id
         })
       })
-      // return _.flatten(_.compact(docs))
       return rdocs
     }).catch(function (err) {
       cb(err, null)
@@ -137,7 +81,6 @@ export function queryDBs (dbns, str, cb) {
     })
   })).then(function (arrayOfResults) {
     let flats = _.flatten(_.compact(arrayOfResults))
-    // cb(null, [])
     cb(null, flats)
   }).catch(function (err) {
     console.log('ERR 2', err)
@@ -145,15 +88,9 @@ export function queryDBs (dbns, str, cb) {
   })
 }
 
-// 古 件
 export function queryHanzi (upath, seg) {
   let keys = [seg]
-  let dpath = path.resolve(upath, 'pouch', 'hanzi', 'db')
-  let dstate = fse.exists(dpath)
-  if (!dstate) {
-    log('NO DB query HANZI', dpath)
-    return
-  }
+  let dpath = path.resolve(upath, 'pouch', 'hanzi')
   let pouch = new PouchDB(dpath)
   let opt = {keys: keys, include_docs: true}
 
@@ -191,3 +128,53 @@ function parseKeys (str) {
   }
   return padas
 }
+
+// export function checkDBs_ (upath) {
+//   let dpath = path.resolve(upath, 'pouch')
+//   let spath = path.resolve(__dirname, '../..', 'pouch')
+
+//   const nsrc = path.resolve(spath, 'ntireader')
+//   const ndest = path.resolve(dpath, 'ntireader')
+//   const hsrc = path.resolve(spath, 'hanzi')
+//   const hdest = path.resolve(dpath, 'hanzi')
+
+//   try {
+//     let nstate = fse.pathExistsSync(ndest)
+//     if (!nstate) {
+//       fse.copySync(nsrc, ndest, { matching: '**/*' })
+//     }
+//   } catch (err) {
+//     log('ERR nstate', err)
+//     app.quit()
+//   }
+
+//   try {
+//     let hstate = fse.pathExistsSync(hdest)
+//     if (!hstate) {
+//       fse.copySync(hsrc, hdest, { matching: '**/*' })
+//     }
+//   } catch (err) {
+//     log('ERR hstate', err)
+//     app.quit()
+//     return
+//   }
+
+//   let config
+//   let cname = 'morpheus-config.json'
+//   let cpath = path.join(upath, cname)
+//   try {
+//     config = fse.readJsonSync(cpath)
+//     if (!config || !config.dbns) throw new Error()
+//   } catch (err) {
+//     config = {dbns: ['ntireader']}
+//     try {
+//       fse.writeJsonSync(cpath, config)
+//       return config
+//     } catch (err) {
+//       console.log('CONFIG WRITE ERR', err)
+//       app.quit()
+//       return
+//     }
+//   }
+//   return config
+// }
