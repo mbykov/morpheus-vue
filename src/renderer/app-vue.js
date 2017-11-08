@@ -72,6 +72,10 @@ let vm = {
       that.ohanzi = true
       EventBus.$emit('show-hanzi', doc)
     })
+    EventBus.$on('go-home', () => {
+      this.otitle = true
+      this.oinstall = false
+    })
     EventBus.$on('show-dict', data => {
       this.odict = true
       this.ohanzi = false
@@ -87,14 +91,14 @@ let vm = {
     })
     ipcRenderer.on('section', function (event, name) {
       split.setSizes([100, 0])
-      this.otitle = true
       if (name === 'install') {
-        this.otitle = false
-        this.oinstall = true
+        that.otitle = false
+        that.oinstall = true
         that.showInstall()
       } else {
-        this.otitle = true
-        this.oinstall = false
+        log('ipcRend', name)
+        that.otitle = true
+        that.oinstall = false
         showSection(name)
       }
     })
@@ -192,7 +196,14 @@ let vm = {
     showInstall (ev) {
       this.ambis = false
       this.recsegs = false
-      this.ohanzi = false
+      this.otitle = false
+      this.oinstall = true
+      log('install section')
+    },
+
+    showIn (ev) {
+      this.ambis = false
+      this.recsegs = false
       this.otitle = false
       this.oinstall = true
       log('install section')
@@ -283,12 +294,15 @@ function setSegs (clause, segs) {
 // })
 
 function showSection(name) {
+  // that.otitle = true
+  // that.oinstall = false
   let text = q('#title-page')
   empty(text)
   let sect = create('div')
   sect.classList.add('section')
   let html
-  let cpath = ['./sections', name, '.html'].join('/')
+  // let cpath = ['./sections', name, '.html'].join('/')
+  log('showSec-func', text)
 
   switch (name) {
   case 'about':
