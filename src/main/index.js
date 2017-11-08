@@ -1,6 +1,6 @@
 'use strict'
 
-// import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
+import _ from 'lodash'
 import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
 import {log} from '../renderer/utils'
 import {checkDBs, createDBs, queryHanzi, queryDBs} from './createDBs'
@@ -100,31 +100,29 @@ function createWindow () {
     app.quit()
   }
 
-  let dbs
-  createDBs(upath, config).then(res => {
-    dbs = res
+  createDBs(upath, config).then(dbs => {
+    if (!dbs) return
+    ipcMain.on('data', function (event, str) {
+      queryDBs(dbs, str)
+        .then(function (arrayOfResults) {
+          let flats = _.flatten(_.compact(arrayOfResults))
+          let data = {str: str, res: flats}
+          mainWindow.webContents.send('data', data)
+        }).catch(function (err) {
+          console.log('ERR queryDBs', err)
+        })
+    })
+
+    ipcMain.on('hanzi', function (event, seg) {
+      queryHanzi(dbs, upath, seg).then(function (doc) {
+        if (!doc) return
+        mainWindow.webContents.send('hanzi', doc)
+      }).catch(function (err) {
+        log('catched hanzi err', err)
+      })
+    })
   }).catch(err => {
     console.log('err creating dbns', err)
-  })
-
-  ipcMain.on('data', function (event, str) {
-    if (!dbs) return
-    queryDBs(dbs, str, function (err, res) {
-      if (err) return console.log('err dbs')
-      else {
-        let data = {str: str, res: res}
-        mainWindow.webContents.send('data', data)
-      }
-    })
-  })
-
-  ipcMain.on('hanzi', function (event, seg) {
-    queryHanzi(upath, seg).then(function (doc) {
-      if (!doc) return
-      mainWindow.webContents.send('hanzi', doc)
-    }).catch(function (err) {
-      log('catched hanzi err', err)
-    })
   })
 }
 

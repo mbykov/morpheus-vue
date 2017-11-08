@@ -2,11 +2,14 @@
   <div id="app" @click="externaLink">
      <!-- @scroll="onWheel" -->
      <div id="text" class="split split-horizontal text" @mouseover="showDict"  @mouseleave="hideSeg" @click="showRec">
-       <img :src="msrc">
-       <p>just copy some Chinese text (Ctrl-C) anywhere on a desktop and move mouse over it</p>
-       <p>try, for example, this word: 你好</p>
-       <p><a class="newslink" @click="showNew">new in this version</a></p>
+       <div v-show="otitle" id="title-page">
+         <img :src="msrc">
+         <p>just copy some Chinese text (Ctrl-C) anywhere on a desktop and move mouse over it</p>
+         <p>try, for example, this word: 你好</p>
+         <p><a class="newslink" @click="showNew">new in this version</a></p>
        </div>
+       <install v-show="oinstall">__install__</install>
+     </div>
 
        <div id="results" class="split split-horizontal">
          <ambis-popup v-show="ambis"></ambis-popup>

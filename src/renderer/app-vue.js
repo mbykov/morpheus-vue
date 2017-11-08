@@ -4,6 +4,7 @@ import AmbisPopup from '@/components/AmbisPopup'
 import RecursivePopup from '@/components/RecursivePopup'
 import Dicts from '@/components/Dicts'
 import Hanzi from '@/components/Hanzi'
+import Install from '@/components/Install'
 
 import _ from 'lodash'
 import {log, q, qs, empty, create, span} from './utils'
@@ -11,6 +12,7 @@ import 'han-css/dist/han.css'
 import {ipcRenderer, shell} from 'electron'
 
 import Split from 'split.js'
+
 import code from './sections/code.html'
 import about from './sections/about.html'
 import ecbt from './sections/ecbt.html'
@@ -48,7 +50,9 @@ let vm = {
       ambis: '',
       showrec: true,
       ohanzi: '',
-      odict: true
+      odict: true,
+      otitle: true,
+      oinstall: false
     }
   },
 
@@ -56,7 +60,8 @@ let vm = {
     Dicts,
     Hanzi,
     AmbisPopup,
-    RecursivePopup
+    RecursivePopup,
+    Install
   },
 
   created () {
@@ -80,6 +85,20 @@ let vm = {
       this.ohanzi = false
       this.odict = false
     })
+    ipcRenderer.on('section', function (event, name) {
+      split.setSizes([100, 0])
+      this.otitle = true
+      if (name === 'install') {
+        this.otitle = false
+        this.oinstall = true
+        that.showInstall()
+      } else {
+        this.otitle = true
+        this.oinstall = false
+        showSection(name)
+      }
+    })
+
     // document.body.addEventListener('scroll', this.onWheel)
     // document.body.addEventListener('scroll', log('---->>>'))
   },
@@ -170,6 +189,15 @@ let vm = {
       showSection('news')
     },
 
+    showInstall (ev) {
+      this.ambis = false
+      this.recsegs = false
+      this.ohanzi = false
+      this.otitle = false
+      this.oinstall = true
+      log('install section')
+    },
+
     externaLink (ev) {
       if (!ev.target.classList.contains('external')) return
       let href = ev.target.getAttribute('href')
@@ -196,7 +224,6 @@ clipboard
     EventBus.$emit('close-popups')
 
     let currentText = clipboard.readText()
-    log('CLIP', currentText)
     let pars = zh(currentText)
     if (!pars) return
     split.setSizes([60, 40])
@@ -223,7 +250,6 @@ ipcRenderer.on('before-quit', function (event) {
 ipcRenderer.on('data', function (event, data) {
   let clause = q('.clause')
   if (!clause) return
-  log('=bs', data)
   // data = {res: [], str: data.str}
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
@@ -231,7 +257,6 @@ ipcRenderer.on('data', function (event, data) {
     let key = clause.textContent
     if (!EventBus.res) EventBus.res = {}
     EventBus.res[key] = {docs: docs, segs: segs}
-    log('segs', segs)
     setSegs(clause, segs)
   })
 })
@@ -252,17 +277,19 @@ function setSegs (clause, segs) {
   })
 }
 
-ipcRenderer.on('section', function (event, name) {
-  split.setSizes([100, 0])
-  showSection(name)
-})
+// ipcRenderer.on('section', function (event, name) {
+//   split.setSizes([100, 0])
+//   showSection(name)
+// })
 
 function showSection(name) {
-  let text = q('#text')
+  let text = q('#title-page')
   empty(text)
   let sect = create('div')
   sect.classList.add('section')
   let html
+  let cpath = ['./sections', name, '.html'].join('/')
+
   switch (name) {
   case 'about':
     html = about
