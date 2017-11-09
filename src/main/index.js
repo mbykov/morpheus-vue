@@ -100,6 +100,11 @@ function createWindow () {
     app.quit()
   }
 
+  ipcMain.on('config', function (event, seg) {
+    mainWindow.webContents.send('config', config)
+  })
+  // log('send config', config)
+
   createDBs(upath, config).then(dbs => {
     if (!dbs) return
     ipcMain.on('data', function (event, str) {

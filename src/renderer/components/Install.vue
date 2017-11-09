@@ -1,15 +1,18 @@
 <template>
   <div id="install" class="section">
-      <h2><b>install dictionary</b></h2>
-      <ul class="dict-install">
-        <!-- <span></span> -->
-        <!-- v-chek - name - lang - install - remove - disable -->
-        <li><span>v-check</span><span>name</span><span>lang</span><span>install</span><span>remove</span><span>disable</span></li>
-        <li><span>etc, etc</span></li>
-      </ul>
+      <h2><b>Dictionaries</b>:</h2>
+      <table width="75%">
+        <tr class="bold">
+          <td></td><td>name</td><td>lang</td><td>remove</td><td>active</td>
+        </tr>
+        <tr v-for="info in cfg.infos" @click="toggleDict">
+          <td><img :src="chcksrc" class="check" v-show="info.active"></td><td>{{info.name}}</td><td>{{info.lang}}</td><td>b</td><td><input type="checkbox" name="dict" class="active radio-dict"></td>
+        </tr>
+      </table>
 
       <p>&nbsp;</p>
-      <p @click="showTl">=== show title===</p>
+      <h2><b>install precompiled</b>:</h2>
+      <!-- <p @click="showTl">=== show title===</p> -->
   </div>
 </template>
 
@@ -17,4 +20,10 @@
 </script>
 
 <style>
+.bold {
+    font-weight: bold;
+}
+.check {
+    width: 25px;
+}
 </style>

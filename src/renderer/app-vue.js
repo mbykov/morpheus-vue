@@ -8,7 +8,7 @@ import Install from '@/components/Install'
 
 import _ from 'lodash'
 import {log, q, qs, empty, create, span} from './utils'
-import 'han-css/dist/han.css'
+// import 'han-css/dist/han.css'
 import {ipcRenderer, shell} from 'electron'
 
 import Split from 'split.js'
@@ -214,7 +214,7 @@ let vm = {
       this.odict = true
       this.omain = false
       this.otitle = false
-      log('install section')
+      EventBus.$emit('show-install')
     },
 
     // showIn (ev) { // временный линк
@@ -278,16 +278,22 @@ ipcRenderer.on('before-quit', function (event) {
 ipcRenderer.on('data', function (event, data) {
   let clause = q('.clause')
   if (!clause) return
-  // data = {res: [], str: data.str}
+
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
   segmenter(data.str, dicts).then(segs => {
     let key = clause.textContent
+    log('OPT-2', EventBus.config)
     if (!EventBus.res) EventBus.res = {}
     EventBus.res[key] = {docs: docs, segs: segs}
     setSegs(clause, segs)
   })
 })
+
+// ipcRenderer.on('dbconfig', function (event, data) {
+//   EventBus.config = data
+//   log('OPT-1', EventBus.config)
+// })
 
 function setSegs (clause, segs) {
   empty(clause)

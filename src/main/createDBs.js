@@ -48,10 +48,10 @@ export function checkDBs (upath) {
 
 export function createDBs (upath, config) {
   if (!config) return
-  let promis = new Promise(function (resolve, reject) {
+  let promise = new Promise(function (resolve, reject) {
     resolve(manyDBs(upath, config))
   })
-  return promis
+  return promise
 }
 
 function manyDBs (upath, config) {
@@ -85,6 +85,7 @@ export function queryDBs (dbs, str) {
         rd.docs.forEach(d => {
           d.dname = db.dname
           d.dict = rd._id
+          log('D', d)
         })
       })
       return rdocs
