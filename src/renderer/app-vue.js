@@ -65,20 +65,7 @@ let vm = {
     Install
   },
 
-  // watch: {
-  //   otitle: function (bool) {
-  //     if (bool) this.omain = false; this.odict = false
-  //     log('TITLE TRUE- odict: ', this.omain)
-  //   },
-  //   omain: function (bool) {
-  //     if (bool) this.otitle = false; this.odict = false
-  //   },
-  //   odict: function (bool) {
-  //     log('DICT TRUE- odict: ', this.odict)
-  //     if (bool) this.otitle = false; this.omain = false
-  //   },
-  // },
-
+  // 刑事案件
   created () {
     this.setGrid()
     let that = this
@@ -110,10 +97,10 @@ let vm = {
     ipcRenderer.on('section', function (event, name) {
       split.setSizes([100, 0])
       if (name === 'install') {
-        that.odict = true
+        that.showDict()
         that.showInstall()
       } else {
-        that.otitle = true
+        that.showTitle()
         showSection(name)
       }
     })
@@ -130,7 +117,19 @@ let vm = {
       this.omain = true
       this.otitle = false
       this.odict = false
+      this.ores = false
     },
+    showTitle () {
+      this.omain = false
+      this.otitle = true
+      this.odict = false
+    },
+    showDict () {
+      this.omain = false
+      this.otitle = false
+      this.odict = true
+    },
+
     setGrid () {
       // let that = this
       this.$nextTick(function () {
