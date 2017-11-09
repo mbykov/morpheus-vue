@@ -50,9 +50,10 @@ let vm = {
       ambis: '',
       showrec: true,
       ohanzi: '',
-      odict: true,
+      ores: true,
       otitle: true,
-      oinstall: false
+      omain: false,
+      odict: false
     }
   },
 
@@ -64,20 +65,37 @@ let vm = {
     Install
   },
 
+  // watch: {
+  //   otitle: function (bool) {
+  //     if (bool) this.omain = false; this.odict = false
+  //     log('TITLE TRUE- odict: ', this.omain)
+  //   },
+  //   omain: function (bool) {
+  //     if (bool) this.otitle = false; this.odict = false
+  //   },
+  //   odict: function (bool) {
+  //     log('DICT TRUE- odict: ', this.odict)
+  //     if (bool) this.otitle = false; this.omain = false
+  //   },
+  // },
+
   created () {
     this.setGrid()
     let that = this
     ipcRenderer.on('hanzi', function (event, doc) {
-      that.odict = false
+      that.ores = false
       that.ohanzi = true
       EventBus.$emit('show-hanzi', doc)
     })
-    EventBus.$on('go-home', () => {
+    EventBus.$on('start', () => {
+      this.showMain()
+    })
+    EventBus.$on('go-home', () => { // FIX
       this.otitle = true
-      this.oinstall = false
+      this.odict = false
     })
     EventBus.$on('show-dict', data => {
-      this.odict = true
+      this.ores = true
       this.ohanzi = false
     })
     EventBus.$on('show-recursive', data => {
@@ -87,18 +105,15 @@ let vm = {
       this.ambis = false
       this.recsegs = false
       this.ohanzi = false
-      this.odict = false
+      this.ores = false
     })
     ipcRenderer.on('section', function (event, name) {
       split.setSizes([100, 0])
       if (name === 'install') {
-        that.otitle = false
-        that.oinstall = true
+        that.odict = true
         that.showInstall()
       } else {
-        log('ipcRend', name)
         that.otitle = true
-        that.oinstall = false
         showSection(name)
       }
     })
@@ -111,6 +126,11 @@ let vm = {
   // },
 
   methods: {
+    showMain () {
+      this.omain = true
+      this.otitle = false
+      this.odict = false
+    },
     setGrid () {
       // let that = this
       this.$nextTick(function () {
@@ -123,12 +143,10 @@ let vm = {
     },
     // =====>>> 你们都用wiki吗？====>>> BUG
     // 我们现在没有钱。
-    showDict (ev) {
+    mainProc (ev) {
       if (ev.target.nodeName !== 'SPAN') return
       if (ev.shiftKey) return
-      this.ambis = false
-      this.recsegs = false
-      this.ohanzi = false
+      EventBus.$emit('close-popups')
       if (ev.target.classList.contains('cl')) {
         let cls = qs('.clause')
         cls.forEach(cl => { cl.classList.remove('clause') })
@@ -147,9 +165,9 @@ let vm = {
         let seg = ev.target.textContent
         let data = {seg: seg, cl: 'no-result', hole: true}
         EventBus.$emit('show-dict', data)
-        this.odict = true
+        this.ores = true
       } else if (ev.target.classList.contains('seg')) {
-        this.odict = true
+        this.ores = true
         let cl = findAncestor(ev.target, 'cl')
         let clkey = cl.textContent
         let seg = ev.target.textContent
@@ -176,7 +194,7 @@ let vm = {
       let seg = ev.target.textContent
       if (seg.length === 1) {
         ipcRenderer.send('hanzi', seg)
-        this.odict = false
+        this.ores = false
         this.ohanzi = true
       }
       if (seg.length < 2) return
@@ -194,20 +212,19 @@ let vm = {
     },
 
     showInstall (ev) {
-      this.ambis = false
-      this.recsegs = false
+      this.odict = true
+      this.omain = false
       this.otitle = false
-      this.oinstall = true
       log('install section')
     },
 
-    showIn (ev) {
-      this.ambis = false
-      this.recsegs = false
-      this.otitle = false
-      this.oinstall = true
-      log('install section')
-    },
+    // showIn (ev) { // временный линк
+    //   this.ambis = false
+    //   this.recsegs = false
+    //   this.otitle = false
+    //   // this.odict = true
+    //   log('install section')
+    // },
 
     externaLink (ev) {
       if (!ev.target.classList.contains('external')) return
@@ -215,6 +232,7 @@ let vm = {
       shell.openExternal(href)
     },
 
+    // FIX
     hideSeg (ev) {
       if (ev.target.classList.contains('text')) {
       }
@@ -232,13 +250,13 @@ function getCoords (el) {
 // 根據中央社報導，童子賢今天出席科技部記者會，
 clipboard
   .on('text-changed', () => {
-    EventBus.$emit('close-popups')
+    EventBus.$emit('start')
 
     let currentText = clipboard.readText()
     let pars = zh(currentText)
     if (!pars) return
     split.setSizes([60, 40])
-    let text = q('#text')
+    let text = q('#main')
     empty(text)
     pars.forEach((cls) => {
       let par = create('p')
@@ -288,21 +306,12 @@ function setSegs (clause, segs) {
   })
 }
 
-// ipcRenderer.on('section', function (event, name) {
-//   split.setSizes([100, 0])
-//   showSection(name)
-// })
-
 function showSection(name) {
-  // that.otitle = true
-  // that.oinstall = false
-  let text = q('#title-page')
+  let text = q('#title')
   empty(text)
   let sect = create('div')
   sect.classList.add('section')
   let html
-  // let cpath = ['./sections', name, '.html'].join('/')
-  log('showSec-func', text)
 
   switch (name) {
   case 'about':
