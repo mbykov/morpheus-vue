@@ -1,6 +1,6 @@
 {
   "name": "morpheus-vue",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "author": "Michael Bykov <m.bykov@gmail.com>",
   "description": "An electron-vue test project",
   "license": "GPL-3.0",
@@ -18,6 +18,7 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "test": "npm run unit",
     "unit": "karma start test/unit/karma.conf.js",
+    "release": "node .electron-vue/build.js && electron-builder",
     "postinstall_": "npm run lint:fix"
   },
   "homepage": "http://diglossa.org",
