@@ -1353,13 +1353,13 @@ boom@5.x.x:
   dependencies:
     hoek "4.x.x"
 
-bootstrap-vue@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/bootstrap-vue/-/bootstrap-vue-1.0.2.tgz#6fe0222be4e01572fa83ff4478549f260c0cff8b"
+bootstrap-vue@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/bootstrap-vue/-/bootstrap-vue-1.2.0.tgz#137aa803e7d910a0b63a7cc3816d7d180c3f7575"
   dependencies:
     lodash.startcase "^4.4.0"
     opencollective "^1.0.3"
-    popper.js "^1.12.6"
+    popper.js "^1.12.9"
     vue-functional-data-merge "^1.0.6"
 
 bootstrap@4.0.0-beta.2:
@@ -2668,9 +2668,9 @@ ejs@^2.5.7:
   version "2.5.7"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.7.tgz#cc872c168880ae3c7189762fd5ffc00896c9518a"
 
-electron-builder@^19.19.1:
-  version "19.45.4"
-  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-19.45.4.tgz#cfa1b68e76b02495c233ade0af52c6b3b24695c4"
+electron-builder@^19.45.5:
+  version "19.45.5"
+  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-19.45.5.tgz#67a949d71cd2e947efd333fc9a933bd36c552cc6"
   dependencies:
     "7zip-bin" "^2.2.7"
     app-package-builder "1.5.0"
@@ -4654,6 +4654,10 @@ istanbul@^0.4.0:
     which "^1.1.1"
     wordwrap "^1.0.0"
 
+jquery@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
+
 js-base64@^2.1.9:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.3.2.tgz#a79a923666372b580f8e27f51845c6f7e8fbfbaf"
@@ -6203,7 +6207,11 @@ pluralize@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"
 
-popper.js@^1.12.6:
+popper.js@1.12.3:
+  version "1.12.3"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.12.3.tgz#e46a99c52e74e310411df505d820b61bdbe7eaee"
+
+popper.js@^1.12.9:
   version "1.12.9"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.12.9.tgz#0dfbc2dff96c451bb332edcfcfaaf566d331d5b3"
 
