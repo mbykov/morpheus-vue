@@ -1,0 +1,58 @@
+<template>
+  <div id="title" class="section">
+    <div id="img">
+      <img :src="msrc">
+    </div>
+    <div id="text">
+      <p>
+        Copy some Chinese text from anywhere on your desktop (Ctrl-C); then move the mouse over text in order to see the readings of Chinese characters and obtain further information from various dictionaries.  </p>
+      <p>Try, for example, this phrase: 欢迎大家使用这个创新的软件，以便在瞬间学习新的汉字，并显着加快您的中文阅读速度！</p>
+      <p>Or the same in traditional characters: 歡迎大家使用這個創新的軟件，以便在瞬間學習新的漢字，並顯著加快您的中文閱讀速度！</p>
+      <p></p>
+    </div>
+  </div>
+</template>
+
+<script>
+  import router from '../router'
+  const morpheuspng = 'static/256x256.png'
+  export default {
+    name: 'title',
+    data: function () {
+      return {
+        msrc: morpheuspng
+      }
+    },
+    created () {
+      router.push({path: 'title', query: {title: 'title'}})
+    }
+  }
+</script>
+
+<style>
+/* CSS */
+.link {
+    cursor: pointer;
+}
+
+span:hover,
+span.router-link-active,
+span.router-link-exact-active {
+   /* background-color: indianred; */
+   cursor: pointer;
+}
+
+#title {
+    margin: auto;
+    padding: 10px;
+}
+
+#img {
+    float: left;
+    padding: 25px;
+}
+#text {
+    margin-top: 50px;
+    margins: 25px;
+}
+</style>

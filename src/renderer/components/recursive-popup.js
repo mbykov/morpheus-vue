@@ -1,8 +1,8 @@
 //
 
 import _ from 'lodash'
-import {q, placePopup} from '../utils'
-import { EventBus } from './bus'
+import {log, q, placePopup} from '../utils'
+import { EventBus } from '../bus'
 import {ipcRenderer} from 'electron'
 // import {segmenter} from '../../../../segmenter'
 // import {segmenter} from 'recursive-segmenter'
@@ -15,6 +15,9 @@ export default {
     EventBus.$on('show-recursive', data => {
       this.showPopup(data)
     })
+    EventBus.$on('clean', data => {
+      this.segs = null
+    })
   },
   data: function () {
     return {
@@ -22,14 +25,18 @@ export default {
       cl: null
     }
   },
+  props: ['clean'],
+  watch: {
+    'clean' () {
+      this.segs = null
+    }
+  },
+
   methods: {
     showPopup: function (data) {
       this.cl = data.cl
       if (!EventBus.res[data.cl]) return
       let dicts = _.uniq(EventBus.res[data.cl].docs.map(doc => { return doc.dict }))
-
-      // let segs = segmenter(data.seg, dicts)
-      // this.segs = segs.map(s => { return s.seg })
 
       segmenter(data.seg, dicts).then(segs => {
         this.segs = segs.map(s => { return s.seg })
@@ -51,12 +58,6 @@ export default {
       if (ev.shiftKey) return
       let seg = ev.target.textContent
       ipcRenderer.send('hanzi', seg)
-      // EventBus.$emit('show-hanzi', seg)
     }
   }
 }
-
-// function findAncestor (el, cls) {
-//   while ((el = el.parentElement) && !el.classList.contains(cls));
-//   return el
-// }

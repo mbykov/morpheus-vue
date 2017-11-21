@@ -21,10 +21,9 @@ module.exports = function (win, e) {
       label: 'about',
       submenu: [
         {label: 'about Morpheus', click () { win.webContents.send('section', 'about') }},
-        {label: 'about ECBT series', click () { win.webContents.send('section', 'ecbt') }},
-        {label: 'license and code', click () { win.webContents.send('section', 'code') }},
+        {label: 'Dharma-Reader', click () { win.webContents.send('section', 'dharma') }},
+        {label: 'code and license', click () { win.webContents.send('section', 'code') }},
         {label: 'contacs', click () { win.webContents.send('section', 'contacts') }},
-        {label: 'screencast', click () { win.webContents.send('section', 'screencast') }},
         {label: 'acknowledgements', click () { win.webContents.send('section', 'acknowledgements') }}
         // {
         //     label: 'learn more',
@@ -33,30 +32,20 @@ module.exports = function (win, e) {
       ]
     },
     {
-      label: 'dicts',
+      label: 'dictionaries',
       submenu: [
-        {label: 'install', click () { win.webContents.send('section', 'install') }},
-        {label: 'descriptions', click () { win.webContents.send('section', 'dicts') }}
+        {label: 'active dicts', click () { win.webContents.send('section', 'active') }},
+        {label: 'install from file', click () { win.webContents.send('section', 'install') }},
+        {label: 'cleanup db', click () { win.webContents.send('section', 'cleanup') }}
       ]
     },
-    //   label: 'help',
-    //   submenu: [
-    //     {label: 'help', click () { win.webContents.send('section', 'help') }}
-    //   ]
-    // },
     {
       label: 'help',
-      click () {
-        win.webContents.send('section', 'help')
-        return true
-      }
-    },
-    {
-      label: 'tests',
-      click () {
-        win.webContents.send('section', 'tests')
-        return true
-      }
+      submenu: [
+        {label: 'help', click () { win.webContents.send('section', 'help') }},
+        {label: 'screencast', click () { win.webContents.send('section', 'screencast') }},
+        {label: 'tests', click () { win.webContents.send('section', 'tests') }}
+      ]
     }
   ]
 }

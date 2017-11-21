@@ -1,32 +1,21 @@
 //
 
-import { EventBus } from './bus.js'
+import { EventBus } from '../bus.js'
 // import {log} from '../utils'
-
-let paths = []
+// import {ipcRenderer} from 'electron'
 
 export default {
   name: 'hanzi',
   created () {
+    // let that = this
+    EventBus.$on('show-dict', data => { this.hanzi = false })
     EventBus.$on('show-hanzi', doc => {
-      this.showHanzi(doc)
+      this.hanzi = doc
     })
   },
   data: function () {
     return {
-      paths: paths,
-      hanzi: {pinyin: []}
-    }
-  },
-  methods: {
-    showHanzi: function (doc) {
-      if (doc) this.hanzi = doc
+      hanzi: false
     }
   }
 }
-
-// let drawSVG = function(svgStr) {
-//   var parser = new DOMParser();
-//   var dom = parser.parseFromString(svgStr, "text/xml");
-//   document.getElementById('hanzi').appendChild(dom.documentElement);
-// }

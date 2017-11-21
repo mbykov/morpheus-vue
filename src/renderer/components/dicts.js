@@ -1,7 +1,7 @@
 //
 
 import {ipcRenderer} from 'electron'
-import { EventBus } from './bus.js'
+import { EventBus } from '../bus.js'
 // import {log} from '../utils'
 import _ from 'lodash'
 
@@ -9,10 +9,18 @@ export default {
   name: 'dicts',
   data: function () {
     return {
-      dict: ''
+      dict: false
+    }
+  },
+  props: ['clean'],
+  watch: {
+    'clean' () {
+      this.dict = null
     }
   },
   created () {
+    EventBus.$on('show-hanzi', data => { this.dict = false })
+
     EventBus.$on('show-dict', data => {
       if (data.hole) {
         this.dict = {seg: data.seg, dbns: {'no result': []}}

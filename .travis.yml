@@ -13,8 +13,8 @@ matrix:
 cache:
   directories:
   - node_modules
-  # - "$HOME/.electron"
-  # - "$HOME/.cache"
+  - "$HOME/.electron"
+  - "$HOME/.cache"
 addons:
   apt:
     packages:
@@ -36,15 +36,7 @@ install:
 - yarn
 script:
 #- xvfb-maybe node_modules/.bin/karma start test/unit/karma.conf.js
-- yarn run release
-
-# deploy:
-#   provider: releases
-#   skip_cleanup: true
-#   api_key: $API_KEY
-#   on:
-#     tags: false
+- yarn run build
 branches:
   only:
   - master
-  - /v\d+\.\d+[a-z]/

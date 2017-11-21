@@ -2,5 +2,6 @@
   "name": "NTI-reader",
   "lang": "en",
   "url": "http://ntireader.org",
-  "path": "ntireader"
+  "path": "ntireader",
+  "active": true
 }

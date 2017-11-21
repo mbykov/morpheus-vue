@@ -1,0 +1,64 @@
+#+STARTUP: overview
+#+STARTUP: hidestars
+
+* A. C. Graham’s Disputers of the Tao: Philosophical Argument in Ancient China
+  - https://web.stanford.edu/group/chinesetexts/
+
+* pairs
+  - 1-1 今天 - jīn tiān
+  - 1-2 中国 - zhōng guó
+
+* TODO with routes
+  - [X] Ctrl-C
+  - [X] Split
+  - [X] Arrows
+  - [X] History mode
+  - [ ] как-то остановить history на границе массива
+  - [X] Menu
+  - [X] Section routes
+  - [X] Alt-arrows
+  - [ ] cl - копирование - почистить dict - и закрыть все!
+  - [ ]
+  - [-] misc v.0.5:
+    - [ ] about dicts
+    - [X] title-page
+    - [ ] title page with updater message
+    - [ ] zh - лишний space?
+    - [ ] remember place
+    - [ ] help images
+    - [ ] shift + mouse-wheel
+    - [ ] dict vew jump top
+    - [ ] dict clean
+    - [ ] nextLine, or levelSTR
+    - [ ] cursor
+    - [ ] about Rharma-reader - перенести в about
+    - [ ] clean = сделать везде через props <<<<<<<=============
+  - [ ]
+  - [X] => dbs
+    - [X] segs
+    - [X] dict
+    - [X] hanzi
+  - [ ]
+  - [X] DBs:
+    - [X] active
+    - [X] order
+    - [X] в info убрать Ханци - что это? это active?
+    - [X] install from file
+    - [X] cleanUp db
+  - [ ]
+  - [ ] auto-update
+  - [ ]
+  - [-] dicts:
+    - [X] stanford
+    - [ ]
+  - [ ] han css
+    - [ ] font
+  - [ ]
+  - [ ] signup, login
+  - [ ]
+  - [ ] appleId
+  - [ ]
+
+食  shí
+
+不遠千里而來

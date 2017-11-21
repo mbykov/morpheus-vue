@@ -8,42 +8,55 @@ const path = require('path')
 const fse = require('fs-extra')
 let PouchDB = require('pouchdb')
 
-export function checkDBs (upath) {
+// emptyDirSync(dir) ?? FIX
+
+export function defaultDBs (upath) {
   let dest = path.resolve(upath, 'pouch')
   let src = path.resolve(__dirname, '../..', 'pouch')
-
   try {
     let dstate = fse.pathExistsSync(dest)
-    dstate = false // FIX:
+    // dstate = false // FIX: всегда создаю 2 словаря
     if (!dstate) {
       fse.copySync(src, dest, { matching: '**/*' })
     }
   } catch (err) {
     log('ERR creating pouch', err)
     app.quit()
-    return
   }
+}
 
+export function readCfg (upath) {
+  let dest = path.resolve(upath, 'pouch')
   let infos = []
-  fse.readdirSync(dest).forEach(fn => {
-    if (path.extname(fn) !== '.json') return
-    if (fn === 'active.json') return
-    let ipath = path.resolve(dest, fn)
-    let info = fse.readJsonSync(ipath)
-    infos.push(info)
-  })
-  let dbns = infos.map(info => { return info.path })
-
-  let apath = path.resolve(dest, 'active.json')
-  let active
   try {
-    active = fse.readJsonSync(apath)
+    fse.readdirSync(dest).forEach((fn, idx) => {
+      if (path.extname(fn) !== '.json') return
+      let ipath = path.resolve(dest, fn)
+      let info = fse.readJsonSync(ipath)
+      // ==========
+      if (!info.hasOwnProperty('active')) info.active = true
+      if (!info.hasOwnProperty('weight')) info.weight = idx
+      infos.push(info)
+    })
   } catch (err) {
-    active = dbns
-    let json = JSON.stringify(active)
-    fse.writeFileSync(apath, json)
+    log('ERR: can not read cfg')
+    app.quit()
   }
-  return {dbns: dbns, active: active, infos: infos}
+  return infos
+}
+
+export function writeCfg (upath, cfg) {
+  let dest = path.resolve(upath, 'pouch')
+  try {
+    cfg.forEach(info => {
+      let fn = [info.path, 'json'].join('.')
+      let ipath = path.resolve(dest, fn)
+      fse.writeJsonSync(ipath, info)
+    })
+  } catch (err) {
+    log('can not write cfg')
+    app.quit()
+  }
 }
 
 export function createDBs (upath, config) {
@@ -54,14 +67,19 @@ export function createDBs (upath, config) {
   return promise
 }
 
-function manyDBs (upath, config) {
+function manyDBs (upath, infos) {
   let databases = []
-  config.dbns.forEach(dn => {
+  // let dbns = config.map(info => { return info.path })
+  infos = _.sortBy(infos, 'weight')
+  infos.forEach(info => {
+    if (!info.active) return
+    let dn = info.path
     let dpath = path.resolve(upath, 'pouch', dn)
     let dstate = fse.exists(dpath)
     if (dstate) {
       let pouch = new PouchDB(dpath)
       pouch.dname = dn
+      // pouch.active = true
       databases.push(pouch)
     } else {
       console.log('NO DB', dn, dpath)
@@ -85,7 +103,7 @@ export function queryDBs (dbs, str) {
         rd.docs.forEach(d => {
           d.dname = db.dname
           d.dict = rd._id
-          log('D', d)
+          // log('D', d)
         })
       })
       return rdocs
@@ -132,4 +150,16 @@ function parseKeys (str) {
     }
   }
   return padas
+}
+
+export function cleanupDBs (upath) {
+  let dest = path.resolve(upath, 'pouch')
+  let src = path.resolve(__dirname, '../..', 'pouch')
+  try {
+    fse.emptyDirSync(dest)
+    fse.copySync(src, dest, { matching: '**/*' })
+  } catch (err) {
+    log('ERR creating pouch', err)
+    app.quit()
+  }
 }

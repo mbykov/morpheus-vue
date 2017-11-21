@@ -2,11 +2,14 @@
 
 import _ from 'lodash'
 import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
-import {log} from '../renderer/utils'
-import {checkDBs, createDBs, queryHanzi, queryDBs} from './createDBs'
+// import {log} from '../renderer/utils'
+import {defaultDBs, readCfg, writeCfg, createDBs, queryHanzi, queryDBs, cleanupDBs} from './createDBs'
 // import { autoUpdater } from 'electron-updater'
 
 const path = require('path')
+
+const decompress = require('decompress')
+const decompressTargz = require('decompress-targz')
 
 /**
  * Set `__static` path to static files in production
@@ -28,15 +31,15 @@ process.on('uncaughtException', function (err) {
 })
 
 // Can be overridden by setting the ELECTRON_IS_DEV environment variable to 1.
-const isDev = require('electron-is-dev')
-if (isDev) {
-  console.log('Running in development')
-} else {
-  console.log('Running in production')
-}
+// const isDev = require('electron-is-dev')
+// if (isDev) {
+//   console.log('Running in development')
+// } else {
+//   console.log('Running in production')
+// }
 
-let tray
 let mainWindow
+
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
@@ -57,11 +60,9 @@ function createWindow () {
   let name = pckg.name
   let version = pckg.version
   mainWindow.setTitle([name, 'v.', version].join(' '))
-  // console.log('TITLE', mainWindow.getTitle())
 
   mainWindow.on('closed', () => {
     mainWindow = null
-    tray = null
   })
 
   mainWindow.webContents.on('crashed', function (err) {
@@ -80,7 +81,7 @@ function createWindow () {
 
   let trayicon = path.join(__dirname, '../../build/icons/64x64.png')
   // let trayicon = path.join(__dirname, '../build/book.png')
-  tray = new Tray(trayicon)
+  let tray = new Tray(trayicon)
   const contextMenu = Menu.buildFromTemplate([
     {label: 'help', role: 'help'},
     {label: 'learn more', click () { shell.openExternal('http://diglossa.org') }},
@@ -91,43 +92,62 @@ function createWindow () {
 
   // HACK
   app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-vue'))
-
-  // == HERE WE ARE ==
   let upath = app.getPath('userData')
-  let config = checkDBs(upath)
-  if (!config || !config.dbns.length) {
-    log('no dbs found')
-    app.quit()
-  }
+  defaultDBs(upath)
 
-  ipcMain.on('config', function (event, seg) {
-    mainWindow.webContents.send('config', config)
-  })
-  // log('send config', config)
-
-  createDBs(upath, config).then(dbs => {
-    if (!dbs) return
-    ipcMain.on('data', function (event, str) {
-      queryDBs(dbs, str)
-        .then(function (arrayOfResults) {
-          let flats = _.flatten(_.compact(arrayOfResults))
-          let data = {str: str, res: flats}
-          mainWindow.webContents.send('data', data)
-        }).catch(function (err) {
-          console.log('ERR queryDBs', err)
-        })
-    })
-
-    ipcMain.on('hanzi', function (event, seg) {
-      queryHanzi(dbs, upath, seg).then(function (doc) {
-        if (!doc) return
-        mainWindow.webContents.send('hanzi', doc)
-      }).catch(function (err) {
-        log('catched hanzi err', err)
+  ipcMain.on('cfg', function (event, newcfg) {
+    let cfg
+    if (newcfg) {
+      cfg = newcfg
+      writeCfg(upath, cfg)
+    } else {
+      cfg = readCfg(upath)
+    }
+    mainWindow.webContents.send('cfg', cfg)
+    createDBs(upath, cfg).then(dbs => {
+      if (!dbs) return
+      ipcMain.removeAllListeners('data')
+      ipcMain.on('data', function (event, str) {
+        queryDBs(dbs, str)
+          .then(function (arrayOfResults) {
+            let flats = _.flatten(_.compact(arrayOfResults))
+            let data = {str: str, res: flats}
+            mainWindow.webContents.send('data', data)
+          }).catch(function (err) {
+            console.log('ERR queryDBs', err)
+          })
       })
+
+      ipcMain.removeAllListeners('hanzi')
+      ipcMain.on('hanzi', function (event, seg) {
+        queryHanzi(dbs, upath, seg).then(function (doc) {
+          if (!doc) return
+          mainWindow.webContents.send('hanzi', doc)
+        }).catch(function (err) {
+          console.log('catched hanzi err', err)
+        })
+      })
+    }).catch(err => {
+      console.log('err creating dbns', err)
     })
-  }).catch(err => {
-    console.log('err creating dbns', err)
+    // log('CFG', cfg)
+  })
+
+  ipcMain.on('ipath', function (event, ipath) {
+    let dbpath = path.resolve(upath, 'pouch')
+    decompress(ipath, dbpath, {
+      plugins: [
+        decompressTargz()
+      ]
+    }).then(() => {
+      // console.log('Files decompressed')
+      mainWindow.webContents.send('section', 'active')
+    })
+  })
+
+  ipcMain.on('cleanup', function (event, ipath) {
+    cleanupDBs(upath)
+    mainWindow.webContents.send('section', 'active')
   })
 }
 
@@ -153,10 +173,14 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-// autoUpdater.on('update-downloaded', () => {
-//   autoUpdater.quitAndInstall()
-// })
+/*
+import { autoUpdater } from 'electron-updater'
 
-// app.on('ready', () => {
-//   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-// })
+autoUpdater.on('update-downloaded', () => {
+  autoUpdater.quitAndInstall()
+})
+
+app.on('ready', () => {
+  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+})
+*/

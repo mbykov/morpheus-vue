@@ -1,7 +1,7 @@
 //
 
-import { EventBus } from './bus'
-import {q, placePopup} from '../utils'
+import { EventBus } from '../bus'
+import {log, q, placePopup} from '../utils'
 import {ipcRenderer} from 'electron'
 
 export default {
@@ -10,14 +10,21 @@ export default {
     EventBus.$on('show-ambis', data => {
       this.showPopup(data)
     })
+    EventBus.$on('clean', () => { this.ambis = null })
   },
-  // props: ['ambis', 'coords'],
   data: function () {
     return {
-      ambis: '',
+      ambis: null,
       cl: null
     }
   },
+  props: ['clean'],
+  watch: {
+    'clean' () {
+      this.ambis = null
+    }
+  },
+
   methods: {
     showPopup: function (data) {
       this.cl = data.cl

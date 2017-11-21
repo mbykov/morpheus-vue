@@ -1,5 +1,5 @@
 <template>
-  <div id="hanzi">
+  <div id="hanzi" v-show="hanzi">
     <div id="hanzisvg">
       <svg version="1.1" viewBox="0 0 1024 1024"  width="150" height="150" xmlns="http://www.w3.org/2000/svg">
         <g stroke="lightgray" stroke-dasharray="1,1" stroke-width="1" transform="scale(4, 4)">

@@ -1,9 +1,5 @@
-/* @font-face { */
-/*     font-family: 'Han Heiti'; */
-/*     src: local('Han Heiti'), url('../../../node_modules/han-css/font/han.woff') format('woff'), url('../../../node_modules/han-css/font/han.otf') format('opentype'); */
-/*     font-weight: normal; */
-/*     font-style: normal; */
-/* } */
+/* import 'bootstrap/dist/css/bootstrap.css' */
+/* import 'bootstrap-vue/dist/bootstrap-vue.css' */
 
 body {
     margin: 0;
@@ -25,6 +21,10 @@ html {
     overflow-x: hidden;
 }
 
+h2 {
+    color: maroon;
+}
+
 b {
     color: maroon;
 }
@@ -39,99 +39,26 @@ p {
     height: 100%;
     /* overflow-y: hidden; */
     /* overflow-x: hidden; */
-    /* padding: 10px; */
+    padding: 10px;
+}
+
+#arrows {
+    float: right;
+    padding: 10px;
+    padding-right: 20px;
+    margin-left: -125px;
+}
+
+.arrow {
+    width: 35px;
+    cursor: pointer;
+    /* cursor: url('~@/assets/hand-pointer.png'), auto */
+    /* cursor: url('~@/assets/cursor-hand.gif'), auto */
 }
 
 .section {
     height: 100%;
-    /* padding: 50px; */
-    overflow-y: auto;
-    font-size: 0.7em;
-}
-
-.newslink {
-    color: maroon;
-    cursor: pointer;
-}
-
-.external {
-    color: maroon;
-    cursor: pointer;
-}
-
-
-.split {
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.gutter {
-    background-color: #eee;
-    background-repeat: no-repeat;
-    background-position: 50%;
-    height: 100%;
-}
-
-.gutter.gutter-horizontal {
-    background-image: url('~@/assets/vertical.png');
-    cursor: col-resize;
-}
-
-.split, .gutter.gutter-horizontal {
-    height: 100%;
-    float: left;
-}
-
-#text {
-    font-family: "Biaodian Pro Sans", "Helvetica Neue", Helvetica, Arial, "Han Heiti";
-    font-size: 26px;
-    padding: 15px;
-    margin-top: 15px;
-    margin-bottom: 25px;
     padding: 50px;
-    padding-top: 15px;
-    padding-bottom: 25px;
-    -webkit-app-region: drag;
-}
-
-
-
-#results {
-    font-family: 'DejaVu Sans';
-    font-size: 16px;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 25px;
-}
-
-#container {
-    height: 100%;
-    /* overflow-y: hidden; */
-    /* overflow-x: hidden; */
-    padding: 10px;
-}
-
-.cl {
-    cursor: pointer;
-}
-
-.seg:hover {
-    background-color: #eee;
-}
-
-.ambi:hover {
-    background-color: #eee;
-}
-
-.dict-install {
-    padding: 0;
-    margins: 5px;
-}
-
-.dict-install li span {
-    padding: 15px;
-    /* margins: 15px; */
+    font-size: 1.2em;
+    overflow-y: auto;
 }
