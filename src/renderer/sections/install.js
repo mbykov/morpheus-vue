@@ -2,8 +2,8 @@
 
 // import { EventBus } from '../bus.js'
 import {ipcRenderer} from 'electron'
-import {log} from '../utils'
-import router from '../router'
+// import {log} from '../utils'
+// import router from '../router'
 // import _ from 'lodash'
 
 export default {

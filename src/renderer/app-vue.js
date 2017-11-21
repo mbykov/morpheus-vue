@@ -1,6 +1,6 @@
 //
 
-import {log} from './utils'
+// import {log} from './utils'
 import {ipcRenderer, shell} from 'electron'
 import { EventBus } from './bus'
 import router from './router'

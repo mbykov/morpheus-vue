@@ -1,7 +1,7 @@
 //
 
 import { EventBus } from '../bus'
-import {log, q, placePopup} from '../utils'
+import {q, placePopup} from '../utils'
 import {ipcRenderer} from 'electron'
 
 export default {

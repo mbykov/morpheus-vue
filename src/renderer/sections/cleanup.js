@@ -1,5 +1,5 @@
 //
-import {log} from '../utils'
+// import {log} from '../utils'
 import {ipcRenderer} from 'electron'
 
 export default {
