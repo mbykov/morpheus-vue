@@ -6,6 +6,7 @@ module.exports = function (win, e) {
     {
       label: 'window',
       submenu: [
+        {label: 'home', click () { win.webContents.send('section', 'home') }},
         {role: 'minimize'},
         {role: 'quit'}
       ]

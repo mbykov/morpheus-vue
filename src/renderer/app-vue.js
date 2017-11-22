@@ -35,6 +35,14 @@ export default {
     Mousetrap.bind('alt+left', function () { router.go(-1) }, 'keyup')
     Mousetrap.bind('alt+right', function () { router.go(1) }, 'keyup')
   },
+  mounted () {
+    log('MOUNT')
+    this.$electron.ipcRenderer.on('cfg', (event, cfg) => {
+      let sorted = _.sortBy(cfg, 'weight')
+      EventBus.$emit('cfg', sorted)
+    })
+  },
+
   data: function () {
     return {
       rpng: rpng,
@@ -73,6 +81,6 @@ ipcRenderer.on('hanzi', function (event, doc) {
   EventBus.$emit('show-hanzi', doc)
 })
 
-ipcRenderer.on('cfg', function (event, cfg) {
-  EventBus.$emit('cfg', cfg)
-})
+// ipcRenderer.on('cfg', function (event, cfg) {
+//   EventBus.$emit('cfg', cfg)
+// })

@@ -19,19 +19,25 @@ export default {
   created () {
     ipcRenderer.send('cfg')
     EventBus.$once('cfg', (cfg) => {
-      log('ACTIVETABLE', cfg)
-      this.$nextTick(function () {
-        this.drawTable(cfg)
-      })
+      // this.drawTable(cfg)
+      log('ACFG', cfg)
+      this.cfg = cfg
     })
   },
-
+  // mounted () {
+  //   log('MOUNT')
+  //   ipcRenderer.send('cfg')
+  //   this.$electron.ipcRenderer.on('cfg', (event, cfg) => {
+  //     let sorted = _.sortBy(cfg, 'weight')
+  //     this.cfg = sorted
+  //     console.log('C1', cfg)
+  //   })
+  // },
   methods: {
-    drawTable: function (cfg) {
-      let sorted = _.sortBy(cfg, 'weight')
-      this.cfg = sorted
-      log('ATABLE', this.cfg)
-    },
+    // drawTable: function (cfg) {
+    //   log('ACFG', cfg)
+    //   this.cfg = cfg
+    // },
     toggleDict: function (ev) {
       if (ev.target.classList.contains('radio-dict')) {
         let name = ev.target.getAttribute('name')
