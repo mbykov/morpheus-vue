@@ -1,7 +1,7 @@
 <template>
   <div id="title" class="section">
     <div id="img">
-      <img :src="msrc">
+      <!-- <img :src="msrc"> -->
     </div>
     <div id="text">
       <p>

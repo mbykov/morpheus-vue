@@ -1,16 +1,14 @@
 //
 
 import {log} from '../utils'
-// import router from '../router'
-// import {ipcRenderer} from 'electron'
-const morpheuspng = 'static/256x256.png'
+// const morpheuspng = 'static/256x256.png'
 
 export default {
   name: 'title',
   data: function () {
     return {
-      msrc: morpheuspng,
-      mess: null
+      // msrc: morpheuspng,
+      // mess: null
     }
   },
   created () {
