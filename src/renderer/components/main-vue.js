@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import {q, qs, empty, create, span} from '../utils'
+import {log, q, qs, empty, create, span} from '../utils'
 import Split from 'split.js'
 import { EventBus } from '../bus'
 import {ipcRenderer} from 'electron'
@@ -102,6 +102,7 @@ export default {
         let data = {seg: seg, cl: clkey}
         EventBus.$emit('clean')
         this.clean = true
+        log('MAIN:', data)
         EventBus.$emit('show-dict', data)
       }
     },

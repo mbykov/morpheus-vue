@@ -2,7 +2,7 @@
 
 import {ipcRenderer} from 'electron'
 import { EventBus } from '../bus.js'
-// import {log} from '../utils'
+import {log} from '../utils'
 import _ from 'lodash'
 
 export default {
@@ -37,6 +37,7 @@ export default {
       }
 
       let dbns = _.groupBy(docs, 'dname')
+      log('DICT', this.dict)
       this.dict = {seg: data.seg, otype: otype, other: other, dbns: dbns}
     })
   },
