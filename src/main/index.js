@@ -56,6 +56,8 @@ function createWindow () {
 
   mainWindow.loadURL(winURL)
 
+  mainWindow.webContents.openDevTools()
+
   let pckg = require('../../package.json')
   let name = pckg.name
   let version = pckg.version
