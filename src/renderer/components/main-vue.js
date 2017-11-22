@@ -102,7 +102,6 @@ export default {
         let data = {seg: seg, cl: clkey}
         EventBus.$emit('clean')
         this.clean = true
-        log('MAIN:', data)
         EventBus.$emit('show-dict', data)
       }
     },

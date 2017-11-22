@@ -167,6 +167,10 @@ app.on('activate', () => {
   }
 })
 
+function sendStatus(text) {
+  mainWindow.webContents.send('status', text);
+}
+
 /**
  * Auto Updater
  *
@@ -175,10 +179,30 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
+// autoUpdater.on('update-downloaded', () => {
+//   autoUpdater.quitAndInstall()
+// })
 
 app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+})
+
+autoUpdater.on('checking-for-update', () => {
+  sendStatus('Checking for update...');
+})
+autoUpdater.on('update-available', (ev, info) => {
+  sendStatus('Update available, downloading');
+})
+// autoUpdater.on('update-not-available', (ev, info) => {
+// sendStatus('Update not available.');
+// })
+autoUpdater.on('error', (ev, err) => {
+  sendStatus('Error in auto-updater: ' + err);
+})
+
+autoUpdater.on('download-progress', (progressObj) => {
+    let log_message = "Download speed: " + progressObj.bytesPerSecond;
+    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+    sendStatus(log_message);
 })
