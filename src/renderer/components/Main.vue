@@ -4,9 +4,9 @@
     <div id="text"  class="split split-horizontal text" @mouseover="mainProc"  @click="showRec" >
        <!-- @mouseleave="cleanUp" -->
 
-      <p>== Main ==</p>
-      <router-link to="/section" class="link">Go to Section</router-link>
-      <router-link to="/title" class="link">Go to Title</router-link>
+      <!-- <p>== Main ==</p> -->
+      <!-- <router-link to="/section" class="link">Go to Section</router-link> -->
+      <!-- <router-link to="/title" class="link">Go to Title</router-link> -->
 
     </div>
 

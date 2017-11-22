@@ -11,6 +11,7 @@ export default {
   name: 'active',
   data: function () {
     return {
+      test: 'test',
       chcksrc: checkpng,
       cfg: ''
     }
@@ -29,6 +30,7 @@ export default {
     drawTable: function (cfg) {
       let sorted = _.sortBy(cfg, 'weight')
       this.cfg = sorted
+      log('ATABLE', this.cfg)
     },
     toggleDict: function (ev) {
       if (ev.target.classList.contains('radio-dict')) {

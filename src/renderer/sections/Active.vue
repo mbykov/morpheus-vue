@@ -1,6 +1,6 @@
 <template>
   <div id="active" class="section">
-        <h2>Dictionaries:</h2>
+        <h2>Dictionaries: {{test}}</h2>
       <table width="75%">
         <tr class="bold">
           <!-- <td></td><td>name</td><td>lang</td><td>remove</td><td>active</td> -->
