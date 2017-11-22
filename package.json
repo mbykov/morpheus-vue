@@ -1,6 +1,6 @@
 {
   "name": "morpheus-vue",
-  "version": "0.6.71",
+  "version": "0.6.72",
   "author": "Michael Bykov <m.bykov@gmail.com>",
   "description": "An electron-vue test project",
   "license": "GPL-3.0",
@@ -83,6 +83,8 @@
     "decompress": "^4.2.0",
     "decompress-targz": "^4.1.1",
     "electron-clipboard-extended": "^1.1.0",
+    "electron-rebuild": "^1.6.0",
+    "electron-updater": "^2.16.1",
     "mousetrap": "^1.6.1",
     "pouchdb": "^6.3.4",
     "recursive-segmenter": "^0.4.4",
