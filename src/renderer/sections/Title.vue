@@ -15,8 +15,8 @@
   </div>
 </template>
 
-<!-- <script src='./title'> -->
-<script>
+<script src='./title'>
+<!-- <script> -->
 </script>
 
 <style>
