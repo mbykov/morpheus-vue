@@ -167,8 +167,8 @@ app.on('activate', () => {
   }
 })
 
-function sendStatus(text) {
-  mainWindow.webContents.send('status', text);
+function sendStatus (text) {
+  mainWindow.webContents.send('status', text)
 }
 
 /**
@@ -188,21 +188,21 @@ app.on('ready', () => {
 })
 
 autoUpdater.on('checking-for-update', () => {
-  sendStatus('Checking for update...');
+  sendStatus('Checking for update...')
 })
 autoUpdater.on('update-available', (ev, info) => {
-  sendStatus('Update available, downloading');
+  sendStatus('Update available, downloading')
 })
 // autoUpdater.on('update-not-available', (ev, info) => {
-// sendStatus('Update not available.');
+// sendStatus('Update not available.')
 // })
 autoUpdater.on('error', (ev, err) => {
-  sendStatus('Error in auto-updater: ' + err);
+  sendStatus('Error in auto-updater: ' + err)
 })
 
 autoUpdater.on('download-progress', (progressObj) => {
-    let log_message = "Download speed: " + progressObj.bytesPerSecond;
-    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-    sendStatus(log_message);
+    let log_message = "Download speed: " + progressObj.bytesPerSecond
+    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
+    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')'
+    sendStatus(log_message)
 })
