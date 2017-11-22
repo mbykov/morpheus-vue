@@ -2,7 +2,7 @@
 
 import {ipcRenderer} from 'electron'
 import { EventBus } from '../bus.js'
-// import {log} from '../utils'
+import {log} from '../utils'
 import _ from 'lodash'
 
 const checkpng = 'static/check.png'
@@ -18,7 +18,10 @@ export default {
   created () {
     ipcRenderer.send('cfg')
     EventBus.$once('cfg', (cfg) => {
-      this.drawTable(cfg)
+      log('ACTIVETABLE', cfg)
+      this.$nextTick(function () {
+        this.drawTable(cfg)
+      })
     })
   },
 

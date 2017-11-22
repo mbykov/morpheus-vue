@@ -9,7 +9,7 @@
       <p>Try, for example, this phrase: 欢迎大家使用这个创新的软件，以便在瞬间学习新的汉字，并显着加快您的中文阅读速度！</p>
       <p>Or the same in traditional characters: 歡迎大家使用這個創新的軟件，以便在瞬間學習新的漢字，並顯著加快您的中文閱讀速度！</p>
       <p>&nbsp;</p>
-      <p>MESS: {{mess}}</p>
+      <!-- <p>MESS: {{mess}}</p> -->
     </div>
   </div>
 </template>

@@ -14,11 +14,11 @@ export default {
     }
   },
   created () {
-    let that = this
-    ipcRenderer.on('status', function (event, message) {
-      log('M', message)
-      that.mess = message
-    })
-    router.push({path: 'title', query: {title: 'title'}})
+    // let that = this
+    // ipcRenderer.on('status', function (event, message) {
+    //   log('M', message)
+    //   that.mess = message
+    // })
+    // router.push({path: 'title', query: {title: 'title'}})
   }
 }
