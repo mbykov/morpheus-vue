@@ -151,6 +151,7 @@ function createWindow () {
     cleanupDBs(upath)
     mainWindow.webContents.send('section', 'active')
   })
+  mainWindow.webContents.send('status', '====mess===')
 }
 
 app.on('ready', createWindow)
@@ -201,8 +202,8 @@ autoUpdater.on('error', (ev, err) => {
 })
 
 autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = "Download speed: " + progressObj.bytesPerSecond
-  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
-  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')'
-  sendStatus(log_message)
+  let message = 'Download speed: ' + progressObj.bytesPerSecond
+  message = message + ' - Downloaded ' + progressObj.percent + '%'
+  message = message + ' (' + progressObj.transferred + '/' + progressObj.total + ')'
+  sendStatus(message)
 })
