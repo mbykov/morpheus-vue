@@ -20,7 +20,7 @@
   </div>
 </template>
 
-<script src="./active">
+<script src="./active.js">
 </script>
 
 <style>
