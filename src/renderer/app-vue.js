@@ -58,6 +58,7 @@ export default {
       router.go(1)
     },
     showSection (name) {
+      log('togo sec', name)
       router.push({path: name, query: {text: name}})
     }
   }
