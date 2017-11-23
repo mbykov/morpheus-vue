@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import {log, q, qs, empty, create, span} from '../utils'
+import {q, qs, empty, create, span} from '../utils'
 import Split from 'split.js'
 import { EventBus } from '../bus'
 import {ipcRenderer} from 'electron'
@@ -129,6 +129,7 @@ export default {
 ipcRenderer.on('data', function (event, data) {
   let clause = q('.clause')
   if (!clause) return
+  clause.classList.remove('clause')
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
   segmenter(data.str, dicts).then(segs => {

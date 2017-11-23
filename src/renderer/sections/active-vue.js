@@ -2,7 +2,7 @@
 
 import {ipcRenderer} from 'electron'
 import { EventBus } from '../bus.js'
-import {log} from '../utils'
+// import {log} from '../utils'
 import _ from 'lodash'
 
 const checkpng = 'static/check.png'
@@ -20,12 +20,10 @@ export default {
     ipcRenderer.send('cfg')
     EventBus.$once('cfg', (cfg) => {
       // this.drawTable(cfg)
-      log('ACFG', cfg)
       this.cfg = cfg
     })
   },
   // mounted () {
-  //   log('MOUNT')
   //   ipcRenderer.send('cfg')
   //   this.$electron.ipcRenderer.on('cfg', (event, cfg) => {
   //     let sorted = _.sortBy(cfg, 'weight')

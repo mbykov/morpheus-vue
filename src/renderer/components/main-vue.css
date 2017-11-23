@@ -59,3 +59,12 @@
 .ambi:hover {
     background-color: #eee;
 }
+
+.link {
+    cursor: pointer;
+}
+
+.clause {
+    background-color: #ffb6c1;
+    /* background-color: #eee; */
+}

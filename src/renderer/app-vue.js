@@ -1,6 +1,6 @@
 //
 
-import {log} from './utils'
+// import {log} from './utils'
 import {ipcRenderer, shell} from 'electron'
 import { EventBus } from './bus'
 import router from './router'
@@ -36,7 +36,7 @@ export default {
     Mousetrap.bind('alt+right', function () { router.go(1) }, 'keyup')
   },
   mounted () {
-    log('MOUNT')
+    // log('MOUNT')
     this.$electron.ipcRenderer.on('cfg', (event, cfg) => {
       let sorted = _.sortBy(cfg, 'weight')
       EventBus.$emit('cfg', sorted)
@@ -56,17 +56,14 @@ export default {
       shell.openExternal(href)
     },
     goBack () {
-      // log('arrow <---')
       EventBus.$emit('clean')
       router.go(-1)
     },
     goForward () {
-      // log('arrow --->')
       EventBus.$emit('clean')
       router.go(1)
     },
     showSection (name) {
-      log('togo sec', name)
       router.push({path: name, query: {text: name}})
     }
   }

@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script src="./install">
+<script src="./install-vue">
 </script>
 
 <style>

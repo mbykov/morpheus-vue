@@ -20,7 +20,7 @@
   </div>
 </template>
 
-<script src="./active.js">
+<script src="./active-vue.js">
 </script>
 
 <style>
