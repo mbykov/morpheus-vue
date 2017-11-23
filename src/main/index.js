@@ -49,6 +49,7 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
+    title: 'ElectronApp',
     height: 563,
     useContentSize: true,
     width: 1000
@@ -56,7 +57,7 @@ function createWindow () {
 
   mainWindow.loadURL(winURL)
 
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   let pckg = require('../../package.json')
   let name = pckg.name
