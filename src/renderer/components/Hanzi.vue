@@ -62,8 +62,7 @@
   </div>
 </template>
 
-<script src="./hanzi">
-</script>
+<script src="./hanzi-vue"></script>
 
 <style src="./hanzi.css">
 </style>

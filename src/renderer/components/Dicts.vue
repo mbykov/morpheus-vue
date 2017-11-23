@@ -17,8 +17,7 @@
   </div>
 </template>
 
-<script src="./dicts">
-</script>
+<script src="./dicts-vue"></script>
 
 <style src="./dicts.css">
 </style>

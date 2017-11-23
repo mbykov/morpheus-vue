@@ -1,6 +1,5 @@
 <template>
   <div id="title" class="section">
-    ==========HHH
     <div id="img">
       <img :src="msrc">
     </div>
