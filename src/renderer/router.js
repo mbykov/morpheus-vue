@@ -38,6 +38,11 @@ export default new Router({
       component: require('@/sections/About').default
     },
     {
+      path: '/authentic',
+      name: 'authentic',
+      component: require('@/sections/Authentic').default
+    },
+    {
       path: '/ecbt',
       name: 'ecbt',
       component: require('@/sections/Ecbt').default},

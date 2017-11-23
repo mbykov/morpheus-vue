@@ -25,6 +25,7 @@ module.exports = function (win, e) {
       label: 'about',
       submenu: [
         {label: 'about Morpheus', click () { win.webContents.send('section', 'about') }},
+        {label: 'authentic grammar', click () { win.webContents.send('section', 'authentic') }},
         {label: 'Dharma-Reader', click () { win.webContents.send('section', 'dharma') }},
         {label: 'code and license', click () { win.webContents.send('section', 'code') }},
         {label: 'contacs', click () { win.webContents.send('section', 'contacts') }},

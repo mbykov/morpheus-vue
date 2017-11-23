@@ -2,19 +2,15 @@
   <div id="help" class="section">
     <h2>help:</h2>
     <p>just copy Crtl+C Chinese text everywhere on a desktop</p>
-    <p>&nbsp</p>
+    <p><b>Shift</b> disables showing dictionaries (to move mouse freely)</p>
+    <p><b>ESC</b> close all popups
+    <!-- <p><b>shift + mouse-wheel</b> scrolls other pane (to scroll dicts pane without moving mouse to it)</p> -->
+    <p><b>click on a single symbol</b> shows dictionary and graphical data (thanks to MakeMeAHanzi project)
+    <p><img id="mmhpng" :src="mmh"></p>
     <p><b>recursive segmentation</b>: long (more then one symbol) segment can be segmented further with mouse-click</p>
-    <p><img id="recpic"></p>
+    <p><img id="recpic" :src="recpng" ></p>
     <p>&nbsp</p>
-    <p><b>ambiguities</b>: sometimes a popup will appear itself, because Morpheus can not find the only variant of the segmentation</p>
-    <p><img id="ambipic"></p>
-    <p><b>shift</b> disables showing dictionaries (to move mouse freely)</p>
-    <p><b>shift + mouse-wheel</b> scrolls other pane (to scroll dicts pane without moving mouse to it)</p>
     <p>&nbsp</p>
-    <p>To change dictionaries order, click on it's name at top of a right pane:</p>
-    <p>&nbsp;</p>
-    <p>To get the desired order of displaying dictionaries, click the installed dictionaries in reverse order. For example, if you want to get order DE, FR, EN - choose EN, it will be the first, then click FR, FR will be the first, and EN the second. Then DE, the desired order is obtained.</p>
-    <p>&nbsp;</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <p></p>
@@ -23,8 +19,16 @@
 </template>
 
 <script>
+const recpng = 'static/recur.png'
+const mmhpng = 'static/makemeahanzi.png'
 export default {
-  name: 'help'
+  name: 'help',
+  data: function () {
+    return {
+      mmh: mmhpng,
+      recpng: recpng
+    }
+  }
 }
 </script>
 

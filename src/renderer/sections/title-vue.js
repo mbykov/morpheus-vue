@@ -1,6 +1,6 @@
 //
 
-import {log} from '../utils'
+// import {log} from '../utils'
 const morpheuspng = 'static/256x256.png'
 
 export default {
@@ -11,7 +11,7 @@ export default {
     }
   },
   created () {
-    log('TITLE-VUE')
+    // log('TITLE-VUE')
     // let that = this
     // ipcRenderer.on('status', function (event, message) {
     //   log('M', message)

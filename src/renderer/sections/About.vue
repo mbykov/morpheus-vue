@@ -11,14 +11,6 @@
     <p>- only installed dictionaries are synchronized</p>
     <p class="disabled">- user can add / edit dictionary's articles (login required)</p>
     <p>- Specialized dictionaries for expert users, e.g. supporting "Early Chinese Buddhist translations" (see "About ECBT dictionaries")</p>
-
-
-    <h2>attention to authentic grammar:</h2>
-
-    <p>Morpheus is not a linguistic program. It is intended to help in reading and understanding the text, and not to study the boring theoretical construction of "language." Therefore, the development takes into account first of all not the modern linguistic theory, but the grammar used by the author of the text.</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-
   </div>
 </template>
 
