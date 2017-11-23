@@ -15,55 +15,31 @@
   </div>
 </template>
 
-<!-- <script src='./title'> -->
-<script>
-import {log} from '../utils'
-const morpheuspng = 'static/256x256.png'
-
-export default {
-  name: 'title',
-  data: function () {
-    return {
-      msrc: morpheuspng,
-      mess: null
-    }
-  },
-  created () {
-    log('TITLE_ CREATED')
-    // let that = this
-    // ipcRenderer.on('status', function (event, message) {
-    //   log('M', message)
-    //   that.mess = message
-    // })
-    // router.push({path: 'title', query: {title: 'title'}})
-  }
-}
-</script>
+<script src="./title-vue.js"></script>
 
 <style>
-/* CSS */
-/* .link { */
-/*     cursor: pointer; */
-/* } */
+.link {
+    cursor: pointer;
+}
 
-/* span:hover, */
-/* span.router-link-active, */
-/* span.router-link-exact-active { */
-/*    /\* background-color: indianred; *\/ */
-/*    cursor: pointer; */
-/* } */
+span:hover,
+span.router-link-active,
+span.router-link-exact-active {
+   /* background-color: indianred; */
+   cursor: pointer;
+}
 
-/* #title { */
-/*     margin: auto; */
-/*     padding: 10px; */
-/* } */
+#title {
+    margin: auto;
+    padding: 10px;
+}
 
-/* #img { */
-/*     float: left; */
-/*     padding: 25px; */
-/* } */
-/* #text { */
-/*     margin-top: 50px; */
-/*     margins: 25px; */
-/* } */
+#img {
+    float: left;
+    padding: 25px;
+}
+#text {
+    margin-top: 50px;
+    margins: 25px;
+}
 </style>
