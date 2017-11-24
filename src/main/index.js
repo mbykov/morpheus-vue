@@ -3,13 +3,20 @@
 import _ from 'lodash'
 import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
 // import {log} from '../renderer/utils'
-import {defaultDBs, readCfg, writeCfg, createDBs, queryHanzi, queryDBs, cleanupDBs} from './createDBs'
+import {getWindowState, defaultDBs, readCfg, writeCfg, createDBs, queryHanzi, queryDBs, cleanupDBs} from './createDBs'
 // import { autoUpdater } from 'electron-updater'
 
 const path = require('path')
 
 const decompress = require('decompress')
 const decompressTargz = require('decompress-targz')
+
+// HACK
+app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-vue'))
+let upath = app.getPath('userData')
+
+const Storage = require('node-localstorage').JSONStorage
+const nodeStorage = new Storage(upath)
 
 /**
  * Set `__static` path to static files in production
@@ -38,6 +45,7 @@ process.on('uncaughtException', function (err) {
 //   console.log('Running in production')
 // }
 
+var windowState = getWindowState()
 let mainWindow
 
 const winURL = process.env.NODE_ENV === 'development'
@@ -50,9 +58,12 @@ function createWindow () {
    */
   mainWindow = new BrowserWindow({
     title: 'ElectronApp',
-    height: 563,
+    backgroundColor: '#002b36',
     useContentSize: true,
-    width: 1000
+    x: (windowState.bounds && windowState.bounds.x) || undefined,
+    y: (windowState.bounds && windowState.bounds.y) || undefined,
+    width: (windowState.bounds && windowState.bounds.width) || 550,
+    height: (windowState.bounds && windowState.bounds.height) || 450
   })
 
   mainWindow.loadURL(winURL)
@@ -78,6 +89,14 @@ function createWindow () {
     app.quit()
   })
 
+  let states = ['resize', 'move', '.close']
+  states.forEach(function (e) {
+    mainWindow.on(e, function () {
+      windowState.bounds = mainWindow.getBounds()
+      nodeStorage.setItem('windowstate', windowState)
+    })
+  })
+
   let template = require('./menu-template')(mainWindow, electron)
   const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
@@ -94,8 +113,8 @@ function createWindow () {
   tray.setContextMenu(contextMenu)
 
   // HACK
-  app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-vue'))
-  let upath = app.getPath('userData')
+  // app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-vue'))
+  // let upath = app.getPath('userData')
   defaultDBs(upath)
 
   ipcMain.on('cfg', function (event, newcfg) {

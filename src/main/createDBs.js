@@ -8,7 +8,28 @@ const path = require('path')
 const fse = require('fs-extra')
 let PouchDB = require('pouchdb')
 
+app.setPath('userData', app.getPath('userData').replace(/Electron/i, 'morpheus-vue'))
+let upath = app.getPath('userData')
+
+const Storage = require('node-localstorage').JSONStorage
+const nodeStorage = new Storage(upath)
+
 // emptyDirSync(dir) ?? FIX
+
+export function getWindowState () {
+  let windowState
+  try {
+    windowState = nodeStorage.getItem('windowstate')
+    if (!windowState) {
+      windowState = {}
+      windowState.bounds = {x: undefined, y: undefined, width: 800, height: 600}
+    }
+  } catch (err) {
+    log('STERR', err)
+  }
+  // log('WS', windowState)
+  return windowState
+}
 
 export function defaultDBs (upath) {
   let dest = path.resolve(upath, 'pouch')
@@ -26,6 +47,13 @@ export function defaultDBs (upath) {
 }
 
 export function readCfg (upath) {
+  let cfg = nodeStorage.getItem('cfg')
+  if (!cfg) cfg = defaultCfg()
+  // log('R', cfg)
+  return cfg
+}
+
+function defaultCfg () {
   let dest = path.resolve(upath, 'pouch')
   let infos = []
   try {
@@ -33,7 +61,6 @@ export function readCfg (upath) {
       if (path.extname(fn) !== '.json') return
       let ipath = path.resolve(dest, fn)
       let info = fse.readJsonSync(ipath)
-      // ==========
       if (!info.hasOwnProperty('active')) info.active = true
       if (!info.hasOwnProperty('weight')) info.weight = idx
       infos.push(info)
@@ -46,13 +73,8 @@ export function readCfg (upath) {
 }
 
 export function writeCfg (upath, cfg) {
-  let dest = path.resolve(upath, 'pouch')
   try {
-    cfg.forEach(info => {
-      let fn = [info.path, 'json'].join('.')
-      let ipath = path.resolve(dest, fn)
-      fse.writeJsonSync(ipath, info)
-    })
+    nodeStorage.setItem('cfg', cfg)
   } catch (err) {
     log('can not write cfg')
     app.quit()
