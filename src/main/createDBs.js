@@ -23,11 +23,11 @@ export function getWindowState () {
     if (!windowState) {
       windowState = {}
       windowState.bounds = {x: undefined, y: undefined, width: 800, height: 600}
+      // nodeStorage.setItem('windowstate', windowState)
     }
   } catch (err) {
     log('STERR', err)
   }
-  // log('WS', windowState)
   return windowState
 }
 
@@ -42,41 +42,6 @@ export function defaultDBs (upath) {
     }
   } catch (err) {
     log('ERR creating pouch', err)
-    app.quit()
-  }
-}
-
-export function readCfg (upath) {
-  let cfg = nodeStorage.getItem('cfg')
-  if (!cfg) cfg = defaultCfg()
-  // log('R', cfg)
-  return cfg
-}
-
-function defaultCfg () {
-  let dest = path.resolve(upath, 'pouch')
-  let infos = []
-  try {
-    fse.readdirSync(dest).forEach((fn, idx) => {
-      if (path.extname(fn) !== '.json') return
-      let ipath = path.resolve(dest, fn)
-      let info = fse.readJsonSync(ipath)
-      if (!info.hasOwnProperty('active')) info.active = true
-      if (!info.hasOwnProperty('weight')) info.weight = idx
-      infos.push(info)
-    })
-  } catch (err) {
-    log('ERR: can not read cfg')
-    app.quit()
-  }
-  return infos
-}
-
-export function writeCfg (upath, cfg) {
-  try {
-    nodeStorage.setItem('cfg', cfg)
-  } catch (err) {
-    log('can not write cfg')
     app.quit()
   }
 }
@@ -185,3 +150,72 @@ export function cleanupDBs (upath) {
     app.quit()
   }
 }
+
+export function readCfg (upath) {
+  let dest = path.resolve(upath, 'pouch')
+  let infos = []
+  try {
+    fse.readdirSync(dest).forEach((fn, idx) => {
+      if (path.extname(fn) !== '.json') return
+      let ipath = path.resolve(dest, fn)
+      let info = fse.readJsonSync(ipath)
+      // ==========
+      if (!info.hasOwnProperty('active')) info.active = true
+      if (!info.hasOwnProperty('weight')) info.weight = idx
+      infos.push(info)
+    })
+  } catch (err) {
+    log('ERR: can not read cfg')
+    app.quit()
+  }
+  return infos
+}
+
+export function writeCfg (upath, cfg) {
+  let dest = path.resolve(upath, 'pouch')
+  try {
+    cfg.forEach(info => {
+      let fn = [info.path, 'json'].join('.')
+      let ipath = path.resolve(dest, fn)
+      fse.writeJsonSync(ipath, info)
+    })
+  } catch (err) {
+    log('can not write cfg')
+    app.quit()
+  }
+}
+
+// function defaultCfg () {
+//   let dest = path.resolve(upath, 'pouch')
+//   let infos = []
+//   try {
+//     fse.readdirSync(dest).forEach((fn, idx) => {
+//       if (path.extname(fn) !== '.json') return
+//       let ipath = path.resolve(dest, fn)
+//       let info = fse.readJsonSync(ipath)
+//       if (!info.hasOwnProperty('active')) info.active = true
+//       if (!info.hasOwnProperty('weight')) info.weight = idx
+//       infos.push(info)
+//     })
+//   } catch (err) {
+//     log('ERR: can not read cfg')
+//     app.quit()
+//   }
+//   return infos
+// }
+
+// export function readCfg_ (upath) {
+//   let cfg = nodeStorage.getItem('cfg')
+//   if (!cfg) cfg = defaultCfg()
+//   // log('R', cfg)
+//   return cfg
+// }
+
+// export function writeCfg_ (upath, cfg) {
+//   try {
+//     nodeStorage.setItem('cfg', cfg)
+//   } catch (err) {
+//     log('can not write cfg')
+//     app.quit()
+//   }
+// }
