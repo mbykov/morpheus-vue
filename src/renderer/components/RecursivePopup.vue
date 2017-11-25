@@ -1,7 +1,9 @@
 <template>
   <div id="recursive-popup" v-show="segs">
     <span class="segs">
-      <span v-for="dict in segs" class="seg" @mouseover="showDict" @click="queryHanzi">{{dict}}</span>
+      <span v-for="(row, idx) in segs" class="arow" :idx="idx">
+        <span v-for="dict in row" class="seg" @mouseover="showDict" @click="queryHanzi">{{dict}}</span><br>
+      </span>
     </span>
   </div>
 </template>
