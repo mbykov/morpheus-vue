@@ -1,6 +1,6 @@
 {
   "name": "morpheus-vue",
-  "version": "0.6.82",
+  "version": "0.6.83",
   "author": "Michael Bykov <m.bykov@gmail.com>",
   "description": "An electron-vue test project",
   "license": "GPL-3.0",
@@ -19,7 +19,7 @@
     "test": "npm run unit",
     "unit": "karma start test/unit/karma.conf.js",
     "release": "node .electron-vue/build.js && electron-builder",
-    "postinstall__": "npm run lint:fix"
+    "postinstall_": "npm run lint:fix"
   },
   "homepage": "http://diglossa.org",
   "repository": "https://github.com/mbykov/morpheus-vue",
