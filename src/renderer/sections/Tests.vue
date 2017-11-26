@@ -2,7 +2,7 @@
   <div id="tests" class="section">
       <h2>SECTION WILL BE REMOVED</h2>
 
-      <p>= 部分消费品进口</p>
+      <p>= 部分消费品进口 = 人民日报社概况  </p>
       <p>我们一块儿 blabla 去吃中饭吧 blabla </p>
       鼷鼠,xī shǔ,,“a mouse”,
       黧黮,lí dǎn,,“pitch-black”,

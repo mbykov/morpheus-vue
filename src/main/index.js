@@ -133,6 +133,7 @@ function createWindow () {
         queryDBs(dbs, str)
           .then(function (arrayOfResults) {
             let flats = _.flatten(_.compact(arrayOfResults))
+            if (!flats.length) return
             let data = {str: str, res: flats}
             mainWindow.webContents.send('data', data)
           }).catch(function (err) {

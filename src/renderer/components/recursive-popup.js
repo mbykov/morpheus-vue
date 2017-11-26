@@ -58,11 +58,15 @@ export default {
         ipcRenderer.send('hanzi', seg)
       }
       if (seg.length < 2) return
-      let row = ev.target.parentNode
-      let nsibling = row.nextSibling
-      if (nsibling) return
+      // если есть seg - получить level - row-id
+      // и добавить row, или заменить row
+      let level = 0
+      this.segs.forEach((row, idx) => {
+        if (row.includes(seg)) level = idx
+      })
       segmenter(seg, this.dicts).then(segs => {
         let strsegs = segs.map(s => { return s.seg })
+        if (this.segs[level+1]) this.segs.pop()
         this.segs.push(strsegs)
       })
     },
