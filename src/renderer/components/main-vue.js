@@ -130,7 +130,6 @@ export default {
 ipcRenderer.on('data', function (event, data) {
   let clause = q('.clause')
   if (!clause) return
-  // clause.classList.remove('clause')
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
   segmenter(data.str, dicts).then(segs => {

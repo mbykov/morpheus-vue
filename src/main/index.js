@@ -126,7 +126,8 @@ function createWindow () {
       cfg = readCfg(upath)
     }
     mainWindow.webContents.send('cfg', cfg)
-    createDBs(upath, cfg).then(dbs => {
+    // createDBs(upath, cfg).then(dbs => {
+    Promise.resolve(createDBs(upath, cfg)).then(dbs => {
       if (!dbs) return
       ipcMain.removeAllListeners('data')
       ipcMain.on('data', function (event, str) {

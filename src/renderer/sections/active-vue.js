@@ -1,8 +1,8 @@
 //
 
+// import {log} from '../utils'
 import {ipcRenderer} from 'electron'
 import { EventBus } from '../bus.js'
-// import {log} from '../utils'
 import _ from 'lodash'
 
 const checkpng = 'static/check.png'
@@ -49,6 +49,7 @@ export default {
         ipcRenderer.send('cfg', this.cfg)
       }
     },
+
     first: function (ev) {
       let cfg = this.cfg
       let name = ev.target.textContent.trim()

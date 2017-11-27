@@ -46,15 +46,16 @@ export function defaultDBs (upath) {
   }
 }
 
-export function createDBs (upath, config) {
-  if (!config) return
-  let promise = new Promise(function (resolve, reject) {
-    resolve(manyDBs(upath, config))
-  })
-  return promise
-}
+// export function createDBs_ (upath, config) {
+//   if (!config) return
+//   let promise = new Promise(function (resolve, reject) {
+//     resolve(manyDBs(upath, config))
+//   })
+//   return promise
+// }
 
-function manyDBs (upath, infos) {
+export function createDBs (upath, infos) {
+// function manyDBs (upath, infos) {
   let databases = []
   // let dbns = config.map(info => { return info.path })
   infos = _.sortBy(infos, 'weight')
