@@ -1,5 +1,7 @@
+//
+
+// import {log} from '../utils'
 import _ from 'lodash'
-import {log} from '../utils'
 import {q, qs, empty, create, span} from '../utils'
 import Split from 'split.js'
 import { EventBus } from '../bus'

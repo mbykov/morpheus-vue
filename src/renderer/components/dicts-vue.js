@@ -1,8 +1,8 @@
 //
 
+import {log} from '../utils'
 import {ipcRenderer} from 'electron'
 import { EventBus } from '../bus.js'
-import {log} from '../utils'
 import _ from 'lodash'
 
 export default {
@@ -38,7 +38,6 @@ export default {
 
       let dbns = _.groupBy(docs, 'dname')
       this.dict = {seg: data.seg, otype: otype, other: other, dbns: dbns}
-      // log('DICT', this.dict)
     })
   },
   methods: {
