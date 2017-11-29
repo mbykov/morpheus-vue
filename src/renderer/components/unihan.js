@@ -1,6 +1,7 @@
 import {shell} from 'electron'
 
 export function unihan (sym, seg) {
+  if (sym.length !== 1) return
   let codepoint = seg.charCodeAt(0).toString(16)
   if (sym === 'c' || sym === 'n') codepoint = seg
   let urls = {
@@ -11,7 +12,6 @@ export function unihan (sym, seg) {
     n: 'http://ntireader.org/#?text='
   }
   let unihan = urls[sym]
-  // log(sym, codepoint, unihan)
   let href = [unihan, codepoint].join('')
   shell.openExternal(href)
 }

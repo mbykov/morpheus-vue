@@ -28,6 +28,7 @@ module.exports = function (win, e) {
         {label: 'authentic grammar', click () { win.webContents.send('section', 'authentic') }},
         {label: 'Dharma-Reader', click () { win.webContents.send('section', 'dharma') }},
         {label: 'code and license', click () { win.webContents.send('section', 'code') }},
+        {label: 'external databases', click () { win.webContents.send('section', 'external') }},
         {label: 'contacs', click () { win.webContents.send('section', 'contacts') }},
         {label: 'acknowledgements', click () { win.webContents.send('section', 'acknowledgements') }}
         // {
