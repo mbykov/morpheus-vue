@@ -1,8 +1,8 @@
 //
 
-import { EventBus } from '../bus.js'
 // import {log} from '../utils'
-// import {ipcRenderer} from 'electron'
+import { EventBus } from '../bus.js'
+import { unihan } from './unihan.js'
 
 export default {
   name: 'hanzi',
@@ -12,7 +12,15 @@ export default {
     EventBus.$on('show-hanzi', doc => {
       this.hanzi = doc
     })
+    EventBus.$on('showUnihan', (sym) => {
+      let doc = this.hanzi
+      if (!doc) return
+      let seg = doc._id
+      if (!seg) return
+      unihan(sym, seg)
+    })
   },
+
   data: function () {
     return {
       hanzi: false

@@ -1,8 +1,9 @@
 //
 
-import {log} from '../utils'
-import {ipcRenderer} from 'electron'
+// import {log} from '../utils'
+import {ipcRenderer, shell} from 'electron'
 import { EventBus } from '../bus.js'
+import { unihan } from './unihan.js'
 import _ from 'lodash'
 
 export default {
@@ -38,6 +39,13 @@ export default {
 
       let dbns = _.groupBy(docs, 'dname')
       this.dict = {seg: data.seg, otype: otype, other: other, dbns: dbns}
+    })
+    EventBus.$on('showUnihan', (sym) => {
+      let doc = this.dict
+      if (!doc) return
+      let seg = doc.seg
+      if (!seg) return
+      unihan(sym, seg)
     })
   },
   methods: {

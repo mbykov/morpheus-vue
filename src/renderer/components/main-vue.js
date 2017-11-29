@@ -13,7 +13,7 @@ import Dicts from '@/components/Dicts'
 import Hanzi from '@/components/Hanzi'
 
 let zh = require('speckled-band')
-// let segmenter = require('../../../segmenter')
+// let segmenter = require('../../../../segmenter')
 let segmenter = require('recursive-segmenter')
 
 export default {
@@ -134,7 +134,7 @@ ipcRenderer.on('data', function (event, data) {
   if (!clause) return
   let docs = _.flatten(data.res.map(d => { return d.docs }))
   let dicts = _.uniq(_.flatten(data.res.map(d => { return d._id })))
-  segmenter(data.str, dicts).then(segs => {
+  Promise.resolve(segmenter(data.str, dicts)).then(segs => {
     let key = clause.textContent
     if (!EventBus.res) EventBus.res = {}
     EventBus.res[key] = {docs: docs, segs: segs}

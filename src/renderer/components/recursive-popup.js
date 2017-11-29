@@ -6,7 +6,7 @@ import {q, placePopup} from '../utils'
 import { EventBus } from '../bus'
 import {ipcRenderer} from 'electron'
 
-// let segmenter = require('../../../segmenter')
+// let segmenter = require('../../../../segmenter')
 let segmenter = require('recursive-segmenter')
 
 export default {
@@ -39,7 +39,7 @@ export default {
       this.dicts = dicts
       this.cl = data.cl
 
-      segmenter(data.seg, dicts).then(segs => {
+      Promise.resolve(segmenter(data.seg, dicts, true)).then(segs => {
         let strsegs = segs.map(s => { return s.seg })
         this.segs = [strsegs]
       })
@@ -64,7 +64,7 @@ export default {
       this.segs.forEach((row, idx) => {
         if (row.includes(seg)) level = idx
       })
-      segmenter(seg, this.dicts).then(segs => {
+      Promise.resolve(segmenter(seg, this.dicts, true)).then(segs => {
         let strsegs = segs.map(s => { return s.seg })
         if (this.segs[level+1]) this.segs.pop()
         this.segs.push(strsegs)

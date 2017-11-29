@@ -34,6 +34,11 @@ export default {
     Mousetrap.bind('esc', function () { EventBus.$emit('clean') }, 'keyup')
     Mousetrap.bind('alt+left', function () { router.go(-1) }, 'keyup')
     Mousetrap.bind('alt+right', function () { router.go(1) }, 'keyup')
+    Mousetrap.bind('ctrl+shift+u', () => { EventBus.$emit('showUnihan', 'u') })
+    Mousetrap.bind('ctrl+shift+c', () => { EventBus.$emit('showUnihan', 'c') })
+    Mousetrap.bind('ctrl+shift+s', () => { EventBus.$emit('showUnihan', 's') })
+    Mousetrap.bind('ctrl+shift+g', () => { EventBus.$emit('showUnihan', 'g') })
+    Mousetrap.bind('ctrl+shift+n', () => { EventBus.$emit('showUnihan', 'n') })
   },
   mounted () {
     this.$electron.ipcRenderer.on('cfg', (event, cfg) => {
