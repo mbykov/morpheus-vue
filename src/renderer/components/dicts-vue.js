@@ -1,6 +1,6 @@
 //
 
-// import {log} from '../utils'
+import {log} from '../utils'
 import {ipcRenderer, shell} from 'electron'
 import { EventBus } from '../bus.js'
 import { unihan } from './unihan.js'
@@ -36,6 +36,15 @@ export default {
         otype = (simps.includes(data.seg)) ? 'trad:' : 'simp:'
         other = (simps.includes(data.seg)) ? [trads].join(' ') : [simps].join(' ')
       }
+      docs.forEach(doc => {
+        if (doc.dname !== 'bkrs') return
+        let trns = []
+        doc.trns.forEach(trn => {
+          trn = trn.replace(/\[\/*?i\]/g, '').replace(/\[\/*?p\]/g, '').replace(/\[\/*?c\]/g, '').replace(/\[\/*?b\]/g, '')
+          trns.push(trn)
+        })
+        doc.trns = trns
+      })
 
       let dbns = _.groupBy(docs, 'dname')
       this.dict = {seg: data.seg, otype: otype, other: other, dbns: dbns}
