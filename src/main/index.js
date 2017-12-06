@@ -208,9 +208,9 @@ function sendStatus (text) {
 // //   autoUpdater.quitAndInstall()
 // // })
 
-function checkForUpdates() {
-  if(!isDev) {
-    autoUpdater.checkForUpdates();
+function checkForUpdates () {
+  if (!isDev) {
+    autoUpdater.checkForUpdates()
   }
 }
 
