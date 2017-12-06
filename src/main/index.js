@@ -174,6 +174,8 @@ function createWindow () {
     cleanupDBs(upath)
     mainWindow.webContents.send('section', 'active')
   })
+
+  checkForUpdates()
 }
 
 app.on('ready', createWindow)
@@ -206,11 +208,17 @@ function sendStatus (text) {
 // //   autoUpdater.quitAndInstall()
 // // })
 
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-  sendStatus('ready for update')
-  mainWindow.webContents.send('status', 'teststatus')
-})
+function checkForUpdates() {
+  if(!isDev) {
+    autoUpdater.checkForUpdates();
+  }
+}
+
+// app.on('ready', () => {
+//   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+//   sendStatus('ready for update')
+//   mainWindow.webContents.send('status', 'teststatus')
+// })
 
 autoUpdater.on('checking-for-update', () => {
   sendStatus('Checking for update...')
