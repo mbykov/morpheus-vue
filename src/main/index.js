@@ -125,6 +125,7 @@ function createWindow () {
     } else {
       cfg = readCfg(upath)
     }
+    // mainWindow.webContents.send('status', 'teststatus')
     mainWindow.webContents.send('cfg', cfg)
     // createDBs(upath, cfg).then(dbs => {
     Promise.resolve(createDBs(upath, cfg)).then(dbs => {
@@ -208,7 +209,7 @@ function sendStatus (text) {
 app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
   sendStatus('ready for update')
-  log('READY=>')
+  mainWindow.webContents.send('status', 'teststatus')
 })
 
 autoUpdater.on('checking-for-update', () => {
