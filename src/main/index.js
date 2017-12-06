@@ -207,9 +207,9 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-function sendStatus (text) {
-  mainWindow.webContents.send('status', text)
-}
+// function sendStatus (text) {
+//   mainWindow.webContents.send('status', text)
+// }
 
 // // autoUpdater.on('update-downloaded', () => {
 // //   autoUpdater.quitAndInstall()
