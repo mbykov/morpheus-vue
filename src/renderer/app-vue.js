@@ -17,9 +17,9 @@ var Mousetrap = require('mousetrap')
 export default {
   name: 'morpheus-vue',
   created () {
-    ipcRenderer.on('status', function (event, message) {
-      log('STATUS', message)
-    })
+    // ipcRenderer.on('status', function (event, message) {
+    //   log('STATUS', message)
+    // })
     ipcRenderer.send('cfg')
     clipboard
       .on('text-changed', () => {

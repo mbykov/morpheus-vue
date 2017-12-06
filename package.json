@@ -1,6 +1,6 @@
 {
   "name": "morpheus-vue",
-  "version": "0.6.857",
+  "version": "0.6.858",
   "author": "Michael Bykov <m.bykov@gmail.com>",
   "description": "An electron-vue test project",
   "license": "GPL-3.0",
@@ -70,7 +70,11 @@
     },
     "linux": {
       "category": "Educational software",
+      "publish": [
+        "github"
+      ],
       "target": [
+        "AppImage",
         "deb"
       ],
       "icon": "build/icons"

@@ -80,7 +80,7 @@ function createWindow () {
     let name = pckg.name
     let version = pckg.version
     mainWindow.setTitle([name, 'v.', version].join(' '))
-    checkForUpdates()
+    checkForUpdates(isDev)
   })
 
   mainWindow.on('closed', () => {
@@ -215,7 +215,7 @@ function sendStatus (text) {
 // //   autoUpdater.quitAndInstall()
 // // })
 
-function checkForUpdates () {
+function checkForUpdates (isDev) {
   if (!isDev) {
     autoUpdater.checkForUpdates()
   }
@@ -227,18 +227,18 @@ function checkForUpdates () {
 //   mainWindow.webContents.send('status', 'teststatus')
 // })
 
-autoUpdater.on('checking-for-update', () => {
-  sendStatus('Checking for update...')
-})
-autoUpdater.on('update-available', (ev, info) => {
-  sendStatus('Update available, downloading', info)
-})
-// // autoUpdater.on('update-not-available', (ev, info) => {
-// // sendStatus('Update not available.')
-// // })
-autoUpdater.on('error', (ev, err) => {
-  sendStatus('Error in auto-updater: ' + err)
-})
+// autoUpdater.on('checking-for-update', () => {
+//   sendStatus('Checking for update...')
+// })
+// autoUpdater.on('update-available', (ev, info) => {
+//   sendStatus('Update available, downloading', info)
+// })
+// // // autoUpdater.on('update-not-available', (ev, info) => {
+// // // sendStatus('Update not available.')
+// // // })
+// autoUpdater.on('error', (ev, err) => {
+//   sendStatus('Error in auto-updater: ' + err)
+// })
 
 // autoUpdater.on('download-progress', (progressObj) => {
 //   let message = 'Download speed: ' + progressObj.bytesPerSecond

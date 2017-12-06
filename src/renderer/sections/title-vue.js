@@ -14,10 +14,10 @@ export default {
   created () {
     // log('TITLE-VUE')
     let that = this
-    ipcRenderer.on('status', function (event, message) {
-      log('TITLE-STATUS', message)
-      that.mess = message
-    })
+    // ipcRenderer.on('status', function (event, message) {
+    //   log('TITLE-STATUS', message)
+    //   that.mess = message
+    // })
     // router.push({path: 'title', query: {title: 'title'}})
   }
 }
