@@ -38,12 +38,12 @@ process.on('uncaughtException', function (err) {
 })
 
 // Can be overridden by setting the ELECTRON_IS_DEV environment variable to 1.
-// const isDev = require('electron-is-dev')
-// if (isDev) {
-//   console.log('Running in development')
-// } else {
-//   console.log('Running in production')
-// }
+const isDev = require('electron-is-dev')
+if (isDev) {
+  console.log('Running in development')
+} else {
+  console.log('Running in production')
+}
 
 var windowState = getWindowState()
 let mainWindow
@@ -57,7 +57,7 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    // title: 'morpheus-vue',
+    title: 'morpheus-vue',
     backgroundColor: '#002b36',
     useContentSize: true,
     x: (windowState.bounds && windowState.bounds.x) || undefined,
@@ -68,7 +68,7 @@ function createWindow () {
 
   mainWindow.loadURL(winURL)
 
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   let pckg = require('../../package.json')
   let name = pckg.name
@@ -208,7 +208,7 @@ function sendStatus (text) {
 app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
   sendStatus('ready for update')
-  log('READY')
+  log('READY=>')
 })
 
 autoUpdater.on('checking-for-update', () => {
