@@ -1,6 +1,6 @@
 'use strict'
 
-import {log} from '../renderer/utils'
+// import {log} from '../renderer/utils'
 import _ from 'lodash'
 import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
 import {getWindowState, defaultDBs, readCfg, writeCfg, createDBs, queryHanzi, queryDBs, cleanupDBs} from './createDBs'
