@@ -1,10 +1,10 @@
 'use strict'
 
+import {log} from '../renderer/utils'
 import _ from 'lodash'
 import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
-// import {log} from '../renderer/utils'
 import {getWindowState, defaultDBs, readCfg, writeCfg, createDBs, queryHanzi, queryDBs, cleanupDBs} from './createDBs'
-// import { autoUpdater } from 'electron-updater'
+import { autoUpdater } from 'electron-updater'
 
 const path = require('path')
 
@@ -57,7 +57,7 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    title: 'ElectronApp',
+    // title: 'morpheus-vue',
     backgroundColor: '#002b36',
     useContentSize: true,
     x: (windowState.bounds && windowState.bounds.x) || undefined,
@@ -197,30 +197,32 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-// function sendStatus (text) {
-//   mainWindow.webContents.send('status', text)
-// }
+function sendStatus (text) {
+  mainWindow.webContents.send('status', text)
+}
 
 // // autoUpdater.on('update-downloaded', () => {
 // //   autoUpdater.quitAndInstall()
 // // })
 
-// app.on('ready', () => {
-//   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-// })
+app.on('ready', () => {
+  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+  sendStatus('ready for update')
+  log('READY')
+})
 
-// autoUpdater.on('checking-for-update', () => {
-//   sendStatus('Checking for update...')
-// })
-// autoUpdater.on('update-available', (ev, info) => {
-//   sendStatus('Update available, downloading')
-// })
+autoUpdater.on('checking-for-update', () => {
+  sendStatus('Checking for update...')
+})
+autoUpdater.on('update-available', (ev, info) => {
+  sendStatus('Update available, downloading', info)
+})
 // // autoUpdater.on('update-not-available', (ev, info) => {
 // // sendStatus('Update not available.')
 // // })
-// autoUpdater.on('error', (ev, err) => {
-//   sendStatus('Error in auto-updater: ' + err)
-// })
+autoUpdater.on('error', (ev, err) => {
+  sendStatus('Error in auto-updater: ' + err)
+})
 
 // autoUpdater.on('download-progress', (progressObj) => {
 //   let message = 'Download speed: ' + progressObj.bytesPerSecond

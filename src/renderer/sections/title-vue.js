@@ -1,6 +1,7 @@
 //
 
-// import {log} from '../utils'
+import {log} from '../utils'
+import {ipcRenderer} from 'electron'
 const morpheuspng = 'static/256x256.png'
 
 export default {
@@ -12,11 +13,11 @@ export default {
   },
   created () {
     // log('TITLE-VUE')
-    // let that = this
-    // ipcRenderer.on('status', function (event, message) {
-    //   log('M', message)
-    //   that.mess = message
-    // })
+    let that = this
+    ipcRenderer.on('status', function (event, message) {
+      log('TITLE-STATUS', message)
+      that.mess = message
+    })
     // router.push({path: 'title', query: {title: 'title'}})
   }
 }
