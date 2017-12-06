@@ -70,10 +70,18 @@ function createWindow () {
 
   mainWindow.webContents.openDevTools()
 
-  let pckg = require('../../package.json')
-  let name = pckg.name
-  let version = pckg.version
-  mainWindow.setTitle([name, 'v.', version].join(' '))
+  // let pckg = require('../../package.json')
+  // let name = pckg.name
+  // let version = pckg.version
+  // mainWindow.setTitle([name, 'v.', version].join(' '))
+
+  mainWindow.webContents.on('did-finish-load', () => {
+    let pckg = require('../../package.json')
+    let name = pckg.name
+    let version = pckg.version
+    mainWindow.setTitle([name, 'v.', version].join(' '))
+    checkForUpdates()
+  })
 
   mainWindow.on('closed', () => {
     mainWindow = null
@@ -174,8 +182,7 @@ function createWindow () {
     cleanupDBs(upath)
     mainWindow.webContents.send('section', 'active')
   })
-
-  checkForUpdates()
+  // checkForUpdates()
 }
 
 app.on('ready', createWindow)
