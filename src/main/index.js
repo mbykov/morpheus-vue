@@ -39,11 +39,11 @@ process.on('uncaughtException', function (err) {
 
 // Can be overridden by setting the ELECTRON_IS_DEV environment variable to 1.
 const isDev = require('electron-is-dev')
-if (isDev) {
-  console.log('Running in development')
-} else {
-  console.log('Running in production')
-}
+// if (isDev) {
+//   console.log('Running in development')
+// } else {
+//   console.log('Running in production')
+// }
 
 var windowState = getWindowState()
 let mainWindow
