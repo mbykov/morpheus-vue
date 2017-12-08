@@ -2,7 +2,7 @@
 
 // import {log} from '../renderer/utils'
 import _ from 'lodash'
-import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
+import { app, BrowserWindow, Menu, Tray, ipcMain, globalShortcut, shell } from 'electron'
 import {getWindowState, defaultDBs, readCfg, writeCfg, createDBs, queryHanzi, queryDBs, cleanupDBs} from './createDBs'
 // import { autoUpdater } from 'electron-updater'
 
@@ -105,7 +105,7 @@ function createWindow () {
     })
   })
 
-  let template = require('./menu-template')(mainWindow, electron)
+  let template = require('./menu-template')(mainWindow)
   const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
 
@@ -196,6 +196,15 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
+})
+
+app.on('ready', () => {
+  globalShortcut.register('CommandOrControl+q', () => {
+    app.quit()
+  })
+  globalShortcut.register('CommandOrControl+Shift+q', () => {
+    app.quit()
+  })
 })
 
 /**

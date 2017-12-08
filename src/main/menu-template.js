@@ -1,7 +1,8 @@
 //
 // import bus from '../renderer/bus'
+// import {app} from 'electron'
 
-module.exports = function (win, e) {
+module.exports = function (win) {
   return [
     {
       label: 'window',
@@ -9,9 +10,10 @@ module.exports = function (win, e) {
         {label: 'home', click () { win.webContents.send('section', 'home') }},
         // {role: 'reload'},
         // {role: 'forcereload'},
-        // {role: 'toggledevtools'},
+        {role: 'toggledevtools'},
         {role: 'minimize'},
         {role: 'quit'}
+        // {label: 'quit', click () { app.quit() }}
       ]
     },
     {
@@ -24,10 +26,6 @@ module.exports = function (win, e) {
         {label: 'external databases', click () { win.webContents.send('section', 'external') }},
         {label: 'contacs', click () { win.webContents.send('section', 'contacts') }},
         {label: 'acknowledgements', click () { win.webContents.send('section', 'acknowledgements') }}
-        // {
-        //     label: 'learn more',
-        //   click () { e.shell.openExternal ('http://diglossa.org') }
-        // }
       ]
     },
     {
