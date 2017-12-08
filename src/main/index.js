@@ -4,7 +4,7 @@
 import _ from 'lodash'
 import { app, BrowserWindow, Menu, Tray, ipcMain, electron, shell } from 'electron'
 import {getWindowState, defaultDBs, readCfg, writeCfg, createDBs, queryHanzi, queryDBs, cleanupDBs} from './createDBs'
-import { autoUpdater } from 'electron-updater'
+// import { autoUpdater } from 'electron-updater'
 
 const path = require('path')
 
@@ -38,7 +38,7 @@ process.on('uncaughtException', function (err) {
 })
 
 // Can be overridden by setting the ELECTRON_IS_DEV environment variable to 1.
-const isDev = require('electron-is-dev')
+// const isDev = require('electron-is-dev')
 // if (isDev) {
 //   console.log('Running in development')
 // } else {
@@ -79,8 +79,8 @@ function createWindow () {
     let pckg = require('../../package.json')
     let name = pckg.name
     let version = pckg.version
+    mainWindow.webContents.send('version', version)
     mainWindow.setTitle([name, 'v.', version].join(' '))
-    checkForUpdates(isDev)
   })
 
   mainWindow.on('closed', () => {
@@ -133,7 +133,6 @@ function createWindow () {
     } else {
       cfg = readCfg(upath)
     }
-    // mainWindow.webContents.send('status', 'teststatus')
     mainWindow.webContents.send('cfg', cfg)
     // createDBs(upath, cfg).then(dbs => {
     Promise.resolve(createDBs(upath, cfg)).then(dbs => {
@@ -215,11 +214,12 @@ app.on('activate', () => {
 // //   autoUpdater.quitAndInstall()
 // // })
 
-function checkForUpdates (isDev) {
-  if (!isDev) {
-    autoUpdater.checkForUpdates()
-  }
-}
+// function checkForUpdates (isDev) {
+//   if (process.platform === 'linux' && process.env.APPIMAGE == null) return
+//   if (!isDev) {
+//     autoUpdater.checkForUpdates()
+//   }
+// }
 
 // app.on('ready', () => {
 //   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()

@@ -1,7 +1,7 @@
 //
 
 import {log} from '../utils'
-import {ipcRenderer, shell} from 'electron'
+import {ipcRenderer} from 'electron'
 import { EventBus } from '../bus.js'
 import { unihan } from './unihan.js'
 import _ from 'lodash'

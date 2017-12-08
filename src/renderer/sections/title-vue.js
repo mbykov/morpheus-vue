@@ -1,23 +1,41 @@
 //
 
-import {log} from '../utils'
-import {ipcRenderer} from 'electron'
+// import {log} from '../utils'
+import axios from 'axios'
+import {ipcRenderer, shell} from 'electron'
 const morpheuspng = 'static/256x256.png'
 
 export default {
   name: 'title',
   data: function () {
     return {
+      version: null,
       msrc: morpheuspng
     }
   },
   created () {
-    // log('TITLE-VUE')
     let that = this
-    // ipcRenderer.on('status', function (event, message) {
-    //   log('TITLE-STATUS', message)
-    //   that.mess = message
-    // })
-    // router.push({path: 'title', query: {title: 'title'}})
+    let over
+    ipcRenderer.on('version', (event, ver) => {
+      over = ver
+    })
+    axios.get('https://api.github.com/repos/mbykov/morpheus-vue/releases/latest')
+      .then(function (response) {
+        if (!response || !response.data) return
+        if (!over) return
+        let nver = response.data.name
+        if (over && nver && over !== nver) {
+          that.version = nver
+        }
+      })
+      .catch(function (error) {
+        console.log('API ERR', error)
+      })
+  },
+  methods: {
+    openver: function () {
+      let href = 'https://github.com/mbykov/morpheus-vue/releases/latest'
+      shell.openExternal(href)
+    }
   }
 }
