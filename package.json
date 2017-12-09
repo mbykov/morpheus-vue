@@ -74,6 +74,7 @@
         "github"
       ],
       "target": [
+        "deb",
         "rpm"
       ],
       "icon": "build/icons"
