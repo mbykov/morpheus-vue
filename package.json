@@ -1,6 +1,6 @@
 {
   "name": "morpheus-vue",
-  "version": "0.6.863",
+  "version": "0.6.864",
   "author": "Michael Bykov <m.bykov@gmail.com>",
   "description": "An electron-vue test project",
   "license": "GPL-3.0",
@@ -74,8 +74,7 @@
         "github"
       ],
       "target": [
-        "rpm",
-        "tar.gz"
+        "rpm"
       ],
       "icon": "build/icons"
     }
@@ -147,6 +146,7 @@
     "multispinner": "^0.2.1",
     "node-loader": "^0.6.0",
     "popper.js": "1.12.3",
+    "rpmbuild": "^0.0.22",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
     "vue-html-loader": "^1.2.4",

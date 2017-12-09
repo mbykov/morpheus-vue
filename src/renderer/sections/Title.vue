@@ -1,5 +1,6 @@
 <template>
   <div id="title" class="section">
+    <p id="version" v-show="version" @click="openver">new version available: {{version}}</p>
     <div id="img">
       <img :src="msrc">
     </div>
@@ -11,7 +12,6 @@
       <!-- <p>&nbsp;</p> -->
       <!-- <p>MESS: {{mess}}</p> -->
     </div>
-    <p id="version" v-show="version" @click="openver">new version available: {{version}}</p>
   </div>
 </template>
 
@@ -46,5 +46,6 @@ span.router-link-exact-active {
 #version {
     cursor: pointer;
     color: green;
+    padding: 25px;
 }
 </style>
